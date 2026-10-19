@@ -2,13 +2,13 @@ import { GitHubCalendar } from 'react-github-calendar';
 import PropTypes from 'prop-types';
 import 'react-github-calendar/tooltips.css';
 
-const GITHUB_USERNAME = 'AhmedNassar7';
+import { CONTACT } from '../../data/contact';
 
 const GitHubHeatmap = ({ theme }) => {
   return (
     <div className="github-heatmap">
       <GitHubCalendar
-        username={GITHUB_USERNAME}
+        username={CONTACT.githubUsername}
         colorScheme={theme === 'dark' ? 'dark' : 'light'}
         // Level 0 is the "no activity" neutral (matches the card surface);
         // levels 1-4 are a validated single-hue ordinal ramp (see

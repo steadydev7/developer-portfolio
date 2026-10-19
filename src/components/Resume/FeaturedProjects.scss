@@ -1,0 +1,383 @@
+.projects-showcase {
+  --project-heading: #16182b;
+  --project-muted: rgba(33, 53, 71, 0.72);
+  --project-card-bg: #ffffff;
+  --project-chip-bg: #eef0ff;
+
+  margin-bottom: 3rem;
+
+  .dark-theme & {
+    --project-heading: #ffffff;
+    --project-muted: rgba(255, 255, 255, 0.68);
+    --project-card-bg: #2a2e33;
+    --project-chip-bg: #363a52;
+  }
+}
+
+.projects-showcase__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.projects-showcase__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--primary-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  &::before {
+    content: '';
+    width: 24px;
+    height: 1.5px;
+    background: currentColor;
+  }
+}
+
+.projects-showcase__title {
+  margin: 0.4rem 0 0;
+  color: var(--project-heading);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.projects-showcase__accent {
+  font-style: italic;
+  background: linear-gradient(45deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  // Italic glyphs overhang their box; without this the clip shaves the
+  // last letter's tail.
+  padding-right: 0.12em;
+}
+
+.projects-showcase__all {
+  color: var(--primary-text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  span {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+
+  &:hover span {
+    transform: translate(2px, -2px);
+  }
+}
+
+// 6 columns so the lead card can take two thirds of a row and a short last
+// row can split it in halves — the spans come from FeaturedProjects.jsx.
+.projects-bento {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 1.5rem;
+
+  .project-card {
+    grid-column: span var(--span-lg);
+  }
+
+  @media (max-width: 991.98px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    .project-card {
+      grid-column: span var(--span-md);
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    grid-template-columns: minmax(0, 1fr);
+
+    .project-card {
+      grid-column: span 1;
+    }
+  }
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  background: var(--project-card-bg);
+  box-shadow: var(--glass-shadow);
+}
+
+.project-card__cover {
+  position: relative;
+  height: 250px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(100, 108, 255, 0.32),
+      transparent 60%
+    ),
+    linear-gradient(160deg, #161c3d, #090c1a);
+
+  // Faint blueprint grid that fades out toward the edges.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(
+      circle at 50% 50%,
+      #000,
+      transparent 75%
+    );
+    mask-image: radial-gradient(circle at 50% 50%, #000, transparent 75%);
+    pointer-events: none;
+  }
+
+  @media (max-width: 575.98px) {
+    height: 210px;
+  }
+}
+
+.project-card__cover-link {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.project-card__shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+
+  .project-card:hover & {
+    transform: scale(1.04);
+  }
+}
+
+.project-card__art {
+  position: relative;
+  display: grid;
+  place-items: center;
+
+  // Soft glow on the "floor" under the floating icon.
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -34px;
+    left: 50%;
+    width: 150px;
+    height: 22px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse,
+      rgba(150, 160, 255, 0.5),
+      transparent 70%
+    );
+    filter: blur(4px);
+  }
+}
+
+.project-card__icon {
+  position: relative;
+  z-index: 1;
+  width: 112px;
+  height: 112px;
+  border-radius: 26px;
+  object-fit: cover;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 70px rgba(100, 108, 255, 0.35);
+  transform: perspective(600px) rotateX(10deg) rotateY(-14deg);
+  transition: transform 0.45s ease;
+
+  .project-card.is-lead & {
+    width: 132px;
+    height: 132px;
+    border-radius: 30px;
+  }
+
+  .project-card:hover & {
+    transform: perspective(600px) translateY(-6px) scale(1.04);
+  }
+}
+
+.project-card__icon--fallback {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--primary), #3d44c9);
+  color: #ffffff;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.project-card__tag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(168, 177, 255, 0.55);
+  background: rgba(9, 12, 26, 0.55);
+  color: #c9ccff;
+  font-size: 0.72rem;
+  font-weight: 600;
+  backdrop-filter: blur(6px);
+  pointer-events: none;
+}
+
+.project-card__peek {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #16182b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.9);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+
+  .project-card:hover & {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  @media (hover: none) {
+    display: none;
+  }
+}
+
+.project-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.35rem 1.5rem 1.2rem;
+}
+
+.project-card__name {
+  margin: 0 0 0.5rem;
+  color: var(--project-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  transition: color 0.25s ease;
+
+  .project-card:hover & {
+    color: var(--primary-text);
+  }
+}
+
+.project-card__description {
+  margin: 0 0 1.25rem;
+  color: var(--project-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.project-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.project-card__stack {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--project-card-bg);
+    background: var(--project-chip-bg);
+    color: var(--primary-text);
+    font-size: 0.8rem;
+    cursor: default;
+
+    & + li {
+      margin-left: -8px;
+    }
+  }
+}
+
+.project-card__stack-abbr,
+.project-card__stack-more {
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.project-card__links {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.project-card__repo {
+  color: var(--project-muted);
+  font-size: 1.1rem;
+  transition: color 0.25s ease;
+
+  &:hover {
+    color: var(--project-heading);
+  }
+}
+
+.project-card__view {
+  color: var(--primary-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+
+  > span[aria-hidden] {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+
+  &:hover > span[aria-hidden] {
+    transform: translate(2px, -2px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card__icon,
+  .project-card:hover .project-card__icon,
+  .project-card:hover .project-card__shot {
+    transform: none;
+  }
+}

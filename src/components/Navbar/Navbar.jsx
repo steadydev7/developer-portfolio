@@ -58,27 +58,27 @@ const Navbar = ({ theme, toggleTheme }) => {
         <Container>
           <BootstrapNavbar.Brand href="#home" className="brand-logo-link">
             <m.img
-              src="/favicon.svg"
+              src="/logo.svg"
               alt="Logo"
-              width="29"
+              width="30"
               height="30"
               className="d-inline-block align-top brand-logo"
               animate={{
                 scale: 1,
-                // The SVG's paths are near-black; on the dark theme's dark
-                // navbar they'd otherwise vanish. The SVG's own
-                // prefers-color-scheme flip only follows the OS theme, not
-                // this site's manual toggle, so invert it here instead.
+                // The logo is near-black and would vanish on the dark
+                // navbar. logo.svg has no prefers-color-scheme flip of its
+                // own (favicon.svg does, for the browser tab), so this
+                // follows the site's toggle without a double inversion.
                 filter:
                   theme === 'dark'
-                    ? 'invert(1) brightness(1.8) drop-shadow(0 0 0px transparent)'
+                    ? 'invert(1) drop-shadow(0 0 0px transparent)'
                     : 'drop-shadow(0 0 0px transparent)',
               }}
               whileHover={{
                 scale: 1.1,
                 filter:
                   theme === 'dark'
-                    ? 'invert(1) brightness(1.8) drop-shadow(0 0 12px var(--primary))'
+                    ? 'invert(1) drop-shadow(0 0 12px var(--primary))'
                     : 'drop-shadow(0 0 12px var(--primary))',
               }}
               whileTap={prefersReducedMotion ? undefined : { scale: 0.94 }}

@@ -4,16 +4,16 @@ import Signature from './Signature';
 
 describe('Signature', () => {
   it('exposes the name as an accessible image', () => {
-    render(<Signature name="Ahmed Nassar" />);
+    render(<Signature name="Noah Thomas" />);
     expect(
-      screen.getByRole('img', { name: /ahmed nassar — signature/i }),
+      screen.getByRole('img', { name: /noah thomas — signature/i }),
     ).toBeInTheDocument();
   });
 
   it('draws supplied traced strokes when given a paths array', () => {
     const { container } = render(
       <Signature
-        name="Ahmed Nassar"
+        name="Noah Thomas"
         paths={['M10 80 C 40 10 65 10 95 80', 'M100 80 L 180 80']}
       />,
     );

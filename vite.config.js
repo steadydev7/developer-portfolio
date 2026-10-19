@@ -120,7 +120,7 @@ export default defineConfig(({ mode }) => {
               },
             ],
           },
-          exclude: /favicon\.svg$|images\/profile\.png$/, // Exclude favicon from image optimization
+          exclude: /(favicon|logo)\.svg$|images\/profile\.png$/, // Exclude favicon from image optimization
         }),
       // Bundle visualization for production (optional). Writes stats.html to
       // the project root (git-ignored) — opened automatically after a local
@@ -149,8 +149,8 @@ export default defineConfig(({ mode }) => {
           enabled: false, // Disable service worker in development to prevent reload loops
         },
         manifest: {
-          name: 'Ahmed Nassar',
-          short_name: 'Nassar',
+          name: 'Noah Thomas',
+          short_name: 'Noah Thomas',
           icons: [
             {
               src: '/web-app-manifest-192x192.png',

@@ -116,16 +116,19 @@ export const interviewedCompanies = [
   'ServiceNow',
 ];
 
-// `featured` projects render first and carry an accent. Add an optional
-// `image` (a path, or drop a file at src/assets/images/projects/<slug>.png
-// where <slug> is the name lower-cased with non-alphanumerics as "_", e.g.
-// egypt_metro_backend.png — it's picked up automatically) to give a card a
-// real screenshot; without one it falls back to a branded gradient cover.
+// `featured` projects render first, and the first card is the wide one in
+// the Featured Work grid. `category` is the label on the card's cover. The
+// icon floating on the cover is an optional `image` (a path, or drop a file
+// at src/assets/images/projects/<slug>.png where <slug> is the name
+// lower-cased with non-alphanumerics as "_", e.g. egypt_metro_backend.png —
+// it's picked up automatically); without one it falls back to the initials.
+// A `cover` screenshot fills the whole cover instead of the icon.
 export const projects = [
   {
     name: 'Egypt Metro Backend',
     url: 'https://github.com/Egypt-Metro/backend',
     featured: true,
+    category: 'Backend',
     // Verified against the repo's own README badges + requirements.txt: it's
     // a pure Django REST Framework API (django-cors-headers confirms a
     // separate frontend consumes it, not templates), with Channels/Redis
@@ -145,6 +148,7 @@ export const projects = [
   {
     name: 'Horizon',
     url: 'https://github.com/AhmedNassar7/horizon',
+    category: 'Web App',
     liveUrl: 'https://ahmednassar7.github.io/horizon/',
     tech: ['React', 'TypeScript', 'Vite', 'TanStack Query', 'Zustand', 'PWA'],
     description:
@@ -153,6 +157,7 @@ export const projects = [
   {
     name: 'PDF Toolkit',
     url: 'https://github.com/AhmedNassar7/toolkit',
+    category: 'Web Tools',
     liveUrl: 'https://ahmednassar7.github.io/toolkit/',
     // Verified against the repo's own Developer Guide tech-stack table —
     // Node.js + Docker are real (the optional self-hosted LibreOffice
@@ -172,6 +177,7 @@ export const projects = [
   {
     name: 'Tracker',
     url: 'https://github.com/AhmedNassar7/tracker',
+    category: 'Automation',
     liveUrl: 'https://ahmednassar7.github.io/tracker/',
     // Verified against the repo's own README + site/package.json: an hourly
     // GitHub Actions pipeline (stdlib-only Python, no paid APIs) scrapes

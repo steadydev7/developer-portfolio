@@ -315,8 +315,8 @@ All screenshots below are real captures of the live app (desktop @ 1440px, mobil
 This is a quick start to get the site running locally. For prerequisites, the full environment variable reference, every npm script, coding conventions, testing, and deployment — see **[docs/DEVELOPER_GUIDE.md](./docs/DEVELOPER_GUIDE.md)**, the single source of truth for all of that.
 
 ```bash
-git clone https://github.com/AhmedNassar7/AhmedNassar7.github.io.git
-cd AhmedNassar7.github.io
+git clone https://github.com/steadydev7/developer-portfolio.git
+cd developer-portfolio
 npm install
 npm run dev
 ```
@@ -421,7 +421,7 @@ If you're interested in collaborating, hiring, or seeking consulting services, p
         <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
     </a>
 
-    <a href="https://github.com/AhmedNassar7">            </a>
+    <a href="https://github.com/steadydev7">            </a>
 
     <a href="mailto:a.moh.nassar00@gmail.com">            </a>
 

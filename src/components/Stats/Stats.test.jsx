@@ -36,7 +36,7 @@ describe('Stats — stat cards', () => {
   it('tracks a click-through on a stat card', () => {
     render(<Stats theme="light" />);
 
-    fireEvent.click(screen.getByLabelText("View Ahmed's commits on GitHub"));
+    fireEvent.click(screen.getByLabelText("View Noah's commits on GitHub"));
     expect(trackEvent).toHaveBeenCalledWith('select_content', {
       content_type: 'stat_card',
       content_id: 'commits',

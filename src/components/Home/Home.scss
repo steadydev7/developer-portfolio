@@ -1,284 +1,334 @@
-/* Main section styles */
 .home-section {
+  --hero-heading: #16182b;
+  --hero-muted: rgba(33, 53, 71, 0.75);
+  --hero-faint: rgba(33, 53, 71, 0.55);
+  --hero-surface: rgba(255, 255, 255, 0.75);
+  --hero-mono:
+    ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+
   position: relative;
   overflow: hidden;
-  padding-top: 20px;
+  display: flex;
+  align-items: center;
   min-height: 100vh;
+  padding: 88px 0 64px;
+
+  .dark-theme & {
+    --hero-heading: #ffffff;
+    --hero-muted: rgba(255, 255, 255, 0.72);
+    --hero-faint: rgba(255, 255, 255, 0.48);
+    --hero-surface: rgba(255, 255, 255, 0.05);
+  }
+
+  > .container {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.hero-row {
+  row-gap: 2.5rem;
+}
+
+.hero-copy {
+  text-align: left;
+}
+
+.hero-status {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  gap: 0.75rem 1.1rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--hero-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-@media (max-width: 768px) {
-  .home-section {
-    padding-top: 70px;
-  }
-}
-
-/* Profile image container */
-.home-section .profile-image-container {
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
-  position: relative;
-  margin-bottom: 30px;
-}
-
-/* Profile image with hover effect */
-.home-section .profile-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 5px solid var(--primary);
-  transition: transform 0.3s ease;
-  box-shadow: 0 0 30px rgba(100, 108, 255, 0.3);
-  position: relative;
-  z-index: 2;
-}
-
-.home-section .profile-image:hover {
-  transform: scale(1.05);
-}
-
-/* Orbit ball styles */
-.home-section .orbit-ball {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-  animation-timing-function: ease-in-out;
-}
-
-/* Blue orbit ball */
-.home-section .orbit-ball-1 {
-  width: 85px;
-  height: 85px;
-  background-color: var(--primary);
-  animation: up-down 1s ease-in-out infinite;
-  top: 250px;
-  left: 300px;
-}
-
-.home-section .orbit-ball-2 {
-  width: 70px;
-  height: 70px;
-  background-color: var(--primary);
-  animation: change-opacity 1s ease-in-out infinite;
-  top: -30px;
-  left: -75px;
-  opacity: 0.7;
-}
-
-/* Responsive styles for orbit balls */
-@media (max-width: 1024px) {
-  .home-section .orbit-ball {
-    width: 70px;
-    height: 70px;
-    top: 200px;
-    left: 260px;
-  }
-
-  .home-section .orbit-ball-2 {
-    width: 60px;
-    height: 60px;
-    top: -20px;
-    left: -60px;
-  }
-}
-
-@media (max-width: 768px) {
-  .home-section .orbit-ball {
-    width: 60px;
-    height: 60px;
-    top: 190px;
-    left: 260px;
-  }
-
-  .home-section .orbit-ball-2 {
-    width: 50px;
-    height: 50px;
-    top: -10px;
-    left: -50px;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-section .orbit-ball {
-    width: 50px;
-    height: 50px;
-    top: 180px;
-    left: 210px;
-  }
-
-  .home-section .orbit-ball-2 {
-    width: 40px;
-    height: 40px;
-    top: 10px;
-    left: -30px;
-  }
-}
-
-/* Rotatable Rubik's Cube — floats transparently over the page background,
-   no card/border of its own, exactly like the CSS orbit balls. Unlike
-   orbit-ball-1's tiered positions (which drift partially inside the
-   .profile-image-container box at some breakpoints — fine for a small
-   flat-colored dot that's forgiving to overlap, not fine for a solid
-   colorful cube), every tier here keeps `left` at or past the container's
-   own width, so the shape sits entirely outside that box and can
-   never visually collide with the circular photo inscribed in it. */
-.home-section .rotatable-shape {
-  position: absolute;
-  z-index: 1;
-  width: 85px;
-  height: 85px;
-  top: 240px;
-  left: 300px;
-  cursor: grab;
-
-  &:active {
-    cursor: grabbing;
-  }
-}
-
-@media (max-width: 1024px) {
-  .home-section .rotatable-shape {
-    width: 70px;
-    height: 70px;
-    top: 230px;
-    left: 300px;
-  }
-}
-
-@media (max-width: 768px) {
-  .home-section .rotatable-shape {
-    width: 60px;
-    height: 60px;
-    top: 190px;
-    left: 250px;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-section .rotatable-shape {
-    width: 50px;
-    height: 50px;
-    top: 180px;
-    left: 250px;
-  }
-}
-
-/* Content wrapper for aligning elements */
-.home-section .content-wrapper {
-  display: flex;
-  flex-direction: column;
+.hero-status__pill {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
+  gap: 0.55rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--glass-border);
+  background: var(--hero-surface);
+  color: var(--hero-heading);
+  backdrop-filter: blur(8px);
 }
 
-/* Name styling with gradient text effect */
-.home-section .name {
-  font-size: 3.5rem;
-  font-weight: 700;
+.hero-status__dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: inherit;
+    animation: hero-pulse 2s ease-out infinite;
+  }
+}
+
+.hero-status__meta {
+  color: var(--hero-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-name {
+  margin: 0 0 1rem;
+  color: var(--hero-heading);
+  font-size: clamp(3.25rem, 6.2vw, 6rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+
+  span {
+    display: block;
+  }
+}
+
+.hero-name__accent {
   background: linear-gradient(45deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -1px;
-  white-space: nowrap;
-  margin-top: 40px;
+  // Keeps the gradient clip from shaving the last glyph's edge.
+  padding-right: 0.05em;
 }
 
-/* Typing container styles */
-.home-section .typing-container {
-  min-height: 2.5em;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.home-section .typing-container .typing-text {
-  font-size: 2rem;
-  color: var(--primary);
-  font-weight: 600;
-  letter-spacing: -0.5px;
-  text-align: center;
-}
-
-/* Tagline styling */
-.home-section .tagline {
-  font-size: 1.5rem;
-  opacity: 0.9;
+.hero-role {
+  margin: 0 0 0.9rem;
+  color: var(--hero-muted);
+  font-size: clamp(1.35rem, 2.3vw, 2rem);
   font-weight: 500;
-  line-height: 1.2;
-  text-align: center;
+  letter-spacing: -0.01em;
 }
 
-/* Social links with hover effect */
-.home-section .social-links {
+.hero-role__key {
+  padding-bottom: 0.1em;
+  border-bottom: 2px solid var(--primary);
+  color: var(--hero-heading);
+  font-weight: 600;
+}
+
+.hero-builds {
+  min-height: 1.5em;
+  margin: 0 0 1.25rem;
+  color: var(--hero-faint);
+  font-family: var(--hero-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.hero-builds__value {
+  color: var(--primary-text);
+  font-weight: 700;
+}
+
+.hero-intro {
+  max-width: 34rem;
+  margin: 0 0 1.75rem;
+  color: var(--hero-muted);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.hero-actions {
   display: flex;
-  gap: 1rem;
   flex-wrap: wrap;
-  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2.25rem;
 }
 
-.home-section .social-links .social-icon {
-  font-size: 1.8rem;
-  color: var(--primary);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.hero-socials {
+  display: flex;
+  gap: 0.75rem;
 }
 
-.home-section .social-links .social-icon:hover {
-  color: var(--secondary);
-}
-
-@media (max-width: 768px) {
-  .home-section .name {
-    font-size: 2.8rem;
-  }
-
-  .home-section .typing-container .typing-text {
-    font-size: 1.8rem;
-  }
-
-  .home-section .tagline {
-    font-size: 1.2rem;
-  }
-
-  .home-section .social-links .social-icon {
-    font-size: 1.5rem;
-  }
-}
-
-/* Scroll indicator styles */
-.home-section .scroll-indicator {
-  position: relative;
-  margin-top: 2rem;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
   cursor: pointer;
-  opacity: 0.8;
-  transition: all 0.3s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  svg {
+    transition: transform 0.25s ease;
+  }
+
+  &:hover svg {
+    transform: translateX(3px);
+  }
+}
+
+.hero-btn--primary {
+  // --secondary, not --primary: white text on --primary is only ~4.09:1
+  // (fails WCAG AA), --secondary is ~5.06:1.
+  background: linear-gradient(135deg, var(--secondary), #3d44c9);
+  color: #ffffff;
+  box-shadow: 0 10px 28px rgba(83, 91, 242, 0.35);
+
+  &:hover {
+    color: #ffffff;
+    box-shadow: 0 14px 34px rgba(83, 91, 242, 0.45);
+  }
+}
+
+.hero-btn--ghost {
+  border: 1px solid var(--glass-border);
+  background: var(--hero-surface);
+  color: var(--hero-heading);
+  backdrop-filter: blur(8px);
+
+  &:hover {
+    border-color: var(--primary);
+    color: var(--hero-heading);
+  }
+}
+
+.hero-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--glass-border);
+  background: var(--hero-surface);
+  color: var(--hero-heading);
+  font-size: 1.1rem;
+  backdrop-filter: blur(8px);
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-2px);
+    background: var(--secondary);
+    color: #ffffff;
+  }
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2.5rem;
+  margin: 0;
+
+  dt {
+    margin-bottom: 0.35rem;
+    color: var(--hero-faint);
+    font-family: var(--hero-mono);
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: 0;
+    color: var(--hero-heading);
+    font-family: var(--hero-mono);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+
+  .point-sphere {
+    width: min(112%, 720px);
+    max-width: none;
+    // Lets the sphere grow without pushing the hero taller than the window.
+    margin-block: -24px;
+  }
+}
+
+.home-section .scroll-indicator {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  opacity: 0.8;
+  transform: translateX(-50%);
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .scroll-arrow {
+    color: var(--primary);
+    font-size: 1.75rem;
+    animation: bounce 2s infinite;
+  }
 }
 
-.home-section .scroll-indicator .scroll-arrow {
-  font-size: 2rem;
-  color: var(--primary);
-  animation: bounce 2s infinite;
+@media (max-width: 991.98px) {
+  .home-section {
+    padding: 100px 0 90px;
+  }
+
+  .hero-visual .point-sphere {
+    width: min(88vw, 440px);
+    margin-block: 0;
+  }
 }
 
-.home-section .scroll-indicator:hover {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-5px);
+@media (max-width: 575.98px) {
+  .hero-actions {
+    margin-bottom: 2.25rem;
+  }
+
+  .hero-btn {
+    padding: 0.8rem 1.25rem;
+  }
+
+  .hero-meta {
+    gap: 1rem 1.75rem;
+  }
 }
 
-/* Keyframes for bounce animation */
+@keyframes hero-pulse {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  to {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
 @keyframes bounce {
   0%,
   20%,
@@ -295,50 +345,9 @@
   }
 }
 
-/* Keyframes for up and down movement */
-@keyframes up-down {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-20px);
-  }
-}
-
-/* Keyframes for changing opacity */
-@keyframes change-opacity {
-  0% {
-    opacity: 0.7;
-    background-color: rgba(0, 0, 255, 0.5); /* Lighter blue color */
-  }
-  100% {
-    opacity: 1;
-    background-color: var(--primary); /* Full opacity with primary blue color */
-  }
-}
-
-/* Responsive styles for smaller screens */
-@media (max-width: 768px) {
-  .home-section .profile-image {
-    margin-top: 15px;
-  }
-
-  .home-section .name {
-    font-size: 2.8rem;
-  }
-
-  .home-section .typing-container .typing-text {
-    font-size: 1.8rem;
-  }
-
-  .home-section .tagline {
-    font-size: 1.2rem;
-  }
-
-  .home-section .profile-image-container {
-    width: 250px;
-    height: 250px;
-    margin-bottom: 2rem;
+@media (prefers-reduced-motion: reduce) {
+  .hero-status__dot::after,
+  .home-section .scroll-indicator .scroll-arrow {
+    animation: none;
   }
 }

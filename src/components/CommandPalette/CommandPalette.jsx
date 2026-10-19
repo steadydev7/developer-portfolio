@@ -18,6 +18,7 @@ import {
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import { trackEvent } from '../../utils/analytics';
 import { downloadResume } from '../../utils/resume';
+import { CONTACT, socialUrl } from '../../data/contact';
 import './CommandPalette.scss';
 
 // Bootstrap's global `scroll-behavior: smooth` (from bootstrap/scss/root)
@@ -98,30 +99,22 @@ const CommandPalette = ({ theme, toggleTheme }) => {
         label: 'Open GitHub Profile',
         icon: faGithub,
         run: () =>
-          window.open(
-            'https://github.com/AhmedNassar7',
-            '_blank',
-            'noopener,noreferrer',
-          ),
+          window.open(socialUrl('GitHub'), '_blank', 'noopener,noreferrer'),
       },
       {
         id: 'linkedin',
         label: 'Open LinkedIn Profile',
         icon: faLinkedin,
         run: () =>
-          window.open(
-            'https://www.linkedin.com/in/nasssar/',
-            '_blank',
-            'noopener,noreferrer',
-          ),
+          window.open(socialUrl('LinkedIn'), '_blank', 'noopener,noreferrer'),
       },
       {
         id: 'email',
-        label: 'Email Ahmed',
+        label: 'Email Noah',
         icon: faEnvelope,
         run: () => {
           trackEvent('generate_lead', { lead_source: 'email_link' });
-          window.location.href = 'mailto:a.moh.nassar00@gmail.com';
+          window.location.href = `mailto:${CONTACT.email}`;
         },
       },
     ],

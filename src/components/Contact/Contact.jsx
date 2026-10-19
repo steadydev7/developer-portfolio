@@ -1,7 +1,12 @@
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Container, Row, Col, Form, Alert } from 'react-bootstrap';
-import { m } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { addMessage } from '../../firebase';
+import { CONTACT } from '../../data/contact';
+import {
+  isWithinWorkingHours,
+  getTimezoneCityName,
+} from '../../utils/timezone';
 
 // The country picker (react-select + react-country-flag) is code-split into
 // its own chunk that only loads once this below-the-fold section renders.
@@ -13,15 +18,35 @@ import { useVirtualPageView } from '../../hooks/useVirtualPageView';
 import { useMagneticHover } from '../../hooks/useMagneticHover';
 import { Logger, LogLevel } from '../../utils/logger';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFaceSmile, faFaceFrown } from '@fortawesome/free-regular-svg-icons';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFaceSmile,
+  faFaceFrown,
+  faCopy,
+  faEnvelope,
+} from '@fortawesome/free-regular-svg-icons';
+import {
+  faSpinner,
+  faCheck,
+  faPaperPlane,
+  faChevronDown,
+  faLocationDot,
+} from '@fortawesome/free-solid-svg-icons';
 import GradientText from '../GradientText/GradientText';
 import ConfettiBurst from './ConfettiBurst';
 import './Contact.scss';
 
+const formatLocalTime = (date) =>
+  date.toLocaleTimeString('en-US', {
+    timeZone: CONTACT.timeZone,
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+
 const Contact = () => {
   const sectionRef = useVirtualPageView('Contact', '/#contact');
   const magneticSubmit = useMagneticHover(0.3);
+  const formPanelRef = useRef(null);
+  const nameInputRef = useRef(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -30,6 +55,62 @@ const Contact = () => {
   });
   const [status, setStatus] = useState('');
   const [confetti, setConfetti] = useState(null);
+  const [formOpen, setFormOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [now, setNow] = useState(() => new Date());
+
+  // Minute precision is all the tiles show, so a 30s tick is plenty.
+  useEffect(() => {
+    const interval = setInterval(() => setNow(new Date()), 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (!copied) return undefined;
+    const timer = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(timer);
+  }, [copied]);
+
+  const available = isWithinWorkingHours(
+    now,
+    CONTACT.timeZone,
+    CONTACT.workingHours,
+  );
+  const ownerCity = CONTACT.city || getTimezoneCityName(CONTACT.timeZone);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT.email);
+      setCopied(true);
+      trackEvent('select_content', {
+        content_type: 'contact_detail',
+        content_id: 'email_copy',
+      });
+    } catch {
+      // Clipboard access can be blocked (insecure origin, permissions);
+      // the address is still shown in full and is a mailto: link.
+    }
+  };
+
+  const toggleForm = () => {
+    setFormOpen((open) => !open);
+    if (!formOpen) {
+      trackEvent('select_content', {
+        content_type: 'contact_detail',
+        content_id: 'open_contact_form',
+      });
+    }
+  };
+
+  // Runs once the panel has finished expanding, so the scroll lands on its
+  // final height rather than the zero-height starting frame.
+  const handleFormPanelOpened = () => {
+    formPanelRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+    nameInputRef.current?.focus({ preventScroll: true });
+  };
 
   const countries = [
     { value: 'AF', label: 'Afghanistan', code: 'AF' },
@@ -251,7 +332,7 @@ const Contact = () => {
     e.preventDefault();
     setStatus('sending');
 
-    // EmailJS (notifies Ahmed) and Firebase (backs up a copy) don't depend
+    // EmailJS (notifies Noah) and Firebase (backs up a copy) don't depend
     // on each other's result, so run them concurrently instead of one after
     // the other — roughly halves the wait for the common case where both
     // succeed. allSettled (not all) so a fast failure on one side doesn't
@@ -340,138 +421,283 @@ const Contact = () => {
           Contact <GradientText text="Me" />
         </h2>
 
-        <Row className="justify-content-center">
-          <Col lg={7} xl={6}>
-            <div className="contact-form-wrapper" data-aos="fade-up">
-              <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="contactName">
-                  <Form.Label>
-                    Name <span className="text-danger">*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
-                    required
-                    className="custom-input"
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="contactEmail">
-                  <Form.Label>
-                    Email <span className="text-danger">*</span>
-                  </Form.Label>
-                  <Form.Control
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                    required
-                    className="custom-input"
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3">
-                  <Form.Label>
-                    Country{' '}
-                    <span style={{ opacity: 0.5, fontSize: '0.85rem' }}>
-                      (Optional)
-                    </span>
-                  </Form.Label>
-                  <Suspense
-                    fallback={
-                      <select
-                        className="country-select custom-input"
-                        aria-label="Country"
-                        value={formData.country?.value || ''}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            country:
-                              countries.find(
-                                (c) => c.value === e.target.value,
-                              ) || null,
-                          })
-                        }
-                      >
-                        <option value="">Select…</option>
-                        {countries.map((c) => (
-                          <option key={c.value} value={c.value}>
-                            {c.label}
-                          </option>
-                        ))}
-                      </select>
+        <div className="contact-panel" data-aos="fade-up">
+          <Row className="g-4 g-lg-5 align-items-center">
+            <Col lg={6}>
+              <h3 className="contact-headline">
+                <span>Have an idea?</span>
+                <span className="contact-headline-accent">
+                  Let&apos;s build
+                </span>
+                <span>something meaningful.</span>
+              </h3>
+              <p className="contact-lead">
+                Whether it&apos;s a new product, a backend that needs to scale,
+                or an open-source collaboration, I&apos;d love to hear about it.
+              </p>
+              <ul className="contact-topics">
+                {CONTACT.topics.map((topic) => (
+                  <li key={topic}>{topic}</li>
+                ))}
+              </ul>
+              {CONTACT.location && (
+                <p className="contact-location">
+                  <FontAwesomeIcon icon={faLocationDot} />
+                  {CONTACT.location}
+                </p>
+              )}
+              <div className="contact-socials">
+                {CONTACT.socials.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={social.label}
+                    title={social.label}
+                    onClick={() =>
+                      trackEvent('select_content', {
+                        content_type: 'social_profile',
+                        content_id: social.contentId,
+                      })
                     }
                   >
-                    <CountrySelect
-                      value={formData.country}
-                      onChange={(value) =>
-                        setFormData({ ...formData, country: value })
-                      }
-                      options={countries}
-                    />
-                  </Suspense>
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="contactMessage">
-                  <Form.Label>
-                    Message <span className="text-danger">*</span>
-                  </Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    rows={4}
-                    value={formData.message}
-                    onChange={(e) =>
-                      setFormData({ ...formData, message: e.target.value })
-                    }
-                    required
-                    className="custom-input"
-                  />
-                </Form.Group>
-
-                <m.button
-                  ref={magneticSubmit.ref}
-                  type="submit"
-                  className="submit-btn"
-                  disabled={status === 'sending'}
-                  style={magneticSubmit.style}
-                  onMouseMove={magneticSubmit.onMouseMove}
-                  onMouseLeave={magneticSubmit.onMouseLeave}
+                    <FontAwesomeIcon icon={social.icon} />
+                  </a>
+                ))}
+                <a
+                  href={`mailto:${CONTACT.email}`}
+                  aria-label="Email"
+                  title="Email"
                 >
-                  {status === 'sending' ? (
-                    <>
-                      <FontAwesomeIcon icon={faSpinner} spin /> Sending...
-                    </>
-                  ) : (
-                    'Send Message'
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </a>
+              </div>
+            </Col>
+
+            <Col lg={6}>
+              <div className="contact-details">
+                <div className="contact-card">
+                  <div className="contact-detail">
+                    <span className="contact-detail-label">
+                      <FontAwesomeIcon icon={faEnvelope} /> Email
+                    </span>
+                    <div className="contact-detail-field">
+                      <a
+                        href={`mailto:${CONTACT.email}`}
+                        className="contact-detail-value"
+                      >
+                        {CONTACT.email}
+                      </a>
+                      <button
+                        type="button"
+                        className="contact-detail-action"
+                        onClick={copyEmail}
+                        aria-label={
+                          copied ? 'Email address copied' : 'Copy email address'
+                        }
+                        title={copied ? 'Copied!' : 'Copy'}
+                      >
+                        <FontAwesomeIcon icon={copied ? faCheck : faCopy} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="contact-cta"
+                  onClick={toggleForm}
+                  aria-expanded={formOpen}
+                  aria-controls="contact-form-panel"
+                >
+                  <FontAwesomeIcon icon={faPaperPlane} />
+                  {formOpen ? 'Hide the form' : 'Send me a message'}
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className={`contact-cta-chevron${formOpen ? ' is-open' : ''}`}
+                  />
+                </button>
+
+                <div
+                  className={`contact-availability${available ? ' is-available' : ''}`}
+                >
+                  <span className="contact-availability-dot" />
+                  {available
+                    ? 'Available now for new projects and collaborations'
+                    : "Away right now. I'll reply as soon as I'm back"}
+                </div>
+
+                <div className="contact-stats">
+                  <div className="contact-stat">
+                    <strong>{CONTACT.responseTime}</strong>
+                    <span>Response time</span>
+                  </div>
+                  <div className="contact-stat">
+                    <strong>{formatLocalTime(now)}</strong>
+                    <span>{ownerCity} time</span>
+                  </div>
+                  <div className="contact-stat">
+                    <strong>{CONTACT.workMode}</strong>
+                    <span>Work mode</span>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </div>
+
+        <AnimatePresence initial={false}>
+          {formOpen && (
+            <m.div
+              id="contact-form-panel"
+              ref={formPanelRef}
+              className="contact-form-panel"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              onAnimationComplete={(definition) => {
+                if (definition.height === 'auto') handleFormPanelOpened();
+              }}
+            >
+              <div className="contact-form-wrapper">
+                <Form onSubmit={handleSubmit}>
+                  <Row>
+                    <Col md={6}>
+                      <Form.Group className="mb-3" controlId="contactName">
+                        <Form.Label>
+                          Name <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                          ref={nameInputRef}
+                          type="text"
+                          value={formData.name}
+                          onChange={(e) =>
+                            setFormData({ ...formData, name: e.target.value })
+                          }
+                          required
+                          className="custom-input"
+                        />
+                      </Form.Group>
+                    </Col>
+                    <Col md={6}>
+                      <Form.Group className="mb-3" controlId="contactEmail">
+                        <Form.Label>
+                          Email <span className="text-danger">*</span>
+                        </Form.Label>
+                        <Form.Control
+                          type="email"
+                          value={formData.email}
+                          onChange={(e) =>
+                            setFormData({ ...formData, email: e.target.value })
+                          }
+                          required
+                          className="custom-input"
+                        />
+                      </Form.Group>
+                    </Col>
+                  </Row>
+
+                  <Form.Group className="mb-3">
+                    <Form.Label>
+                      Country{' '}
+                      <span style={{ opacity: 0.5, fontSize: '0.85rem' }}>
+                        (Optional)
+                      </span>
+                    </Form.Label>
+                    <Suspense
+                      fallback={
+                        <select
+                          className="country-select custom-input"
+                          aria-label="Country"
+                          value={formData.country?.value || ''}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              country:
+                                countries.find(
+                                  (c) => c.value === e.target.value,
+                                ) || null,
+                            })
+                          }
+                        >
+                          <option value="">Select…</option>
+                          {countries.map((c) => (
+                            <option key={c.value} value={c.value}>
+                              {c.label}
+                            </option>
+                          ))}
+                        </select>
+                      }
+                    >
+                      <CountrySelect
+                        value={formData.country}
+                        onChange={(value) =>
+                          setFormData({ ...formData, country: value })
+                        }
+                        options={countries}
+                      />
+                    </Suspense>
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="contactMessage">
+                    <Form.Label>
+                      Message <span className="text-danger">*</span>
+                    </Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={4}
+                      value={formData.message}
+                      onChange={(e) =>
+                        setFormData({ ...formData, message: e.target.value })
+                      }
+                      required
+                      className="custom-input"
+                    />
+                  </Form.Group>
+
+                  <m.button
+                    ref={magneticSubmit.ref}
+                    type="submit"
+                    className="submit-btn"
+                    disabled={status === 'sending'}
+                    style={magneticSubmit.style}
+                    onMouseMove={magneticSubmit.onMouseMove}
+                    onMouseLeave={magneticSubmit.onMouseLeave}
+                  >
+                    {status === 'sending' ? (
+                      <>
+                        <FontAwesomeIcon icon={faSpinner} spin /> Sending...
+                      </>
+                    ) : (
+                      'Send Message'
+                    )}
+                  </m.button>
+                  {status === 'success' && (
+                    <Alert variant="success" className="mt-4" role="status">
+                      Message sent successfully
+                      <FontAwesomeIcon
+                        icon={faFaceSmile}
+                        style={{ marginLeft: '10px' }}
+                      />
+                    </Alert>
                   )}
-                </m.button>
-                {status === 'success' && (
-                  <Alert variant="success" className="mt-4" role="status">
-                    Message sent successfully
-                    <FontAwesomeIcon
-                      icon={faFaceSmile}
-                      style={{ marginLeft: '10px' }}
-                    />
-                  </Alert>
-                )}
-                {status === 'error' && (
-                  <Alert variant="danger" className="mt-4">
-                    Something went wrong sending your message. Please try again,
-                    or email me directly at a.moh.nassar00@gmail.com.
-                    <FontAwesomeIcon
-                      icon={faFaceFrown}
-                      style={{ marginLeft: '10px' }}
-                    />
-                  </Alert>
-                )}
-              </Form>
-            </div>
-          </Col>
-        </Row>
+                  {status === 'error' && (
+                    <Alert variant="danger" className="mt-4">
+                      Something went wrong sending your message. Please try
+                      again, or email me directly at {CONTACT.email}.
+                      <FontAwesomeIcon
+                        icon={faFaceFrown}
+                        style={{ marginLeft: '10px' }}
+                      />
+                    </Alert>
+                  )}
+                </Form>
+              </div>
+            </m.div>
+          )}
+        </AnimatePresence>
       </Container>
       {confetti && (
         <ConfettiBurst

@@ -10,14 +10,26 @@ import {
 } from '../../data/resumeData';
 import { downloadResume } from '../../utils/resume';
 import { trackEvent } from '../../utils/analytics';
-import { getTimezoneAbbreviation } from '../../utils/timezone';
+import {
+  getTimezoneAbbreviation,
+  getTimezoneOffsetMinutes,
+} from '../../utils/timezone';
+import { CONTACT, socialUrl } from '../../data/contact';
 import './Terminal.scss';
 
 // Same zone the About section's live-availability widget uses — keep the
 // terminal's "time" line consistent with the rest of the site.
-const AHMED_TIMEZONE = 'Africa/Cairo';
+const OWNER_TIMEZONE = CONTACT.timeZone;
 
-const PROMPT = 'guest@ahmed-nassar:~$';
+const formatUtcOffset = (offsetMinutes) => {
+  const minutes = Math.round(offsetMinutes);
+  const sign = minutes < 0 ? '-' : '+';
+  const hours = Math.floor(Math.abs(minutes) / 60);
+  const rest = Math.abs(minutes) % 60;
+  return `UTC${sign}${hours}${rest ? `:${String(rest).padStart(2, '0')}` : ''}`;
+};
+
+const PROMPT = 'guest@noah-thomas:~$';
 
 const SECTION_ALIASES = {
   home: 'home',
@@ -82,15 +94,18 @@ const NeofetchClock = () => {
     return () => clearInterval(id);
   }, []);
   const time = now.toLocaleTimeString('en-US', {
-    timeZone: AHMED_TIMEZONE,
+    timeZone: OWNER_TIMEZONE,
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
   });
-  const tzAbbr = getTimezoneAbbreviation(now, AHMED_TIMEZONE);
+  const tzAbbr = getTimezoneAbbreviation(now, OWNER_TIMEZONE);
+  const utcOffset = formatUtcOffset(
+    getTimezoneOffsetMinutes(now, OWNER_TIMEZONE),
+  );
   return (
     <span className="nf-time">
-      {time} ({tzAbbr}, UTC+2)
+      {time} ({tzAbbr}, {utcOffset})
     </span>
   );
 };
@@ -100,12 +115,12 @@ const NeofetchClock = () => {
 // truth as the rest of the site (src/data/resumeData.js), not placeholder
 // text.
 const buildNeofetchRows = () => [
-  { label: 'OS', value: 'Egypt Linux', badge: 'EG' },
+  { label: 'OS', value: 'Maine Linux', badge: 'US' },
   { label: 'Role', value: 'Software Engineer' },
   { label: 'Focus', value: 'Backend & Open Source' },
   { label: 'Languages', value: 'Java · Python · C++ · C# · JS/TS' },
   { label: 'Uptime', value: 'since 2021' },
-  { label: 'Location', value: 'Cairo, Egypt' },
+  { label: 'Location', value: CONTACT.location },
   { label: 'Time', live: 'clock' },
   { label: 'Status', value: '● Open to Work', valueClass: 'nf-green' },
 ];
@@ -125,7 +140,7 @@ const NeofetchPanel = () => (
     <NeofetchLogo />
     <div className="nf-info-col">
       <div className="nf-header">
-        <span className="nf-header-name">ahmed</span>
+        <span className="nf-header-name">noah</span>
         <span className="nf-value">@</span>
         <span className="nf-header-name">portfolio</span>
       </div>
@@ -155,13 +170,13 @@ const NeofetchPanel = () => (
 const HELP_LINES = [
   'Available commands:',
   '  help              show this list',
-  '  whoami            who is Ahmed?',
+  '  whoami            who is Noah?',
   '  about              short bio',
   '  experience         work history',
   '  projects           featured projects',
   '  skills             tech stack',
   '  achievements       notable wins',
-  '  contact            how to reach Ahmed',
+  '  contact            how to reach Noah',
   '  resume             download the resume PDF',
   '  github / linkedin  open the profile in a new tab',
   '  open <section>     jump to a section (about, projects, resume, stats, testimonials, contact)',
@@ -175,7 +190,7 @@ const buildCommands = ({ theme, toggleTheme, close }) => ({
   help: () => HELP_LINES,
 
   whoami: () => [
-    'Ahmed Nassar — Software Engineer',
+    'Noah Thomas — Software Engineer',
     'Java Developer @ Beshara Group · Django Software Foundation Individual Member',
   ],
 
@@ -216,9 +231,9 @@ const buildCommands = ({ theme, toggleTheme, close }) => ({
     ]),
 
   contact: () => [
-    'Email:    a.moh.nassar00@gmail.com',
-    'LinkedIn: https://www.linkedin.com/in/nasssar/',
-    'GitHub:   https://github.com/AhmedNassar7',
+    `Email:    ${CONTACT.email}`,
+    `LinkedIn: ${socialUrl('LinkedIn')}`,
+    `GitHub:   ${socialUrl('GitHub')}`,
   ],
 
   resume: () => {
@@ -227,21 +242,13 @@ const buildCommands = ({ theme, toggleTheme, close }) => ({
   },
 
   github: () => {
-    window.open(
-      'https://github.com/AhmedNassar7',
-      '_blank',
-      'noopener,noreferrer',
-    );
-    return ['Opening https://github.com/AhmedNassar7 …'];
+    window.open(socialUrl('GitHub'), '_blank', 'noopener,noreferrer');
+    return [`Opening ${socialUrl('GitHub')} …`];
   },
 
   linkedin: () => {
-    window.open(
-      'https://www.linkedin.com/in/nasssar/',
-      '_blank',
-      'noopener,noreferrer',
-    );
-    return ['Opening https://www.linkedin.com/in/nasssar/ …'];
+    window.open(socialUrl('LinkedIn'), '_blank', 'noopener,noreferrer');
+    return [`Opening ${socialUrl('LinkedIn')} …`];
   },
 
   neofetch: () => [{ type: 'nf-panel' }],
@@ -424,7 +431,7 @@ const Terminal = ({ theme, toggleTheme }) => {
                 <span className="dot red" />
                 <span className="dot yellow" />
                 <span className="dot green" />
-                <span className="terminal-title">guest@ahmed-nassar: ~</span>
+                <span className="terminal-title">guest@noah-thomas: ~</span>
               </div>
               <div className="terminal-body" ref={bodyRef}>
                 {history.map((entry, index) =>

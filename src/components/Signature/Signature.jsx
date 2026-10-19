@@ -77,7 +77,7 @@ InkStroke.propTypes = {
 // (as if being signed); otherwise the placeholder strokes draw themselves
 // on in order. `paths` overrides: pass an array of `d` strings to use your
 // own traced strokes, or `null` for the name in an OS cursive font.
-const Signature = ({ name = 'Ahmed Nassar', paths, className = '' }) => {
+const Signature = ({ name = 'Noah Thomas', paths, className = '' }) => {
   const wrapRef = useRef(null);
   const textRef = useRef(null);
   const inView = useInView(wrapRef, { once: true, margin: '-40px' });

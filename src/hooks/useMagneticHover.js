@@ -7,7 +7,7 @@ const SPRING_CONFIG = { stiffness: 150, damping: 15, mass: 0.1 };
 /**
  * Makes an element gently pull toward the cursor while hovered, springing
  * back to its resting position on mouseleave. Inert on touch devices and
- * under prefers-reduced-motion, matching TiltCard's gating.
+ * under prefers-reduced-motion.
  *
  * @param {number} strength - Fraction of the cursor's offset from center
  *   the element actually moves (0.4 = moves 40% of the way toward it).

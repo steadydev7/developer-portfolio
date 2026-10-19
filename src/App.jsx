@@ -29,7 +29,8 @@ import './styles/scrollReveal.scss';
 import './styles/main.scss';
 
 const initAnalytics = () => {
-  if (ReactGA.isInitialized) return;
+  if (ReactGA.isInitialized || !import.meta.env.VITE_GOOGLE_ANALYTICS_ID)
+    return;
   try {
     ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS_ID, {
       debug: import.meta.env.MODE !== 'production',

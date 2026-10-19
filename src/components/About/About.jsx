@@ -15,24 +15,25 @@ import {
   getTimezoneCityName,
 } from '../../utils/timezone';
 import { useVirtualPageView } from '../../hooks/useVirtualPageView';
+import { CONTACT } from '../../data/contact';
 
-const AHMED_TIMEZONE = 'Africa/Cairo';
-const AHMED_WORKING_HOURS = { start: 9, end: 24 }; // 9 AM - 12 AM (midnight), Cairo time
+const OWNER_TIMEZONE = CONTACT.timeZone;
+const OWNER_WORKING_HOURS = CONTACT.workingHours;
 
 const contactInfo = [
   {
     icon: faPhone,
-    text: '+201110102554',
+    text: CONTACT.phone,
   },
   {
     icon: faEnvelope,
-    text: 'a.moh.nassar00@gmail.com',
+    text: CONTACT.email,
   },
   {
     icon: faLocationDot,
-    text: 'Cairo, Egypt',
+    text: CONTACT.location,
   },
-];
+].filter((item) => item.text);
 
 const About = () => {
   const sectionRef = useVirtualPageView('About', '/#about');
@@ -44,18 +45,18 @@ const About = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const ahmedTime = now.toLocaleTimeString('en-US', {
-    timeZone: AHMED_TIMEZONE,
+  const ownerTime = now.toLocaleTimeString('en-US', {
+    timeZone: OWNER_TIMEZONE,
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
   });
   const withinWorkingHours = isWithinWorkingHours(
     now,
-    AHMED_TIMEZONE,
-    AHMED_WORKING_HOURS,
+    OWNER_TIMEZONE,
+    OWNER_WORKING_HOURS,
   );
-  const ahmedCity = getTimezoneCityName(AHMED_TIMEZONE);
+  const ownerCity = CONTACT.city || getTimezoneCityName(OWNER_TIMEZONE);
   const visitorTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const visitorCity = getTimezoneCityName(visitorTimeZone);
   const visitorTime = now.toLocaleTimeString('en-US', {
@@ -64,13 +65,13 @@ const About = () => {
     minute: '2-digit',
     second: '2-digit',
   });
-  const hourDiff = getHourDifference(now, AHMED_TIMEZONE, visitorTimeZone);
+  const hourDiff = getHourDifference(now, OWNER_TIMEZONE, visitorTimeZone);
   const diffText =
     hourDiff === 0
       ? 'Same timezone'
       : hourDiff > 0
-        ? `Ahmed is +${hourDiff} hrs ahead`
-        : `Ahmed is ${Math.abs(hourDiff)} hrs behind`;
+        ? `Noah is +${hourDiff} hrs ahead`
+        : `Noah is ${Math.abs(hourDiff)} hrs behind`;
   const availabilityLabel = withinWorkingHours ? 'Available now' : 'Away';
   const availabilityDetail = withinWorkingHours
     ? 'Within working hours'
@@ -117,7 +118,7 @@ const About = () => {
                     <FontAwesomeIcon icon={faClock} className="info-icon" />
                     <span className="info-time-block">
                       <span className="info-time-primary">
-                        {ahmedTime}
+                        {ownerTime}
                         <span
                           className={`availability-pill ${withinWorkingHours ? 'online' : 'offline'}`}
                         >
@@ -140,8 +141,8 @@ const About = () => {
                         <span className="tz-icon" aria-hidden="true">
                           🕐
                         </span>
-                        <span className="tz-label">Ahmed ({ahmedCity})</span>
-                        <span className="tz-value">{ahmedTime}</span>
+                        <span className="tz-label">Noah ({ownerCity})</span>
+                        <span className="tz-value">{ownerTime}</span>
                       </div>
                       <div className="tz-row">
                         <span className="tz-icon" aria-hidden="true">

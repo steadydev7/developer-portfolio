@@ -4,43 +4,42 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-scroll';
 import { m, useInView, animate } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDiscord, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import {
-  faCodePullRequest,
+  faCalendarDays,
   faCodeBranch,
   faCodeCommit,
   faStar,
   faFire,
   faArrowUpRightFromSquare,
   faHandshake,
-  faHeart,
+  faUserPlus,
 } from '@fortawesome/free-solid-svg-icons';
 import GitHubHeatmap from './GitHubHeatmap';
 import { calculateStreaks } from '../../utils/streaks';
 import { useVirtualPageView } from '../../hooks/useVirtualPageView';
 import { trackEvent } from '../../utils/analytics';
+import { CONTACT } from '../../data/contact';
 import './Stats.scss';
 
-const GITHUB_USERNAME = 'AhmedNassar7';
-const PORTFOLIO_REPO_URL = `https://github.com/${GITHUB_USERNAME}/${GITHUB_USERNAME}.github.io`;
-const REPOS_TAB_URL = `https://github.com/${GITHUB_USERNAME}?tab=repositories`;
+const GITHUB_USERNAME = CONTACT.githubUsername;
+const PORTFOLIO_REPO_URL = CONTACT.sourceRepo;
+const PROFILE_URL = `https://github.com/${GITHUB_USERNAME}`;
+const REPOS_TAB_URL = `${PROFILE_URL}?tab=repositories`;
 const REPOS_BY_STARS_URL = `${REPOS_TAB_URL}&sort=stargazers`;
-const DJANGO_PRS_URL =
-  'https://github.com/django/django/pulls?q=is%3Apr+author%3AAhmedNassar7';
 const COMMITS_SEARCH_URL = `https://github.com/search?q=author%3A${GITHUB_USERNAME}&type=commits`;
 // GitHub's own commit-search API — `total_count` is the exact number of
 // commits authored by the user across all public repos.
 const COMMITS_API_URL = `https://api.github.com/search/commits?q=author:${GITHUB_USERNAME}&per_page=1`;
 const CONTRIBUTIONS_API_URL = `https://github-contributions-api.jogruber.de/v4/${GITHUB_USERNAME}?y=last`;
-const SWE_COMMUNITY_URL = 'https://discord.gg/N95QU2Ww3h';
-const GITHUB_SPONSORS_URL = `https://github.com/sponsors/${GITHUB_USERNAME}`;
 
-// Counts as of Sep 2026 — used only if the corresponding live fetch fails
+// Counts as of Oct 2026 — used only if the corresponding live fetch fails
 // (network error, or GitHub's low unauthenticated rate limit on the search
 // API — ~10 req/min — kicking in). Bump these when they drift noticeably.
-const FALLBACK_GITHUB_STARS = 530;
+const FALLBACK_GITHUB_STARS = 25;
 const FALLBACK_PUBLIC_REPOS = 45;
-const FALLBACK_TOTAL_COMMITS = 2975;
+const FALLBACK_TOTAL_COMMITS = 48100;
+const FALLBACK_CONTRIBUTIONS = 375;
 
 // Rounds a live count down to the nearest 5 so displayed numbers stay clean
 // and consistent without ever overstating the real value.
@@ -81,6 +80,7 @@ const Stats = ({ theme }) => {
   const [publicRepos, setPublicRepos] = useState(null);
   const [totalCommits, setTotalCommits] = useState(null);
   const [currentStreak, setCurrentStreak] = useState(null);
+  const [contributions, setContributions] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -126,16 +126,25 @@ const Stats = ({ theme }) => {
 
     // Streaks change daily, unlike stars/repos which move slowly, so there's
     // no sane hardcoded fallback here — leave it as "—" (null) if the fetch
-    // fails rather than show a number that goes stale within a day.
+    // fails rather than show a number that goes stale within a day. The
+    // past-year contribution total moves slowly enough to fall back on.
     const fetchStreaks = async () => {
       try {
         const res = await fetch(CONTRIBUTIONS_API_URL);
         if (!res.ok) throw new Error('Contributions API request failed');
         const data = await res.json();
         const { current } = calculateStreaks(data.contributions);
-        if (!cancelled) setCurrentStreak(current);
+        if (!cancelled) {
+          setCurrentStreak(current);
+          if (typeof data.total?.lastYear === 'number') {
+            setContributions(roundDownToFive(data.total.lastYear));
+          } else {
+            setContributions(FALLBACK_CONTRIBUTIONS);
+          }
+        }
       } catch (error) {
         console.error('Failed to fetch contribution streaks:', error);
+        if (!cancelled) setContributions(FALLBACK_CONTRIBUTIONS);
       }
     };
 
@@ -167,15 +176,13 @@ const Stats = ({ theme }) => {
       contentId: 'public_repos',
     },
     {
-      // Verified via GitHub's search API against django/django as of Aug
-      // 2026 (24 total, 10 merged) — update manually when it drifts.
-      icon: faCodePullRequest,
-      value: 24,
+      icon: faCalendarDays,
+      value: contributions,
       suffix: '+',
-      label: 'Open-Source PRs',
-      url: DJANGO_PRS_URL,
-      ariaLabel: "View Ahmed's pull requests to Django on GitHub",
-      contentId: 'open_source_prs',
+      label: 'Contributions, Past Year',
+      url: PROFILE_URL,
+      ariaLabel: "View Noah's contribution activity on GitHub",
+      contentId: 'contributions',
     },
     {
       icon: faCodeCommit,
@@ -183,7 +190,7 @@ const Stats = ({ theme }) => {
       suffix: '+',
       label: 'Commits',
       url: COMMITS_SEARCH_URL,
-      ariaLabel: "View Ahmed's commits on GitHub",
+      ariaLabel: "View Noah's commits on GitHub",
       contentId: 'commits',
     },
   ];
@@ -203,22 +210,16 @@ const Stats = ({ theme }) => {
       contentId: 'star_portfolio',
     },
     {
-      icon: faDiscord,
-      label: 'Join SWE Community',
-      href: SWE_COMMUNITY_URL,
-      contentId: 'join_swe_community',
+      icon: faUserPlus,
+      label: 'Follow on GitHub',
+      href: PROFILE_URL,
+      contentId: 'follow_github',
     },
     {
       icon: faHandshake,
       label: "Let's Collaborate",
       to: 'contact',
       contentId: 'lets_collaborate',
-    },
-    {
-      icon: faHeart,
-      label: 'Sponsor Me',
-      href: GITHUB_SPONSORS_URL,
-      contentId: 'github_sponsors',
       featured: true,
     },
   ];

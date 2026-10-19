@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Page Not Found | Ahmed Nassar</title>
+    <title>Page Not Found | Noah Thomas</title>
     <style>
       :root {
         --primary: #646cff;
@@ -14,6 +14,7 @@
         --fg: #213547;
         --muted: rgba(33, 53, 71, 0.7);
         --glass-border: rgba(0, 0, 0, 0.08);
+        --logo-filter: none;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -22,6 +23,7 @@
           --fg: #f5f5f7;
           --muted: rgba(245, 245, 247, 0.7);
           --glass-border: rgba(255, 255, 255, 0.12);
+          --logo-filter: invert(1);
         }
       }
 
@@ -63,6 +65,7 @@
         width: 56px;
         height: 56px;
         margin-bottom: 1.5rem;
+        filter: var(--logo-filter);
       }
 
       h1 {
@@ -133,7 +136,7 @@
   </head>
   <body>
     <div class="card">
-      <img src="/favicon.svg" alt="" class="logo" />
+      <img src="/logo.svg" alt="" class="logo" />
       <h1>404</h1>
       <h2>This page took a wrong turn</h2>
       <p>
@@ -142,7 +145,7 @@
       </p>
       <div class="actions">
         <a class="btn primary" href="/">Back to Home</a>
-        <a class="btn secondary" href="/#contact">Contact Ahmed</a>
+        <a class="btn secondary" href="/#contact">Contact Noah</a>
       </div>
     </div>
     <script>
@@ -163,6 +166,10 @@
               '--glass-border',
               'rgba(255, 255, 255, 0.12)',
             );
+            document.documentElement.style.setProperty(
+              '--logo-filter',
+              'invert(1)',
+            );
           } else {
             document.documentElement.style.setProperty('--bg', '#ffffff');
             document.documentElement.style.setProperty('--fg', '#213547');
@@ -174,6 +181,7 @@
               '--glass-border',
               'rgba(0, 0, 0, 0.08)',
             );
+            document.documentElement.style.setProperty('--logo-filter', 'none');
           }
         }
       } catch {

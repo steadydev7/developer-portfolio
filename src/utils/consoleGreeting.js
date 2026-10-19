@@ -1,3 +1,5 @@
+import { CONTACT, socialUrl } from '../data/contact';
+
 // Guards against React 18 StrictMode double-invoking the mount effect in
 // development — the message should appear once per page load.
 let printed = false;
@@ -20,15 +22,12 @@ export const printConsoleGreeting = () => {
 
   console.log('%c👋  Hey, curious dev!', title);
   console.log('%cLike the site? The source is open:', text);
-  console.log(
-    '%c   https://github.com/AhmedNassar7/AhmedNassar7.github.io',
-    link,
-  );
+  console.log(`%c   ${CONTACT.sourceRepo}`, link);
   console.log(
     "%cI'm open to backend / full-stack roles — say hi via the contact form,",
     text,
   );
-  console.log('%c   or linkedin.com/in/nasssar', link);
+  console.log(`%c   or ${socialUrl('LinkedIn')}`, link);
   console.log(
     '%cPS. there is a Konami code on this page:  ↑ ↑ ↓ ↓ ← → ← → B A',
     text,

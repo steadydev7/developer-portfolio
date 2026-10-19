@@ -32,7 +32,7 @@ Prettier and ESLint are the source of truth — don't hand-format. Propose a con
 
 ## Reporting Bugs
 
-Open a [GitHub issue](https://github.com/AhmedNassar7/AhmedNassar7.github.io/issues) with: expected vs. actual, steps to reproduce, browser/OS, and a screenshot if visual.
+Open a [GitHub issue](https://github.com/steadydev7/developer-portfolio/issues) with: expected vs. actual, steps to reproduce, browser/OS, and a screenshot if visual.
 
 ## Code of Conduct
 

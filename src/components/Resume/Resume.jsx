@@ -1,11 +1,9 @@
-import { useMemo } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { m } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { trackEvent } from '../../utils/analytics';
 import { useVirtualPageView } from '../../hooks/useVirtualPageView';
 import { slugify } from '../../utils/slugify';
-import { getInitials } from '../../utils/initials';
 import {
   RESUME_URL,
   RESUME_FILE_NAME,
@@ -16,8 +14,6 @@ import {
   education,
   experiences,
   interviewedCompanies,
-  projects,
-  techIcons,
   achievements,
   skills,
 } from '../../data/resumeData';
@@ -33,48 +29,23 @@ import {
   faAward,
   faChartLine,
   faCode,
-  faDiagramProject,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import TiltCard from './TiltCard';
+import FeaturedProjects from './FeaturedProjects';
 import OrgLogo from './OrgLogo';
 import InterviewMarquee from './InterviewMarquee';
 import './Resume.scss';
 
-// Drop an icon at src/assets/images/projects/<slug>.<ext> (slug = name with
-// non-alphanumerics as "_", e.g. egypt_metro_backend.png) and it's matched
-// to its project by filename — no code change. App-icon style is fine; it's
-// shown as a small rounded tile next to the name.
-const projectImages = import.meta.glob(
-  '../../assets/images/projects/*.{png,jpg,jpeg,webp,svg}',
-  { eager: true, query: '?url', import: 'default' },
-);
-const projectImageBySlug = Object.fromEntries(
-  Object.entries(projectImages).map(([path, url]) => [
-    path
-      .split('/')
-      .pop()
-      .replace(/\.[^.]+$/, ''),
-    url,
-  ]),
-);
+// Lifts on hover; its own transition so the lift isn't held back by the
+// staggered entrance delay.
+const CARD_HOVER = {
+  y: -6,
+  boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15)',
+  transition: { type: 'spring', stiffness: 300, damping: 22 },
+};
 
 const Resume = () => {
   const sectionRef = useVirtualPageView('Resume', '/#resume');
-  const projectsRef = useVirtualPageView('Projects', '/#projects');
-
-  // Featured first, otherwise data order (Array.sort is stable).
-  const orderedProjects = useMemo(
-    () =>
-      [...projects].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)),
-    [],
-  );
-
-  const trackProjectClick = (name, linkType) =>
-    trackEvent('select_content', {
-      content_type: 'project',
-      content_id: `${slugify(name)}_${linkType}`,
-    });
 
   const handleResumeView = () => {
     trackEvent('select_content', {
@@ -199,108 +170,7 @@ const Resume = () => {
           </Col>
         </Row>
 
-        <Row className="mb-5">
-          <Col lg={12} data-aos="fade-up">
-            <div className="resume-card" id="projects" ref={projectsRef}>
-              <h3>
-                <FontAwesomeIcon icon={faDiagramProject} /> Projects
-              </h3>
-              <div className="projects-grid">
-                {orderedProjects.map((project, index) => {
-                  const logo =
-                    project.image ??
-                    projectImageBySlug[slugify(project.name)] ??
-                    null;
-
-                  return (
-                    <TiltCard
-                      key={project.name}
-                      className={`project-card${
-                        project.featured ? ' is-featured' : ''
-                      }`}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.3 }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 300,
-                        damping: 22,
-                        delay: index * 0.08,
-                      }}
-                    >
-                      <div className="project-card__head">
-                        {logo ? (
-                          <img
-                            className="project-card__logo"
-                            src={logo}
-                            alt=""
-                            aria-hidden="true"
-                            width="46"
-                            height="46"
-                            loading="lazy"
-                          />
-                        ) : (
-                          <span
-                            className="project-card__logo project-card__logo--fallback"
-                            aria-hidden="true"
-                          >
-                            {getInitials(project.name)}
-                          </span>
-                        )}
-
-                        <h4 className="project-card__name">{project.name}</h4>
-
-                        <div className="project-card__links">
-                          {project.liveUrl && (
-                            <a
-                              href={project.liveUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={`Open ${project.name} live demo`}
-                              onClick={() =>
-                                trackProjectClick(project.name, 'demo')
-                              }
-                            >
-                              <FontAwesomeIcon
-                                icon={faArrowUpRightFromSquare}
-                              />
-                            </a>
-                          )}
-                          <a
-                            href={project.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label={`View ${project.name} source on GitHub`}
-                            onClick={() =>
-                              trackProjectClick(project.name, 'repo')
-                            }
-                          >
-                            <FontAwesomeIcon icon={faGithub} />
-                          </a>
-                        </div>
-                      </div>
-
-                      <p className="project-card__description">
-                        {project.description}
-                      </p>
-
-                      <div className="project-card__tech">
-                        {project.tech.map((tech) => (
-                          <span key={tech} className="tech-tag">
-                            {techIcons[tech] && (
-                              <FontAwesomeIcon icon={techIcons[tech]} />
-                            )}
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-                    </TiltCard>
-                  );
-                })}
-              </div>
-            </div>
-          </Col>
-        </Row>
+        <FeaturedProjects />
 
         <Row className="mb-5">
           <Col lg={12} data-aos="fade-up">
@@ -360,11 +230,12 @@ const Resume = () => {
               </h3>
               <div className="achievements-grid">
                 {achievements.map((achievement, index) => (
-                  <TiltCard
+                  <m.div
                     key={index}
                     className="achievement-item"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
+                    whileHover={CARD_HOVER}
                     viewport={{ once: true, amount: 0.3 }}
                     transition={{
                       type: 'spring',
@@ -425,7 +296,7 @@ const Resume = () => {
                         <li key={bulletIndex}>{bullet}</li>
                       ))}
                     </ul>
-                  </TiltCard>
+                  </m.div>
                 ))}
               </div>
             </div>

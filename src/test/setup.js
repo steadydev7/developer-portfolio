@@ -29,7 +29,7 @@ if (!globalThis.ResizeObserver) {
 }
 
 // jsdom doesn't implement matchMedia either (used for reduced-motion and
-// hover-capability checks). Default every query to non-matching, so tilt
+// hover-capability checks). Default every query to non-matching, so pointer
 // effects gated on `(hover: hover) and (pointer: fine)` stay off — the same
 // way a touch device or headless browser would see it.
 if (!window.matchMedia) {

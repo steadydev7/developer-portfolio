@@ -14,8 +14,8 @@ Local setup, scripts, environment variables, conventions. Architecture: [ARCHITE
 ## Setup
 
 ```bash
-git clone https://github.com/AhmedNassar7/AhmedNassar7.github.io.git
-cd AhmedNassar7.github.io
+git clone https://github.com/steadydev7/developer-portfolio.git
+cd developer-portfolio
 npm install
 npm run dev
 ```

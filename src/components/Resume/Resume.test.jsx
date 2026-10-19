@@ -17,7 +17,7 @@ describe('Resume', () => {
     expect(screen.getByText(firstSkills[0].name)).toBeInTheDocument();
   });
 
-  it('renders every achievement inside a tilt card, with a logo', () => {
+  it('renders every achievement inside a card, with a logo', () => {
     render(<Resume />);
 
     achievements.forEach((achievement) => {
