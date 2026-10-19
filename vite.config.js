@@ -46,21 +46,15 @@ export default defineConfig(({ mode }) => {
     (variable) => !process.env[variable],
   );
 
+  // Each group powers one optional feature — Firebase keeps a backup copy
+  // of contact messages, EmailJS delivers them (without it the form opens
+  // the visitor's email app instead), Google covers analytics and Search
+  // Console — and the app runs without any of them, so a missing key turns
+  // its feature off instead of failing the build.
   if (missingVariables.length > 0) {
-    // In development, just log a warning
-    if (isDev) {
-      logger.warn(
-        `Warning: Missing required environment variables in development: ${missingVariables.join(', ')}`,
-      );
-    } else {
-      // Log an error and throw an exception in production
-      logger.error(
-        `Missing required environment variables in production: ${missingVariables.join(', ')}`,
-      );
-      throw new Error(
-        `Missing required environment variables in production: ${missingVariables.join(', ')}`,
-      );
-    }
+    logger.warn(
+      `Missing environment variables (their features are turned off): ${missingVariables.join(', ')}`,
+    );
   }
 
   // Set NODE_ENV for production if needed

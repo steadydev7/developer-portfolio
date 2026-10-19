@@ -35,6 +35,15 @@ import GradientText from '../GradientText/GradientText';
 import ConfettiBurst from './ConfettiBurst';
 import './Contact.scss';
 
+// A ready-to-send draft in the visitor's own email app — what the form falls
+// back to when EmailJS isn't configured.
+const buildMailDraft = ({ name, email, country, message }) => {
+  const signature = [name, email, country?.label].filter(Boolean).join(' · ');
+  const subject = `Portfolio message from ${name}`;
+  const body = `${message}\n\n— ${signature}`;
+  return `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+};
+
 const formatLocalTime = (date) =>
   date.toLocaleTimeString('en-US', {
     timeZone: CONTACT.timeZone,
@@ -330,6 +339,21 @@ const Contact = () => {
    */
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Without EmailJS keys nothing can deliver the message, so hand it to the
+    // visitor's email app instead. Read at submit time, not module load, so
+    // it always reflects the build's environment.
+    const emailJsConfigured = Boolean(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID &&
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID &&
+      import.meta.env.VITE_EMAILJS_USER_ID,
+    );
+    if (!emailJsConfigured) {
+      window.open(buildMailDraft(formData), '_self');
+      setStatus('mailto');
+      return;
+    }
+
     setStatus('sending');
 
     // EmailJS (notifies Noah) and Firebase (backs up a copy) don't depend
@@ -387,10 +411,9 @@ const Contact = () => {
       logger.info('Message saved to Firebase');
     }
 
-    if (
-      emailResult.status === 'fulfilled' &&
-      firebaseResult.status === 'fulfilled'
-    ) {
+    // The message is delivered once EmailJS succeeds; the Firebase copy is
+    // only a backup, so its failure is logged above but doesn't fail the send.
+    if (emailResult.status === 'fulfilled') {
       setStatus('success');
       setFormData({ name: '', email: '', country: null, message: '' });
 
@@ -681,6 +704,13 @@ const Contact = () => {
                         icon={faFaceSmile}
                         style={{ marginLeft: '10px' }}
                       />
+                    </Alert>
+                  )}
+                  {status === 'mailto' && (
+                    <Alert variant="info" className="mt-4" role="status">
+                      Your email app should open with your message ready to
+                      send. If it doesn&apos;t, email me directly at{' '}
+                      {CONTACT.email}.
                     </Alert>
                   )}
                   {status === 'error' && (

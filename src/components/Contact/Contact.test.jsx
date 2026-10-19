@@ -1,11 +1,37 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import Contact from './Contact';
 import { CONTACT } from '../../data/contact';
+import { addMessage } from '../../firebase';
 
 vi.mock('../../firebase', () => ({
   addMessage: vi.fn(() => Promise.resolve()),
 }));
+
+const sendEmail = vi.fn(() => Promise.resolve({ status: 200 }));
+vi.mock('emailjs-com', () => ({
+  default: { send: (...a) => sendEmail(...a) },
+}));
+
+const openAndFillForm = async () => {
+  fireEvent.click(screen.getByRole('button', { name: /send me a message/i }));
+  fireEvent.change(await screen.findByLabelText(/^Name/), {
+    target: { value: 'Ada' },
+  });
+  fireEvent.change(screen.getByRole('textbox', { name: /^Email/ }), {
+    target: { value: 'ada@example.com' },
+  });
+  fireEvent.change(screen.getByLabelText(/^Message/), {
+    target: { value: 'Hello there' },
+  });
+  fireEvent.submit(screen.getByLabelText(/^Message/).closest('form'));
+};
+
+const stubEmailJs = (value) => {
+  vi.stubEnv('VITE_EMAILJS_SERVICE_ID', value);
+  vi.stubEnv('VITE_EMAILJS_TEMPLATE_ID', value);
+  vi.stubEnv('VITE_EMAILJS_USER_ID', value);
+};
 
 describe('Contact', () => {
   beforeEach(() => {
@@ -13,6 +39,11 @@ describe('Contact', () => {
       configurable: true,
       value: { writeText: vi.fn(() => Promise.resolve()) },
     });
+  });
+
+  afterEach(() => {
+    vi.unstubAllEnvs();
+    vi.restoreAllMocks();
   });
 
   it('copies the email address and confirms it', async () => {
@@ -38,5 +69,36 @@ describe('Contact', () => {
     expect(cta).toHaveAttribute('aria-expanded', 'true');
     expect(await screen.findByLabelText(/^Name/)).toBeInTheDocument();
     expect(screen.getByLabelText(/^Message/)).toBeInTheDocument();
+  });
+
+  it('opens a filled-in email draft when EmailJS is not configured', async () => {
+    stubEmailJs('');
+    const open = vi.spyOn(window, 'open').mockImplementation(() => null);
+    render(<Contact />);
+
+    await openAndFillForm();
+
+    const [url, target] = open.mock.calls[0];
+    expect(target).toBe('_self');
+    expect(url).toMatch(new RegExp(`^mailto:${CONTACT.email}\\?subject=`));
+    expect(decodeURIComponent(url)).toContain('Hello there');
+    expect(decodeURIComponent(url)).toContain('ada@example.com');
+    expect(
+      await screen.findByText(/email app should open/i),
+    ).toBeInTheDocument();
+    expect(sendEmail).not.toHaveBeenCalled();
+  });
+
+  it('counts a message as sent when EmailJS delivers it, even if the backup copy fails', async () => {
+    stubEmailJs('configured');
+    addMessage.mockImplementationOnce(() => Promise.reject(new Error('no db')));
+    render(<Contact />);
+
+    await openAndFillForm();
+
+    expect(
+      await screen.findByText(/message sent successfully/i),
+    ).toBeInTheDocument();
+    expect(sendEmail).toHaveBeenCalled();
   });
 });

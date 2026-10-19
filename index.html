@@ -131,11 +131,13 @@
     <!-- Canonical Link -->
     <link rel="canonical" href="https://ahmednassar7.github.io/" />
 
-    <!-- Google Search Console -->
+    <!-- Google Search Console (only when a verification key is set) -->
+    <% if (VITE_GOOGLE_SITE_VERIFICATION) { %>
     <meta
       name="google-site-verification"
-      content="%VITE_GOOGLE_SITE_VERIFICATION%"
+      content="<%= VITE_GOOGLE_SITE_VERIFICATION %>"
     />
+    <% } %>
 
     <!--
       Google Analytics is intentionally NOT bootstrapped here. It's loaded
