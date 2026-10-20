@@ -21,37 +21,37 @@ describe('ResumeMenu', () => {
   it('is a single collapsed control until opened', () => {
     render(<ResumeMenu />);
     expect(
-      screen.getByRole('button', { name: /résumé options/i }),
+      screen.getByRole('button', { name: /resume options/i }),
     ).toHaveAttribute('aria-expanded', 'false');
     expect(screen.queryByRole('menuitem')).toBeNull();
   });
 
   it('opens a View / Download menu on click', () => {
     render(<ResumeMenu />);
-    fireEvent.click(screen.getByRole('button', { name: /résumé options/i }));
+    fireEvent.click(screen.getByRole('button', { name: /resume options/i }));
     expect(screen.getByRole('menuitem', { name: /view/i })).toBeInTheDocument();
     expect(
       screen.getByRole('menuitem', { name: /download/i }),
     ).toBeInTheDocument();
   });
 
-  it('View opens the résumé in a new tab', () => {
+  it('View opens the resume in a new tab', () => {
     render(<ResumeMenu />);
-    fireEvent.click(screen.getByRole('button', { name: /résumé options/i }));
+    fireEvent.click(screen.getByRole('button', { name: /resume options/i }));
     fireEvent.click(screen.getByRole('menuitem', { name: /view/i }));
     expect(viewResume).toHaveBeenCalledTimes(1);
   });
 
   it('Download triggers the file download', () => {
     render(<ResumeMenu />);
-    fireEvent.click(screen.getByRole('button', { name: /résumé options/i }));
+    fireEvent.click(screen.getByRole('button', { name: /resume options/i }));
     fireEvent.click(screen.getByRole('menuitem', { name: /download/i }));
     expect(downloadResume).toHaveBeenCalledTimes(1);
   });
 
   it('closes on Escape', async () => {
     render(<ResumeMenu />);
-    fireEvent.click(screen.getByRole('button', { name: /résumé options/i }));
+    fireEvent.click(screen.getByRole('button', { name: /resume options/i }));
     expect(screen.getAllByRole('menuitem')).toHaveLength(2);
     fireEvent.keyDown(document, { key: 'Escape' });
     await waitFor(() =>

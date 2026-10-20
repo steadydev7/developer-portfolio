@@ -10,6 +10,12 @@ const openTerminal = () => {
   fireEvent.click(screen.getByLabelText(/open interactive terminal/i));
 };
 
+const run = (command) => {
+  const input = screen.getByLabelText('Terminal command input');
+  fireEvent.change(input, { target: { value: command } });
+  fireEvent.keyDown(input, { key: 'Enter' });
+};
+
 describe('Terminal', () => {
   it('is closed by default', () => {
     render(<Terminal theme="light" toggleTheme={vi.fn()} />);
@@ -58,6 +64,40 @@ describe('Terminal', () => {
     fireEvent.keyDown(input, { key: 'ArrowUp' });
 
     expect(input.value).toBe('whoami');
+  });
+
+  it('whoami describes Noah from the resume data', () => {
+    render(<Terminal theme="light" toggleTheme={vi.fn()} />);
+    openTerminal();
+    run('whoami');
+
+    expect(
+      screen.getByText('Noah Thomas — Senior AI Software Engineer'),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/^Most recently /)).toBeInTheDocument();
+  });
+
+  it('says so instead of opening a LinkedIn profile that is not listed', () => {
+    const open = vi.spyOn(window, 'open').mockImplementation(() => null);
+    render(<Terminal theme="light" toggleTheme={vi.fn()} />);
+    openTerminal();
+    run('linkedin');
+
+    expect(
+      screen.getByText('No LinkedIn profile listed yet.'),
+    ).toBeInTheDocument();
+    expect(open).not.toHaveBeenCalled();
+    open.mockRestore();
+  });
+
+  it('does not offer to open a section that is hidden', () => {
+    render(<Terminal theme="light" toggleTheme={vi.fn()} />);
+    openTerminal();
+    run('open testimonials');
+
+    expect(
+      screen.getByText("open: unknown section 'testimonials'"),
+    ).toBeInTheDocument();
   });
 
   it('closes on Escape', async () => {

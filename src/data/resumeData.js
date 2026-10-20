@@ -1,36 +1,40 @@
 import {
   faGithub,
-  faDiscord,
   faPython,
-  faJava,
   faJs,
   faReact,
   faAws,
   faDocker,
-  faGit,
-  faLinux,
+  faGitAlt,
   faHtml5,
   faCss3,
-  faBootstrap,
   faNodeJs,
-  faSass,
-  faMicrosoft,
+  faGoogle,
+  faVuejs,
+  faWordpress,
+  faCloudflare,
 } from '@fortawesome/free-brands-svg-icons';
 import {
   faDatabase,
-  faCode,
-  faCogs,
+  faLeaf,
   faLayerGroup,
-  faFlask,
-  faCubes,
+  faMagnifyingGlass,
+  faVectorSquare,
+  faWandMagicSparkles,
+  faBrain,
+  faBookOpen,
+  faPlug,
+  faMicrochip,
+  faSliders,
+  faFaceSmile,
+  faKeyboard,
+  faLink,
+  faRobot,
   faNetworkWired,
-  faCloud,
-  faCodeBranch,
-  faFireAlt,
   faServer,
-  faLock,
-  faTerminal,
   faGears,
+  faInfinity,
+  faN,
   faSpider,
   faBolt,
   faArrowsRotate,
@@ -38,257 +42,189 @@ import {
   faRocket,
 } from '@fortawesome/free-solid-svg-icons';
 
+// `cgpa` is optional; the Education card hides that line without it.
 export const education = {
-  school: 'Modern Academy in Maadi',
-  degree: 'Bachelor of Computer Science',
-  date: '2021 - 2025',
-  location: 'Cairo, Egypt',
-  url: 'https://mng.modern-academy.edu.eg/',
-  cgpa: '3.6 / 4.0',
+  school: 'Nanyang Technological University',
+  degree: "Bachelor's Degree in Computer Science",
+  date: 'Jul 2013 – Jun 2017',
+  location: 'Singapore',
+  url: 'https://www.ntu.edu.sg/',
 };
 
+// Newest first; the Experience timeline renders them in this order. `url`,
+// `type`, `summary`, `bullets` and `stack` are optional (no `url` shows the
+// company as plain text). `stack` only names what that job's own text names.
 export const experiences = [
   {
-    company: 'Beshara Group',
-    role: 'Java Developer',
-    type: 'Full Time',
-    date: 'Nov 2025 – Present',
-    location: 'Cairo, Egypt',
-    url: 'https://ebeshara.com/',
+    company: 'Contextual AI',
+    role: 'Senior AI Backend Engineer',
+    date: 'Feb 2024 – Aug 2026',
+    location: 'Mountain View, CA',
+    url: 'https://contextual.ai',
+    stack: ['Python', 'LLMs', 'NLP', 'REST', 'GraphQL', 'React', 'CI/CD'],
+    summary:
+      'Architected and delivered enterprise conversational AI platforms, integrating LLM/NLP pipelines with scalable Python backends and cloud-native infrastructure to power intelligent automation across global enterprise deployments.',
+    bullets: [
+      'Built end-to-end conversational AI agents handling complex business workflows across 4 product lines, engineering LLM/NLP pipelines tailored to high-stakes enterprise use cases.',
+      'Developed scalable Python microservices and REST/GraphQL APIs supporting 50K+ concurrent requests, achieving a 40% reduction in average response latency.',
+      'Led full-stack feature delivery by coupling React frontend components with AI-driven backend logic, cutting time-to-feature by 30%.',
+      'Collaborated with product, UX, and platform leadership to translate business requirements into production-ready AI solutions, consistently shipping on schedule.',
+      'Optimized high-volume deployments to maintain 99.9% uptime across 6+ enterprise channels, improving system resilience under sustained load.',
+      'Owned the full SDLC — architecture, implementation, CI/CD, QA, and post-release iteration — for mission-critical conversational AI systems.',
+    ],
   },
   {
-    company: 'Django Software Foundation',
-    role: 'Open Source Contributor',
-    type: 'Volunteer',
-    date: 'Jan 2025 – Jan 2026',
-    location: 'Remote',
-    url: 'https://www.djangoproject.com',
+    company: 'Simon AI',
+    role: 'AI Software Engineer',
+    date: 'Dec 2019 – Dec 2023',
+    location: 'New York, NY',
+    url: 'https://www.simon.ai',
+    stack: ['Python', 'FastAPI', 'RAG', 'LLMs', 'React', 'Observability'],
+    summary:
+      'Delivered production-ready AI systems end-to-end, applying RAG architectures, Python microservices, and React-based interfaces to accelerate enterprise automation and knowledge discovery workflows.',
+    bullets: [
+      'Built full-stack AI applications from the ground up across 3 core products, pairing LLM-powered Python backends with React frontends for enterprise user workflows.',
+      'Designed and implemented RAG pipelines connected to internal knowledge bases, improving answer accuracy and reducing hallucinations across 10K+ daily queries.',
+      'Developed high-throughput FastAPI microservices achieving sub-100ms response times with 99.95% availability under sustained enterprise load.',
+      'Integrated third-party platforms and internal tooling to embed real-time automation into existing enterprise ecosystems, eliminating 20+ hours of weekly manual work.',
+      'Established logging, tracing, and alerting pipelines that reduced mean time to resolution (MTTR) by 35% across cloud-based production environments.',
+    ],
   },
   {
-    company: 'Mercor',
-    role: 'Software Engineer',
-    type: 'Contract',
-    date: 'Oct 2025 – Dec 2025',
-    location: 'Remote',
-    url: 'https://www.mercor.com',
-  },
-  {
-    company: 'Nile University',
-    role: 'AI Researcher',
-    type: 'Internship',
-    date: 'Jul 2025 – Aug 2025',
-    location: 'Cairo, Egypt',
-    url: 'https://www.nu.edu.eg',
-  },
-  {
-    company: 'Orange Digital Center',
-    role: 'Software Engineer',
-    type: 'Internship',
-    date: 'Sep 2024 – Oct 2024',
-    location: 'Cairo, Egypt',
-    url: 'https://www.orangedigitalcenters.com/country/EG/home',
-  },
-  {
-    company: 'Nokia',
-    role: 'Software Engineer',
-    type: 'Internship',
-    date: 'Aug 2023 – Oct 2023',
-    location: 'Cairo, Egypt',
-    url: 'https://www.nokia.com/',
+    company: 'SimuHealth',
+    role: 'Full-Stack AI Engineer',
+    date: 'Sep 2017 – Nov 2019',
+    location: 'Vancouver, BC',
+    stack: ['Python', 'React', 'TypeScript', 'Snowflake', 'LLMs', 'CI/CD'],
+    summary:
+      'Spearheaded development of AI-powered data activation platforms, fusing first-party data pipelines, LLM intelligence, and modern web interfaces to unlock personalized marketing at enterprise scale.',
+    bullets: [
+      'Built full-stack features spanning data pipelines, backend services, and React/TypeScript interfaces to power customer segmentation and audience activation across enterprise marketing workflows.',
+      'Authored Python APIs on top of Snowflake and cloud data warehouses, enabling AI-driven audience generation and real-time data access for 8 marketing teams.',
+      'Integrated LLM-based intelligence into core platform workflows, enabling hyper-personalization across 50+ customer segments and expanding automation coverage platform-wide.',
+      'Hardened CI/CD pipelines and deployment configurations, reducing release cycle time by 25% and cutting production incidents by 40%.',
+    ],
   },
 ];
 
-// Companies that interviewed Ahmed or had a recruiter reach out — not
+// Companies that interviewed you or had a recruiter reach out — not
 // employers, so this stays name-only rather than claiming a role/date like
-// `experiences` does.
-export const interviewedCompanies = [
-  'Capgemini',
-  'xAI',
-  'Google',
-  'Amazon',
-  'PwC',
-  'Shopify',
-  'Siemens',
-  'Ramp',
-  'Deloitte',
-  'Optiver',
-  'Snowflake',
-  'ServiceNow',
-];
+// `experiences` does. Logos come from src/assets/images/logos/<slug>.*
+// (e.g. 'Google' -> google.png). The Interview Experience section is hidden
+// while this is empty.
+export const interviewedCompanies = [];
 
 // `featured` projects render first, and the first card is the wide one in
-// the Featured Work grid. `category` is the label on the card's cover. The
-// icon floating on the cover is an optional `image` (a path, or drop a file
-// at src/assets/images/projects/<slug>.png where <slug> is the name
-// lower-cased with non-alphanumerics as "_", e.g. egypt_metro_backend.png —
-// it's picked up automatically); without one it falls back to the initials.
-// A `cover` screenshot fills the whole cover instead of the icon.
+// the Featured Work grid. `category` is the label on the card's cover.
+// `liveUrl` is the site the card opens; `url` (a GitHub repo) is optional
+// and adds the GitHub icon. The cover is a screenshot dropped at
+// src/assets/images/projects/covers/<slug>.webp (or an explicit `cover`),
+// else a floating icon from src/assets/images/projects/<slug>.png (or
+// `image`), else the initials — <slug> is the name lower-cased with
+// non-alphanumerics as "_", e.g. steer_health.
+//
+// `tech` is what each live site is verifiably built on, checked 2026-10-20
+// against its response headers and its own JS/CSS bundles (plus, for
+// ChatWisp, the voice providers its page names) — swap in what you
+// actually worked with.
 export const projects = [
   {
-    name: 'Egypt Metro Backend',
-    url: 'https://github.com/Egypt-Metro/backend',
+    name: 'ChatWisp',
+    liveUrl: 'https://chatwisp.ai/',
     featured: true,
-    category: 'Backend',
-    // Verified against the repo's own README badges + requirements.txt: it's
-    // a pure Django REST Framework API (django-cors-headers confirms a
-    // separate frontend consumes it, not templates), with Channels/Redis
-    // behind the "real-time train tracking" claim below — not the stale
-    // JavaScript/HTML/CSS tags this used to carry.
-    tech: [
-      'Python',
-      'Django',
-      'Django REST Framework',
-      'PostgreSQL',
-      'Docker',
-      'Channels',
-    ],
+    category: 'AI Surveys',
+    tech: ['Next.js', 'React', 'Tailwind', 'Deepgram', 'ElevenLabs'],
     description:
-      'Scalable Django backend serving millions of users with 60+ RESTful APIs, real-time train tracking, and secure ticketing.',
+      'AI-moderated surveys and forms — respondents answer by voice or chat while an AI interviewer asks follow-up questions, and results can be queried in plain English.',
   },
   {
-    name: 'Horizon',
-    url: 'https://github.com/AhmedNassar7/horizon',
-    category: 'Web App',
-    liveUrl: 'https://ahmednassar7.github.io/horizon/',
-    tech: ['React', 'TypeScript', 'Vite', 'TanStack Query', 'Zustand', 'PWA'],
+    name: 'Hoory',
+    liveUrl: 'https://hoory.com/',
+    category: 'Customer Support AI',
+    tech: ['Nuxt', 'Vue', 'Tailwind', 'AWS'],
     description:
-      'Installable weather + world-time PWA — live conditions, 7-day forecast, and air quality for any city, 100% client-side with zero backend.',
+      'All-in-one AI customer support platform: AI assistant, chatbot builder, live chat, call center and an omnichannel inbox, with multilingual text and audio support.',
   },
   {
-    name: 'PDF Toolkit',
-    url: 'https://github.com/AhmedNassar7/toolkit',
-    category: 'Web Tools',
-    liveUrl: 'https://ahmednassar7.github.io/toolkit/',
-    // Verified against the repo's own Developer Guide tech-stack table —
-    // Node.js + Docker are real (the optional self-hosted LibreOffice
-    // convert-service), but Supabase doesn't appear anywhere in the repo;
-    // swapped for react-router-dom, which the app actually uses.
-    tech: [
-      'React',
-      'TypeScript',
-      'Node.js',
-      'Docker',
-      'Tailwind',
-      'React Router',
-    ],
+    name: 'ZyraTalk',
+    liveUrl: 'https://www.zyratalk.com/',
+    category: 'Voice AI',
+    tech: ['WordPress', 'Elementor', 'Cloudflare'],
     description:
-      '27 client-side PDF/image/SVG tools — merge, split, compress, encrypt, convert — with zero server storage.',
+      'AI answering service for home-service businesses — answers calls and chats 24/7, books jobs into tools like ServiceTitan and Housecall Pro, and follows up by call and text.',
   },
   {
-    name: 'Tracker',
-    url: 'https://github.com/AhmedNassar7/tracker',
-    category: 'Automation',
-    liveUrl: 'https://ahmednassar7.github.io/tracker/',
-    // Verified against the repo's own README + site/package.json: an hourly
-    // GitHub Actions pipeline (stdlib-only Python, no paid APIs) scrapes
-    // 15+ job boards/ATS APIs into the repo itself as JSON/Markdown, and an
-    // Astro + React site serves search and bookmarking on top of it.
-    tech: [
-      'Python',
-      'TypeScript',
-      'Astro',
-      'React',
-      'Tailwind',
-      'GitHub Actions',
-    ],
+    name: 'Steer Health',
+    liveUrl: 'https://steerhealth.io/',
+    category: 'Healthcare AI',
+    tech: ['React', 'Vite', 'Tailwind'],
     description:
-      'Hourly-updated tracker of 4,000+ software engineering jobs, internships, and hackathons from 15+ sources — zero-cost automation with a searchable, bookmarkable web app.',
+      'AI patient access platform for health systems — a voice front desk that verifies insurance and books visits into Epic, Cerner or athenahealth, plus referral and revenue-cycle automation.',
+  },
+  {
+    name: 'Clerie',
+    liveUrl: 'https://www.clerie.ai/',
+    category: 'Health Tech',
+    tech: ['Next.js', 'React', 'Tailwind', 'AWS'],
+    description:
+      'AI-powered EHR for therapy practices — drafts session notes and treatment plans, checks billing codes and drafts denial appeals, with scheduling, telehealth and credentialing built in.',
   },
 ];
 
-export const achievements = [
-  {
-    title: 'Individual Member, Django Software Foundation',
-    // Reuses the same transparent django_software_foundation.svg shown for
-    // the Django Software Foundation experience entry, so the two stay
-    // pixel-for-pixel consistent instead of carrying separate art.
-    org: 'Django Software Foundation',
-    secondaryUrl:
-      'https://www.djangoproject.com/foundation/individual-members/',
-    secondaryLabel: 'DSF Members Page',
-    bullets: [
-      'Recognized as a Much-Appreciated Contributor in the Django Authors and selected as an Individual Member of the Django Software Foundation, after authoring 24 pull requests to Django core with 10 merged.',
-    ],
-  },
-  {
-    title: 'Founder, Software Engineering Community',
-    // Matches src/assets/images/logos/swe_community.png.
-    org: 'SWE Community',
-    url: 'https://github.com/AhmedNassar7/Software-Engineering',
-    secondaryUrl: 'https://discord.gg/N95QU2Ww3h',
-    secondaryLabel: 'Discord',
-    secondaryIcon: faDiscord,
-    bullets: [
-      'Central hub for software engineering opportunities worldwide — internships, open-source, mock interviews, and hackathons.',
-      '500+ GitHub stars and 15+ forks, with an active Discord community supporting engineers globally.',
-    ],
-  },
-  {
-    title: 'Round 2 Qualifier, Meta Hacker Cup',
-    // Matches src/assets/images/logos/meta.png.
-    org: 'Meta',
-    secondaryUrl:
-      'https://web.facebook.com/codingcompetitions/hacker-cup/2025/certificate/209508058776009',
-    secondaryLabel: 'Certificate',
-    bullets: [
-      'Ranked 714th of 13,779 (top 5%) in Round 1 and advanced to Round 2, placing 1,126th of 5,972 (top 19%) globally.',
-    ],
-  },
-];
+// Each entry: `title`, `bullets` (strings), and optionally `org` (picks the
+// logo from src/assets/images/logos/<slug>.*), `url` (GitHub link) and
+// `secondaryUrl` + `secondaryLabel` (+ `secondaryIcon`) for a second link.
+// The Achievements section is hidden while this is empty.
+export const achievements = [];
 
+// From the resume's Skills section, in its reading order. The first
+// category also fills the hero's "Stack" line (first five names), and every
+// name here doubles as a tech-stack icon on the project cards (`techIcons`).
+// Brands without a Font Awesome icon get the closest symbol (a leaf for
+// MongoDB, a smile for Hugging Face).
 export const skills = {
-  Languages: [
-    { name: 'Java', icon: faJava },
+  'Languages & Runtimes': [
     { name: 'Python', icon: faPython },
-    { name: 'C++', icon: faCode },
-    { name: 'C#', icon: faMicrosoft },
     { name: 'JavaScript', icon: faJs },
     { name: 'TypeScript', icon: faJs },
-    { name: 'SQL', icon: faDatabase },
-    { name: 'HTML', icon: faHtml5 },
-    { name: 'CSS', icon: faCss3 },
-  ],
-  Frameworks: [
-    { name: 'Django', icon: faPython },
-    { name: 'Spring Boot', icon: faJava },
-    { name: 'React', icon: faReact },
     { name: 'Node.js', icon: faNodeJs },
-    { name: 'Bootstrap', icon: faBootstrap },
-    { name: 'SCSS', icon: faSass },
-    { name: 'Firebase', icon: faFireAlt },
-    { name: 'Redux', icon: faLayerGroup },
-    { name: 'Ajax', icon: faJs },
   ],
-  Tools: [
-    { name: 'Git', icon: faGit },
-    { name: 'GitHub', icon: faGithub },
-    { name: 'Docker', icon: faDocker },
-    { name: 'Kubernetes', icon: faCloud },
-    { name: 'AWS', icon: faAws },
-    { name: 'Azure', icon: faMicrosoft },
-    { name: 'Kafka', icon: faNetworkWired },
-    { name: 'Linux', icon: faLinux },
-    { name: 'Postman', icon: faServer },
-    { name: 'Jira', icon: faCogs },
+  'AI / ML': [
+    { name: 'Generative AI', icon: faWandMagicSparkles },
+    { name: 'LLMs', icon: faBrain },
+    { name: 'RAG Architecture', icon: faBookOpen },
+    { name: 'OpenAI API', icon: faPlug },
+    { name: 'Transformer Models', icon: faMicrochip },
+    { name: 'Fine-Tuning', icon: faSliders },
+    { name: 'Google BERT', icon: faGoogle },
+    { name: 'Hugging Face', icon: faFaceSmile },
+    { name: 'Prompt Engineering', icon: faKeyboard },
+    { name: 'LangChain', icon: faLink },
+    { name: 'Agentic Workflows', icon: faRobot },
   ],
-  Databases: [
+  Frontend: [
+    { name: 'React', icon: faReact },
+    { name: 'Next.js', icon: faN },
+    { name: 'HTML/CSS', icon: faHtml5 },
+  ],
+  'Backend & APIs': [
+    { name: 'FastAPI', icon: faBolt },
+    { name: 'REST APIs', icon: faServer },
+    { name: 'WebSockets', icon: faNetworkWired },
+  ],
+  'Data & Storage': [
     { name: 'PostgreSQL', icon: faDatabase },
-    { name: 'MySQL', icon: faDatabase },
-    { name: 'Oracle', icon: faDatabase },
-    { name: 'MS SQL Server', icon: faDatabase },
-    { name: 'MongoDB', icon: faDatabase },
-    { name: 'SQLite', icon: faDatabase },
+    { name: 'MongoDB', icon: faLeaf },
+    { name: 'Redis', icon: faLayerGroup },
+    { name: 'FAISS', icon: faMagnifyingGlass },
+    { name: 'Vector Databases', icon: faVectorSquare },
   ],
-  Concepts: [
-    { name: 'OOP', icon: faCubes },
-    { name: 'SOLID', icon: faLock },
-    { name: 'Design Patterns', icon: faCogs },
-    { name: 'System Design', icon: faNetworkWired },
-    { name: 'Microservices', icon: faCubes },
-    { name: 'APIs', icon: faCodeBranch },
-    { name: 'CI/CD', icon: faTerminal },
-    { name: 'Agile', icon: faLayerGroup },
-    { name: 'Testing', icon: faFlask },
+  'Cloud & DevOps': [
+    { name: 'AWS', icon: faAws },
+    { name: 'Docker', icon: faDocker },
+    { name: 'MLOps', icon: faGears },
+    { name: 'CI/CD', icon: faInfinity },
+    { name: 'Git', icon: faGitAlt },
   ],
 };
 
@@ -313,4 +249,7 @@ export const techIcons = {
   Channels: faNetworkWired,
   PWA: faMobileScreenButton,
   'React Router': faReact,
+  Vue: faVuejs,
+  WordPress: faWordpress,
+  Cloudflare: faCloudflare,
 };

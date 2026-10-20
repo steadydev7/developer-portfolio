@@ -1,11 +1,10 @@
-// RESUME_URL is the self-hosted PDF — used for Download (and as the
-// file_download event's link_url). RESUME_VIEW_URL is a separate Google
-// Drive link for View: Drive's own viewer works everywhere regardless of a
-// visitor's local PDF-handling setup, unlike opening the raw file directly.
-export const RESUME_URL = '/assets/PDFs/Ahmed_Nassar_Resume.pdf';
-export const RESUME_VIEW_URL =
-  'https://drive.google.com/file/d/1AZ9sVmv92Bqf_8hZIC49jYnkNMwwdTUv/view?usp=sharing';
-export const RESUME_FILE_NAME = 'Ahmed_Nassar_Resume.pdf';
+// RESUME_URL is the self-hosted PDF, used for both Download (and as the
+// file_download event's link_url) and View, which opens it in a new tab with
+// the browser's own PDF viewer. Point RESUME_VIEW_URL at a hosted viewer
+// (e.g. a Google Drive share link) instead if that's ever wanted.
+export const RESUME_URL = '/assets/PDFs/Noah_Thomas_Resume.pdf';
+export const RESUME_VIEW_URL = RESUME_URL;
+export const RESUME_FILE_NAME = 'Noah_Thomas_Resume.pdf';
 
 export const downloadResume = () => {
   const link = document.createElement('a');

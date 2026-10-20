@@ -15,10 +15,15 @@ import {
   faDownload,
   faDiagramProject,
 } from '@fortawesome/free-solid-svg-icons';
-import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import {
+  faGithub,
+  faLinkedin,
+  faWhatsapp,
+} from '@fortawesome/free-brands-svg-icons';
 import { trackEvent } from '../../utils/analytics';
 import { downloadResume } from '../../utils/resume';
 import { CONTACT, socialUrl } from '../../data/contact';
+import { isSectionShown } from '../../data/sections';
 import './CommandPalette.scss';
 
 // Bootstrap's global `scroll-behavior: smooth` (from bootstrap/scss/root)
@@ -38,86 +43,101 @@ const CommandPalette = ({ theme, toggleTheme }) => {
   const triggerRef = useRef(null);
 
   const commands = useMemo(
-    () => [
-      {
-        id: 'home',
-        label: 'Go to Home',
-        icon: faHouse,
-        run: () => goTo('home'),
-      },
-      {
-        id: 'about',
-        label: 'Go to About',
-        icon: faUser,
-        run: () => goTo('about'),
-      },
-      {
-        id: 'projects',
-        label: 'Go to Projects',
-        icon: faDiagramProject,
-        run: () => goTo('projects'),
-      },
-      {
-        id: 'resume',
-        label: 'Go to Resume',
-        icon: faFileLines,
-        run: () => goTo('resume'),
-      },
-      {
-        id: 'stats',
-        label: 'Go to GitHub Stats',
-        icon: faChartLine,
-        run: () => goTo('stats'),
-      },
-      {
-        id: 'testimonials',
-        label: 'Go to Testimonials',
-        icon: faComments,
-        run: () => goTo('testimonials'),
-      },
-      {
-        id: 'contact',
-        label: 'Go to Contact',
-        icon: faEnvelope,
-        run: () => goTo('contact'),
-      },
-      {
-        id: 'theme',
-        label:
-          theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme',
-        icon: theme === 'dark' ? faSun : faMoon,
-        run: toggleTheme,
-      },
-      {
-        id: 'download-resume',
-        label: 'Download Resume (PDF)',
-        icon: faDownload,
-        run: downloadResume,
-      },
-      {
-        id: 'github',
-        label: 'Open GitHub Profile',
-        icon: faGithub,
-        run: () =>
-          window.open(socialUrl('GitHub'), '_blank', 'noopener,noreferrer'),
-      },
-      {
-        id: 'linkedin',
-        label: 'Open LinkedIn Profile',
-        icon: faLinkedin,
-        run: () =>
-          window.open(socialUrl('LinkedIn'), '_blank', 'noopener,noreferrer'),
-      },
-      {
-        id: 'email',
-        label: 'Email Noah',
-        icon: faEnvelope,
-        run: () => {
-          trackEvent('generate_lead', { lead_source: 'email_link' });
-          window.location.href = `mailto:${CONTACT.email}`;
+    () =>
+      [
+        {
+          id: 'home',
+          label: 'Go to Home',
+          icon: faHouse,
+          run: () => goTo('home'),
         },
-      },
-    ],
+        {
+          id: 'about',
+          label: 'Go to About',
+          icon: faUser,
+          run: () => goTo('about'),
+        },
+        {
+          id: 'projects',
+          label: 'Go to Projects',
+          icon: faDiagramProject,
+          run: () => goTo('projects'),
+        },
+        {
+          id: 'resume',
+          label: 'Go to Resume',
+          icon: faFileLines,
+          run: () => goTo('resume'),
+        },
+        {
+          id: 'stats',
+          label: 'Go to GitHub Stats',
+          icon: faChartLine,
+          run: () => goTo('stats'),
+        },
+        {
+          id: 'testimonials',
+          label: 'Go to Testimonials',
+          icon: faComments,
+          run: () => goTo('testimonials'),
+        },
+        {
+          id: 'contact',
+          label: 'Go to Contact',
+          icon: faEnvelope,
+          run: () => goTo('contact'),
+        },
+        {
+          id: 'theme',
+          label:
+            theme === 'dark' ? 'Switch to Light Theme' : 'Switch to Dark Theme',
+          icon: theme === 'dark' ? faSun : faMoon,
+          run: toggleTheme,
+        },
+        {
+          id: 'download-resume',
+          label: 'Download Resume (PDF)',
+          icon: faDownload,
+          run: downloadResume,
+        },
+        {
+          id: 'github',
+          label: 'Open GitHub Profile',
+          icon: faGithub,
+          run: () =>
+            window.open(socialUrl('GitHub'), '_blank', 'noopener,noreferrer'),
+        },
+        {
+          id: 'linkedin',
+          label: 'Open LinkedIn Profile',
+          icon: faLinkedin,
+          run: () =>
+            window.open(socialUrl('LinkedIn'), '_blank', 'noopener,noreferrer'),
+        },
+        {
+          id: 'whatsapp',
+          label: 'Message on WhatsApp',
+          icon: faWhatsapp,
+          run: () => {
+            trackEvent('generate_lead', { lead_source: 'whatsapp_link' });
+            window.open(socialUrl('WhatsApp'), '_blank', 'noopener,noreferrer');
+          },
+        },
+        {
+          id: 'email',
+          label: 'Email Noah',
+          icon: faEnvelope,
+          run: () => {
+            trackEvent('generate_lead', { lead_source: 'email_link' });
+            window.location.href = `mailto:${CONTACT.email}`;
+          },
+        },
+      ].filter(
+        (command) =>
+          isSectionShown(command.id) &&
+          (command.id !== 'linkedin' || socialUrl('LinkedIn')) &&
+          (command.id !== 'whatsapp' || socialUrl('WhatsApp')),
+      ),
     [theme, toggleTheme],
   );
 

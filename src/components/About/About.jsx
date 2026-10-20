@@ -1,81 +1,11 @@
-import { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPhone,
-  faEnvelope,
-  faLocationDot,
-  faClock,
-  faChevronDown,
-} from '@fortawesome/free-solid-svg-icons';
 import './About.scss';
-import {
-  isWithinWorkingHours,
-  getHourDifference,
-  getTimezoneCityName,
-} from '../../utils/timezone';
 import { useVirtualPageView } from '../../hooks/useVirtualPageView';
-import { CONTACT } from '../../data/contact';
 
-const OWNER_TIMEZONE = CONTACT.timeZone;
-const OWNER_WORKING_HOURS = CONTACT.workingHours;
-
-const contactInfo = [
-  {
-    icon: faPhone,
-    text: CONTACT.phone,
-  },
-  {
-    icon: faEnvelope,
-    text: CONTACT.email,
-  },
-  {
-    icon: faLocationDot,
-    text: CONTACT.location,
-  },
-].filter((item) => item.text);
-
+// Bio only: email, phone, location and live availability all live in the
+// Contact section, so they aren't repeated here.
 const About = () => {
   const sectionRef = useVirtualPageView('About', '/#about');
-  const [now, setNow] = useState(new Date());
-  const [timeExpanded, setTimeExpanded] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const ownerTime = now.toLocaleTimeString('en-US', {
-    timeZone: OWNER_TIMEZONE,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-  const withinWorkingHours = isWithinWorkingHours(
-    now,
-    OWNER_TIMEZONE,
-    OWNER_WORKING_HOURS,
-  );
-  const ownerCity = CONTACT.city || getTimezoneCityName(OWNER_TIMEZONE);
-  const visitorTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const visitorCity = getTimezoneCityName(visitorTimeZone);
-  const visitorTime = now.toLocaleTimeString('en-US', {
-    timeZone: visitorTimeZone,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
-  const hourDiff = getHourDifference(now, OWNER_TIMEZONE, visitorTimeZone);
-  const diffText =
-    hourDiff === 0
-      ? 'Same timezone'
-      : hourDiff > 0
-        ? `Noah is +${hourDiff} hrs ahead`
-        : `Noah is ${Math.abs(hourDiff)} hrs behind`;
-  const availabilityLabel = withinWorkingHours ? 'Available now' : 'Away';
-  const availabilityDetail = withinWorkingHours
-    ? 'Within working hours'
-    : 'Outside working hours';
 
   return (
     <section id="about" className="about-section" ref={sectionRef}>
@@ -83,98 +13,19 @@ const About = () => {
         <h2 className="section-title text-center mb-5" data-aos="fade-up">
           About Me
         </h2>
-        <Row className="justify-content-center mb-4">
+        <Row className="justify-content-center">
           <Col lg={9} className="text-center" data-aos="fade-up">
             <p className="about-bio">
-              Software Engineer specializing in backend development and
-              open-source contributions, building large-scale enterprise systems
-              from national to global reach. DSF Individual Member and
-              Much-Appreciated Contributor with 24 pull requests to Django core
-              (10 merged). I also founded a Software Engineering community on
-              GitHub and Discord helping engineers worldwide advance their
-              careers.
+              Software engineer and AI developer with 7+ years of experience
+              architecting and deploying intelligent, data-driven systems. I use
+              Python for backend and ML pipelines and JavaScript/TypeScript for
+              full-stack AI integration, with deep expertise in Generative AI
+              and LLMs — transformer models, Google BERT, and the Hugging Face
+              ecosystem for fine-tuning and deployment — and LangChain for
+              multi-step agentic workflows that connect LLMs with APIs and
+              proprietary data. I focus on AI that is production-ready,
+              scalable, and grounded in practical utility.
             </p>
-          </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <Col md={6} className="mb-4" data-aos="fade-up">
-            <div className="about-card">
-              <h3 className="column-title">Contact Information</h3>
-              <ul className="list-unstyled">
-                {contactInfo.map((item, index) => (
-                  <li key={index} className="info-item">
-                    <FontAwesomeIcon icon={item.icon} className="info-icon" />
-                    <span>{item.text}</span>
-                  </li>
-                ))}
-                <li>
-                  <button
-                    type="button"
-                    className="info-item info-item-toggle"
-                    onClick={() => setTimeExpanded((prev) => !prev)}
-                    aria-expanded={timeExpanded}
-                    aria-controls="local-time-detail"
-                  >
-                    <FontAwesomeIcon icon={faClock} className="info-icon" />
-                    <span className="info-time-block">
-                      <span className="info-time-primary">
-                        {ownerTime}
-                        <span
-                          className={`availability-pill ${withinWorkingHours ? 'online' : 'offline'}`}
-                        >
-                          <span
-                            className="availability-dot"
-                            aria-hidden="true"
-                          />
-                          {availabilityLabel}
-                        </span>
-                      </span>
-                    </span>
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className={`toggle-chevron ${timeExpanded ? 'expanded' : ''}`}
-                    />
-                  </button>
-                  {timeExpanded && (
-                    <div id="local-time-detail" className="local-time-detail">
-                      <div className="tz-row">
-                        <span className="tz-icon" aria-hidden="true">
-                          🕐
-                        </span>
-                        <span className="tz-label">Noah ({ownerCity})</span>
-                        <span className="tz-value">{ownerTime}</span>
-                      </div>
-                      <div className="tz-row">
-                        <span className="tz-icon" aria-hidden="true">
-                          🌐
-                        </span>
-                        <span className="tz-label">You ({visitorCity})</span>
-                        <span className="tz-value">{visitorTime}</span>
-                      </div>
-                      <div className="tz-row">
-                        <span className="tz-icon" aria-hidden="true">
-                          ⏱
-                        </span>
-                        <span className="tz-label">Difference</span>
-                        <span className="tz-value">{diffText}</span>
-                      </div>
-                      <div className="tz-row">
-                        <span
-                          className={`tz-status-dot ${withinWorkingHours ? 'online' : 'offline'}`}
-                          aria-hidden="true"
-                        />
-                        <span className="tz-label">Availability</span>
-                        <span
-                          className={`tz-value availability-text ${withinWorkingHours ? 'online' : 'offline'}`}
-                        >
-                          {availabilityDetail}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                </li>
-              </ul>
-            </div>
           </Col>
         </Row>
       </Container>

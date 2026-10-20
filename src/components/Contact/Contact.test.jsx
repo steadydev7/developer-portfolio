@@ -46,6 +46,28 @@ describe('Contact', () => {
     vi.restoreAllMocks();
   });
 
+  it('links the WhatsApp number to a wa.me chat in a new tab', () => {
+    render(<Contact />);
+    const link = screen.getByText(CONTACT.whatsapp).closest('a');
+
+    expect(link).toHaveAttribute(
+      'href',
+      `https://wa.me/${CONTACT.whatsapp.replace(/\D/g, '')}`,
+    );
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('lists the phone number as a tap-to-call link under the email', () => {
+    render(<Contact />);
+    const phone = screen.getByText(CONTACT.phone);
+
+    expect(phone.closest('a')).toHaveAttribute(
+      'href',
+      `tel:${CONTACT.phone.replace(/[^\d+]/g, '')}`,
+    );
+  });
+
   it('copies the email address and confirms it', async () => {
     render(<Contact />);
 

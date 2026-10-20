@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { Container, Row, Col, Form, Alert } from 'react-bootstrap';
 import { AnimatePresence, m } from 'framer-motion';
 import { addMessage } from '../../firebase';
-import { CONTACT } from '../../data/contact';
+import { CONTACT, whatsappUrl } from '../../data/contact';
 import {
   isWithinWorkingHours,
   getTimezoneCityName,
@@ -30,7 +30,9 @@ import {
   faPaperPlane,
   faChevronDown,
   faLocationDot,
+  faPhone,
 } from '@fortawesome/free-solid-svg-icons';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import GradientText from '../GradientText/GradientText';
 import ConfettiBurst from './ConfettiBurst';
 import './Contact.scss';
@@ -525,6 +527,43 @@ const Contact = () => {
                       </button>
                     </div>
                   </div>
+                  {CONTACT.phone && (
+                    <div className="contact-detail">
+                      <span className="contact-detail-label">
+                        <FontAwesomeIcon icon={faPhone} /> Phone
+                      </span>
+                      <div className="contact-detail-field">
+                        <a
+                          href={`tel:${CONTACT.phone.replace(/[^\d+]/g, '')}`}
+                          className="contact-detail-value"
+                        >
+                          {CONTACT.phone}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                  {CONTACT.whatsapp && (
+                    <div className="contact-detail">
+                      <span className="contact-detail-label">
+                        <FontAwesomeIcon icon={faWhatsapp} /> WhatsApp
+                      </span>
+                      <div className="contact-detail-field">
+                        <a
+                          href={whatsappUrl(CONTACT.whatsapp)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="contact-detail-value"
+                          onClick={() =>
+                            trackEvent('generate_lead', {
+                              lead_source: 'whatsapp_link',
+                            })
+                          }
+                        >
+                          {CONTACT.whatsapp}
+                        </a>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <button

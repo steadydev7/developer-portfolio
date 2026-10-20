@@ -7,6 +7,7 @@ import { trackEvent } from '../../utils/analytics';
 import { useMagneticHover } from '../../hooks/useMagneticHover';
 import Signature from '../Signature/Signature';
 import { CONTACT } from '../../data/contact';
+import { isSectionShown } from '../../data/sections';
 
 const FOOTER_NAV_ITEMS = [
   { id: 'home', label: 'Home' },
@@ -15,7 +16,7 @@ const FOOTER_NAV_ITEMS = [
   { id: 'resume', label: 'Resume' },
   { id: 'testimonials', label: 'Testimonials' },
   { id: 'contact', label: 'Contact' },
-];
+].filter((item) => isSectionShown(item.id));
 
 // A separate component (not inlined in the .map() below) because hooks —
 // useMagneticHover included — can't be called inside a loop; each icon

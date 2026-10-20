@@ -68,7 +68,7 @@ Create `.env.development` in the project root (git-ignored). Same variables need
 
 - **Path alias** — `@` → `src/` (app and tests). Prefer `@/utils/logger` over long relative paths.
 - **Colocation** — each `src/components/<Name>/` holds its `.jsx`, `.scss`, and `.test.jsx` together.
-- **Data-driven content** — résumé and project content lives in `src/data/resumeData.js`, read by `Resume.jsx`, `Projects.jsx`, and the terminal. Edit content there, not in components.
+- **Data-driven content** — resume and project content lives in `src/data/resumeData.js`, read by `Resume.jsx`, `Projects.jsx`, and the terminal. Edit content there, not in components.
 - **Formatting/linting are enforced** — Prettier + ESLint run in CI and via Husky pre-commit (`lint-staged`). Change the config, not individual files, if a rule feels wrong.
 - **Accessibility is linted** — `eslint-plugin-jsx-a11y` fails `npm run lint` on a11y regressions.
 

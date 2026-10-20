@@ -1,0 +1,395 @@
+// The header reuses Featured Work's eyebrow/title classes (see
+// FeaturedProjects.scss), which read --project-heading; the card and chip
+// colors match its project cards too.
+.experience-timeline {
+  --project-heading: #16182b;
+  --timeline-text: rgba(22, 24, 43, 0.86);
+  --timeline-muted: rgba(33, 53, 71, 0.74);
+  --timeline-card-bg: #ffffff;
+  --timeline-chip-bg: #eef0ff;
+  --timeline-track: rgba(0, 0, 0, 0.1);
+  --timeline-ring: rgba(0, 0, 0, 0.28);
+  // Fills the hollow dots so the rail doesn't show through them.
+  --timeline-surface: var(--light);
+  --timeline-glow: rgba(100, 108, 255, 0.55);
+
+  // Desktop: dates in a column left of the rail, the card right of it.
+  --timeline-when: 12.5rem;
+  --timeline-gutter: 4rem;
+  --timeline-rail-x: calc(var(--timeline-when) + var(--timeline-gutter) / 2);
+  --timeline-dot: 14px;
+  --timeline-card-pad: 1.75rem;
+  --timeline-role-size: clamp(1.25rem, 1rem + 0.8vw, 1.55rem);
+
+  margin-bottom: 4rem;
+
+  .dark-theme & {
+    --project-heading: #ffffff;
+    --timeline-text: rgba(255, 255, 255, 0.88);
+    --timeline-muted: rgba(255, 255, 255, 0.72);
+    --timeline-card-bg: #2a2e33;
+    --timeline-chip-bg: #363a52;
+    --timeline-track: rgba(255, 255, 255, 0.12);
+    --timeline-ring: rgba(255, 255, 255, 0.35);
+    --timeline-surface: var(--dark);
+  }
+
+  .projects-showcase__header {
+    margin-bottom: 2.5rem;
+  }
+
+  // Below lg the date column would squeeze the card, so the dates move
+  // into a line above it and the rail moves to the left edge.
+  @media (max-width: 991.98px) {
+    --timeline-when: 0px;
+    --timeline-gutter: 2.5rem;
+    --timeline-rail-x: 0.5rem;
+    --timeline-card-pad: 1.4rem;
+  }
+
+  @media (max-width: 575.98px) {
+    --timeline-gutter: 2rem;
+    --timeline-rail-x: 0.45rem;
+    --timeline-dot: 12px;
+    --timeline-card-pad: 1.15rem;
+  }
+}
+
+.experience-timeline__track {
+  position: relative;
+}
+
+.experience-timeline__rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--timeline-rail-x) - 1px);
+  width: 2px;
+  border-radius: 1px;
+  background: var(--timeline-track);
+}
+
+// Both scaled/positioned from the same scroll progress, so the fill always
+// ends right under the head.
+.experience-timeline__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(to bottom, var(--secondary), var(--primary));
+  transform-origin: top;
+}
+
+.experience-timeline__head {
+  position: absolute;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-radius: 50%;
+  background: var(--primary);
+  box-shadow:
+    0 0 0 4px rgba(100, 108, 255, 0.18),
+    0 0 16px 3px var(--timeline-glow);
+}
+
+.experience-timeline__list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.experience-entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--timeline-when) minmax(0, 1fr);
+  column-gap: var(--timeline-gutter);
+
+  @media (max-width: 991.98px) {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 0.75rem;
+    padding-left: var(--timeline-gutter);
+  }
+}
+
+// On desktop it sits level with the role's first line (1.25 line height,
+// so its middle is 0.625 of the font size); stacked, with the date line.
+.experience-entry__dot {
+  position: absolute;
+  top: calc(
+    var(--timeline-card-pad) + var(--timeline-role-size) *
+      0.625 - var(--timeline-dot) / 2
+  );
+  left: calc(var(--timeline-rail-x) - var(--timeline-dot) / 2);
+  width: var(--timeline-dot);
+  height: var(--timeline-dot);
+  border-radius: 50%;
+  border: 2px solid var(--timeline-ring);
+  background: var(--timeline-surface);
+  transition:
+    background 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.35s ease;
+
+  .is-reached & {
+    border-color: var(--primary);
+    background: var(--primary);
+  }
+
+  .is-current & {
+    box-shadow: 0 0 12px 2px var(--timeline-glow);
+    transform: scale(1.15);
+  }
+
+  @media (max-width: 991.98px) {
+    top: calc(0.75rem - var(--timeline-dot) / 2);
+  }
+}
+
+.experience-entry__when {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  padding-top: calc(
+    var(--timeline-card-pad) + var(--timeline-role-size) * 0.625 - 0.75rem
+  );
+  text-align: right;
+
+  p {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+  }
+
+  svg {
+    color: var(--primary-text);
+    font-size: 0.85em;
+  }
+
+  @media (max-width: 991.98px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    padding-top: 0;
+    text-align: left;
+  }
+}
+
+.experience-entry__date {
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--project-heading);
+}
+
+.experience-entry__tenure {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--timeline-chip-bg);
+  color: var(--primary-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.experience-entry__place {
+  font-size: 0.9rem;
+  color: var(--timeline-muted);
+}
+
+.experience-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  padding: var(--timeline-card-pad);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: var(--timeline-card-bg);
+  box-shadow: var(--glass-shadow);
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+
+  .is-current & {
+    border-color: rgba(100, 108, 255, 0.45);
+    box-shadow:
+      0 0 0 1px rgba(100, 108, 255, 0.25),
+      0 14px 36px rgba(100, 108, 255, 0.14);
+  }
+
+  // Wide enough for the stack to get its own column, which also keeps the
+  // bullet lines to a readable length.
+  @media (min-width: 1200px) {
+    grid-template-columns: minmax(0, 1fr) 12.5rem;
+    column-gap: 2.25rem;
+  }
+}
+
+.experience-card__header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+
+  // Overrides the 48px resume logos (Resume.scss loads after this file and
+  // ties on specificity, hence the extra class).
+  .experience-card & .org-logo-photo {
+    height: 44px;
+    max-width: 120px;
+  }
+
+  .experience-card & .org-logo-fallback {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+  }
+}
+
+.experience-card__role {
+  margin: 0;
+  font-size: var(--timeline-role-size);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--project-heading);
+}
+
+.experience-card__company {
+  margin: 0.2rem 0 0;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--primary-text);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+  }
+}
+
+.experience-card__summary {
+  margin: 1.1rem 0 0;
+  line-height: 1.65;
+  color: var(--timeline-text);
+}
+
+.experience-card__bullets {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    position: relative;
+    padding-left: 1.25rem;
+    font-size: 0.97rem;
+    line-height: 1.65;
+    color: var(--timeline-muted);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0.62em;
+      left: 0.1rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+    }
+
+    & + li {
+      margin-top: 0.5rem;
+    }
+  }
+}
+
+.experience-card__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 0.9rem;
+  padding: 0.35rem 0.85rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--primary-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease;
+
+  svg {
+    font-size: 0.75em;
+    transition: transform 0.25s ease;
+  }
+
+  &.is-expanded svg {
+    transform: rotate(180deg);
+  }
+
+  &:hover {
+    background: var(--timeline-chip-bg);
+    border-color: transparent;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+.experience-card__aside {
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--glass-border);
+
+  @media (min-width: 1200px) {
+    margin-top: 0;
+    padding: 0 0 0 2.25rem;
+    border-top: none;
+    border-left: 1px solid var(--glass-border);
+  }
+}
+
+.experience-card__aside-label {
+  margin: 0 0 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--timeline-muted);
+}
+
+.experience-card__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    background: var(--timeline-chip-bg);
+    color: var(--primary-text);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .experience-entry__dot,
+  .experience-card,
+  .experience-card__toggle svg {
+    transition: none;
+  }
+}

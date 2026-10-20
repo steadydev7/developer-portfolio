@@ -16,7 +16,7 @@ import {
 import { trackEvent } from '../../utils/analytics';
 import './ResumeMenu.scss';
 
-// One navbar control for the résumé: the button opens a two-item menu
+// One navbar control for the resume: the button opens a two-item menu
 // (View / Download) rather than adding two separate items. The same actions
 // also live in the Resume section and the command palette.
 const ResumeMenu = () => {
@@ -70,10 +70,10 @@ const ResumeMenu = () => {
         onClick={() => setOpen((value) => !value)}
         aria-haspopup="menu"
         aria-expanded={open}
-        aria-label="Résumé options"
+        aria-label="Resume options"
       >
         <FontAwesomeIcon icon={faFilePdf} className="resume-menu__file-icon" />
-        <span className="resume-menu__label">Résumé</span>
+        <span className="resume-menu__label">Resume</span>
         <FontAwesomeIcon
           icon={faChevronDown}
           className={`resume-menu__caret${open ? ' is-open' : ''}`}

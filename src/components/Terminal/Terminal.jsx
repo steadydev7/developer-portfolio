@@ -8,13 +8,14 @@ import {
   achievements,
   skills,
 } from '../../data/resumeData';
-import { downloadResume } from '../../utils/resume';
+import { downloadResume, RESUME_FILE_NAME } from '../../utils/resume';
 import { trackEvent } from '../../utils/analytics';
 import {
   getTimezoneAbbreviation,
   getTimezoneOffsetMinutes,
 } from '../../utils/timezone';
 import { CONTACT, socialUrl } from '../../data/contact';
+import { isSectionShown } from '../../data/sections';
 import './Terminal.scss';
 
 // Same zone the About section's live-availability widget uses — keep the
@@ -31,18 +32,36 @@ const formatUtcOffset = (offsetMinutes) => {
 
 const PROMPT = 'guest@noah-thomas:~$';
 
-const SECTION_ALIASES = {
-  home: 'home',
-  about: 'about',
-  projects: 'projects',
-  resume: 'resume',
-  stats: 'stats',
-  github: 'stats',
-  testimonials: 'testimonials',
-  contact: 'contact',
-};
+const SECTION_ALIASES = Object.fromEntries(
+  Object.entries({
+    home: 'home',
+    about: 'about',
+    projects: 'projects',
+    resume: 'resume',
+    stats: 'stats',
+    github: 'stats',
+    testimonials: 'testimonials',
+    contact: 'contact',
+  }).filter(([, id]) => isSectionShown(id)),
+);
+const OPEN_TARGETS = [
+  'about',
+  'projects',
+  'resume',
+  'stats',
+  'testimonials',
+  'contact',
+]
+  .filter(isSectionShown)
+  .join(', ');
+const LINKEDIN_URL = socialUrl('LinkedIn');
 
-// Pixel-grid "A N" monogram, rendered as real DOM cells (not monospace
+// The latest job and the year the first one started, both from
+// resumeData.js, so whoami / neofetch follow the Experience section.
+const [LATEST_JOB] = experiences;
+const CAREER_START = experiences.at(-1)?.date.match(/\d{4}/)?.[0];
+
+// Pixel-grid "N T" monogram, rendered as real DOM cells (not monospace
 // characters). Two earlier attempts used ASCII/Unicode characters for the
 // logo — one drifted out of alignment because the block glyph wasn't
 // rendered at a truly fixed width in this font, and a fix for that turned
@@ -51,16 +70,6 @@ const SECTION_ALIASES = {
 // Every fact in the info column is real, verified data pulled from the same
 // source as the rest of the site (see src/data/resumeData.js and
 // Stats.jsx), not placeholder text.
-const A_PIXELS = [
-  [0, 1, 1, 1, 0],
-  [1, 0, 0, 0, 1],
-  [1, 0, 0, 0, 1],
-  [1, 1, 1, 1, 1],
-  [1, 0, 0, 0, 1],
-  [1, 0, 0, 0, 1],
-  [1, 0, 0, 0, 1],
-  [1, 0, 0, 0, 1],
-];
 const N_PIXELS = [
   [1, 0, 0, 0, 1],
   [1, 1, 0, 0, 1],
@@ -71,7 +80,17 @@ const N_PIXELS = [
   [1, 0, 0, 1, 1],
   [1, 0, 0, 0, 1],
 ];
-const LOGO_PIXEL_ROWS = A_PIXELS.map((aRow, i) => [...aRow, 0, ...N_PIXELS[i]]);
+const T_PIXELS = [
+  [1, 1, 1, 1, 1],
+  [0, 0, 1, 0, 0],
+  [0, 0, 1, 0, 0],
+  [0, 0, 1, 0, 0],
+  [0, 0, 1, 0, 0],
+  [0, 0, 1, 0, 0],
+  [0, 0, 1, 0, 0],
+  [0, 0, 1, 0, 0],
+];
+const LOGO_PIXEL_ROWS = N_PIXELS.map((nRow, i) => [...nRow, 0, ...T_PIXELS[i]]);
 
 const NeofetchLogo = () => (
   <div className="nf-logo-grid">
@@ -116,10 +135,13 @@ const NeofetchClock = () => {
 // text.
 const buildNeofetchRows = () => [
   { label: 'OS', value: 'Maine Linux', badge: 'US' },
-  { label: 'Role', value: 'Software Engineer' },
-  { label: 'Focus', value: 'Backend & Open Source' },
-  { label: 'Languages', value: 'Java · Python · C++ · C# · JS/TS' },
-  { label: 'Uptime', value: 'since 2021' },
+  { label: 'Role', value: 'Senior AI Software Engineer' },
+  { label: 'Focus', value: 'Gen AI · LLMs · RAG · Full-Stack' },
+  {
+    label: 'Languages',
+    value: (Object.values(skills)[0] ?? []).map((s) => s.name).join(' · '),
+  },
+  { label: 'Uptime', value: CAREER_START ? `since ${CAREER_START}` : '—' },
   { label: 'Location', value: CONTACT.location },
   { label: 'Time', live: 'clock' },
   { label: 'Status', value: '● Open to Work', valueClass: 'nf-green' },
@@ -178,8 +200,10 @@ const HELP_LINES = [
   '  achievements       notable wins',
   '  contact            how to reach Noah',
   '  resume             download the resume PDF',
-  '  github / linkedin  open the profile in a new tab',
-  '  open <section>     jump to a section (about, projects, resume, stats, testimonials, contact)',
+  LINKEDIN_URL
+    ? '  github / linkedin  open the profile in a new tab'
+    : '  github             open the GitHub profile in a new tab',
+  `  open <section>     jump to a section (${OPEN_TARGETS})`,
   '  theme <dark|light> switch the site theme',
   '  neofetch           system info, but make it a portfolio',
   '  clear              clear the screen',
@@ -190,23 +214,29 @@ const buildCommands = ({ theme, toggleTheme, close }) => ({
   help: () => HELP_LINES,
 
   whoami: () => [
-    'Noah Thomas — Software Engineer',
-    'Java Developer @ Beshara Group · Django Software Foundation Individual Member',
+    'Noah Thomas — Senior AI Software Engineer',
+    'Gen AI, LLMs, RAG & Full-Stack Development',
+    ...(LATEST_JOB
+      ? [`Most recently ${LATEST_JOB.role} @ ${LATEST_JOB.company}`]
+      : []),
   ],
 
   about: () => [
-    'Software Engineer building systems at scale — enterprise government',
-    "platforms and a Django backend powering Egypt's Metro for millions of",
-    'riders. DSF Individual Member and Much-Appreciated Contributor with 24',
-    'pull requests to Django core (10 merged). Meta Hacker Cup Round 2',
-    'qualifier, and founder of a Software Engineering community on GitHub',
-    'and Discord.',
+    'Software engineer and AI developer with 7+ years of experience',
+    'architecting and deploying intelligent, data-driven systems. Python for',
+    'backend and ML pipelines, JavaScript/TypeScript for full-stack AI',
+    'integration. Deep expertise in Generative AI and LLMs (transformers,',
+    'Google BERT, Hugging Face fine-tuning) and LangChain agentic workflows',
+    'that connect LLMs with APIs and proprietary data. Focused on AI that is',
+    'production-ready, scalable, and grounded in practical utility.',
   ],
 
   experience: () =>
     experiences.map(
       (exp) =>
-        `${exp.date.padEnd(20)} ${exp.role} @ ${exp.company} (${exp.type})`,
+        `${exp.date.padEnd(20)} ${exp.role} @ ${exp.company}${
+          exp.type ? ` (${exp.type})` : ''
+        }`,
     ),
 
   projects: () =>
@@ -224,21 +254,24 @@ const buildCommands = ({ theme, toggleTheme, close }) => ({
     ),
 
   achievements: () =>
-    achievements.flatMap((a) => [
-      a.title,
-      ...a.bullets.map((b) => `  - ${b}`),
-      '',
-    ]),
+    achievements.length
+      ? achievements.flatMap((a) => [
+          a.title,
+          ...a.bullets.map((b) => `  - ${b}`),
+          '',
+        ])
+      : ['No achievements listed yet.'],
 
   contact: () => [
     `Email:    ${CONTACT.email}`,
-    `LinkedIn: ${socialUrl('LinkedIn')}`,
+    ...(CONTACT.whatsapp ? [`WhatsApp: ${CONTACT.whatsapp}`] : []),
+    ...(LINKEDIN_URL ? [`LinkedIn: ${LINKEDIN_URL}`] : []),
     `GitHub:   ${socialUrl('GitHub')}`,
   ],
 
   resume: () => {
     downloadResume();
-    return ['Downloading Ahmed_Nassar_Resume.pdf...'];
+    return [`Downloading ${RESUME_FILE_NAME}...`];
   },
 
   github: () => {
@@ -247,8 +280,9 @@ const buildCommands = ({ theme, toggleTheme, close }) => ({
   },
 
   linkedin: () => {
-    window.open(socialUrl('LinkedIn'), '_blank', 'noopener,noreferrer');
-    return [`Opening ${socialUrl('LinkedIn')} …`];
+    if (!LINKEDIN_URL) return ['No LinkedIn profile listed yet.'];
+    window.open(LINKEDIN_URL, '_blank', 'noopener,noreferrer');
+    return [`Opening ${LINKEDIN_URL} …`];
   },
 
   neofetch: () => [{ type: 'nf-panel' }],
@@ -265,7 +299,7 @@ const buildCommands = ({ theme, toggleTheme, close }) => ({
     if (!target) {
       return [
         `open: unknown section '${arg || ''}'`,
-        'Try: open about | projects | resume | stats | testimonials | contact',
+        `Try: open ${OPEN_TARGETS.split(', ').join(' | ')}`,
       ];
     }
     scroller.scrollTo(target, { offset: -70 });

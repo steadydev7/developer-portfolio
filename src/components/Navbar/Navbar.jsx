@@ -6,6 +6,7 @@ import { m, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Sun, Moon } from './ThemeIcons';
 import ResumeMenu from './ResumeMenu';
 import './Navbar.scss';
+import { isSectionShown } from '../../data/sections';
 
 // Mirrors the page's own section order (see App.jsx) and the footer nav.
 const NAV_ITEMS = [
@@ -15,7 +16,7 @@ const NAV_ITEMS = [
   { id: 'resume', label: 'Resume' },
   { id: 'testimonials', label: 'Testimonials' },
   { id: 'contact', label: 'Contact' },
-];
+].filter((item) => isSectionShown(item.id));
 
 const Navbar = ({ theme, toggleTheme }) => {
   const [scrollProgress, setScrollProgress] = useState(0);

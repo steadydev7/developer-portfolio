@@ -10,7 +10,7 @@ One scrollable page, one URL. Three ways to move:
 2. **Command palette** — `Ctrl/Cmd + K`.
 3. **Terminal** — `open <section>`.
 
-The navbar also has a **Résumé** button (View / Download) and the theme toggle, grouped top-right.
+The navbar also has a **Resume** button (View / Download) and the theme toggle, grouped top-right.
 
 A progress bar fills the navbar as you scroll. A **scroll-to-top button** appears once you're past the hero, in the bottom-right corner next to the like counter.
 
@@ -22,7 +22,7 @@ A progress bar fills the navbar as you scroll. A **scroll-to-top button** appear
 | ------------------------------------------------------------------------------ | ----------------------------------- |
 | Go to Home / About / Projects / Resume / GitHub Stats / Testimonials / Contact | Jumps to that section               |
 | Switch to Dark/Light Theme                                                     | Toggles the theme                   |
-| Download Resume (PDF)                                                          | Downloads `Ahmed_Nassar_Resume.pdf` |
+| Download Resume (PDF)                                                          | Downloads `Noah_Thomas_Resume.pdf` |
 | Open GitHub Profile / Open LinkedIn Profile                                    | Opens in a new tab                  |
 | Email Ahmed                                                                    | Opens your mail client              |
 
@@ -54,11 +54,11 @@ Click the terminal icon (bottom-left). Type `help` for the list:
 
 ## Theme Toggle 🌙☀️
 
-Moon/sun icon in the top-right controls group (next to the Résumé button). Choice is remembered via `localStorage`.
+Moon/sun icon in the top-right controls group (next to the Resume button). Choice is remembered via `localStorage`.
 
-## Résumé Button 📄
+## Resume Button 📄
 
-In the navbar, top-right. Click it for a small menu: **View** (opens the PDF in a new tab) or **Download** (saves `Ahmed_Nassar_Resume.pdf`). The same actions are also in the Resume section, the command palette, and the terminal.
+In the navbar, top-right. Click it for a small menu: **View** (opens the PDF in a new tab) or **Download** (saves `Noah_Thomas_Resume.pdf`). The same actions are also in the Resume section, the command palette, and the terminal.
 
 ## GitHub Stats 📈
 
@@ -78,7 +78,7 @@ Ahmed's current Cairo time with an available/away indicator. Expand it to compar
 
 ## Resume 📝
 
-Experience, education, interview experience, achievements, and a categorized skills grid. View/download `Ahmed_Nassar_Resume.pdf` from the buttons here or the navbar Résumé menu. (Projects have their own section above.)
+Experience, education, interview experience, achievements, and a categorized skills grid. View/download `Noah_Thomas_Resume.pdf` from the buttons here or the navbar Resume menu. (Projects have their own section above.)
 
 ## Testimonials 💬
 

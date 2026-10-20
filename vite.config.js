@@ -11,13 +11,47 @@ import { createHtmlPlugin } from 'vite-plugin-html';
 import { VitePWA } from 'vite-plugin-pwa';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
+import fs from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import eslint from 'vite-plugin-eslint';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const siteUrl = 'https://ahmednassar7.github.io';
+const siteUrl = 'https://steadydev7.vercel.app';
 const logger = new Logger(LogLevel.INFO);
+
+// vite-plugin-html's dev server rewrites every request that accepts HTML
+// (`^/*`) to index.html, so opening a public file directly in a tab — the
+// resume PDF behind "View", og-image.png — showed the home page instead.
+// For a request that names a real file in public/, this drops the HTML
+// accept header so that fallback skips it and Vite serves the file itself.
+// Dev only: production hosting serves those files directly.
+const servePublicFilesInDev = () => ({
+  name: 'serve-public-files-in-dev',
+  enforce: 'pre',
+  configureServer(server) {
+    const publicDir = server.config.publicDir;
+    if (!publicDir) return;
+    server.middlewares.use((req, _res, next) => {
+      let pathname;
+      try {
+        pathname = decodeURIComponent((req.url ?? '').split('?')[0]);
+      } catch {
+        return next();
+      }
+      const file = path.join(publicDir, pathname);
+      if (
+        path.extname(pathname) &&
+        path.extname(pathname) !== '.html' &&
+        file.startsWith(publicDir + path.sep) &&
+        fs.existsSync(file)
+      ) {
+        req.headers.accept = '*/*';
+      }
+      next();
+    });
+  },
+});
 
 export default defineConfig(({ mode }) => {
   const isDev = mode === 'development';
@@ -65,6 +99,8 @@ export default defineConfig(({ mode }) => {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     },
     plugins: [
+      // Before createHtmlPlugin, whose history fallback it has to get ahead of.
+      servePublicFilesInDev(),
       react(),
       // Linter — dev only. It re-lints the whole tree on every production
       // build (cache disabled) without changing a byte of output; CI runs

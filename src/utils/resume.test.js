@@ -13,7 +13,7 @@ describe('resume utils', () => {
 
   it('exposes the resume URLs', () => {
     expect(RESUME_URL).toMatch(/\.pdf$/);
-    expect(RESUME_VIEW_URL).toMatch(/^https:\/\//);
+    expect(RESUME_VIEW_URL).toBeTruthy();
   });
 
   it('downloadResume creates and clicks a download link pointing at the PDF', () => {
@@ -30,7 +30,7 @@ describe('resume utils', () => {
     expect(clickSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('viewResume creates and clicks a link opening the Drive view in a new tab', () => {
+  it('viewResume creates and clicks a link opening the resume in a new tab', () => {
     const clickSpy = vi.fn();
     let createdLink;
     const realCreateElement = document.createElement.bind(document);
@@ -46,7 +46,9 @@ describe('resume utils', () => {
     viewResume();
 
     expect(clickSpy).toHaveBeenCalledTimes(1);
-    expect(createdLink.href).toBe(RESUME_VIEW_URL);
+    expect(createdLink.href).toBe(
+      new URL(RESUME_VIEW_URL, window.location.href).href,
+    );
     expect(createdLink.target).toBe('_blank');
     expect(createdLink.rel).toBe('noopener noreferrer');
   });

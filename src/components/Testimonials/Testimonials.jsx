@@ -10,60 +10,11 @@ import {
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import mahmoudSakrPhoto from '../../assets/images/testimonials/mahmoud-sakr.jpg';
-import mahmoudSakrPhotoWebp from '../../assets/images/testimonials/mahmoud-sakr.webp';
-import hassanELDashPhoto from '../../assets/images/testimonials/hassan-eldash.jpg';
-import hassanELDashPhotoWebp from '../../assets/images/testimonials/hassan-eldash.webp';
-import mennaIbrahimPhoto from '../../assets/images/testimonials/menna-ibrahim.jpg';
-import mennaIbrahimPhotoWebp from '../../assets/images/testimonials/menna-ibrahim.webp';
-import mahmoudShalabyPhoto from '../../assets/images/testimonials/mahmoud-shalaby.jpg';
-import mahmoudShalabyPhotoWebp from '../../assets/images/testimonials/mahmoud-shalaby.webp';
 import './Testimonials.scss';
 import { trackEvent } from '../../utils/analytics';
 import { useVirtualPageView } from '../../hooks/useVirtualPageView';
 import { getInitials } from '../../utils/initials';
-
-const LINKEDIN_RECOMMENDATIONS_URL =
-  'https://www.linkedin.com/in/nasssar/details/recommendations/';
-
-const testimonials = [
-  {
-    name: 'Mahmoud Sakr',
-    role: 'Senior Backend Developer @ Al Jabr Holding',
-    relationship: "Ahmed's Instructor (Python Track) at ITI",
-    quote:
-      'He is a highly talented developer with a deep understanding of building scalable, secure, and efficient backend systems.',
-    photo: mahmoudSakrPhoto,
-    photoWebp: mahmoudSakrPhotoWebp,
-  },
-  {
-    name: 'Hassan ELDash',
-    role: 'Software Architect & Instructor @ ITI',
-    relationship: "Ahmed's Instructor (React Track) at ITI",
-    quote:
-      "Ahmed has shown remarkable growth and expertise in the React development track. He excels in creating responsive, efficient web applications, showcasing strong skills in React, Redux, and modern web development practices. With his creativity and problem-solving mindset, I'm confident Ahmed will be a valuable asset to any team. Highly recommended!",
-    photo: hassanELDashPhoto,
-    photoWebp: hassanELDashPhotoWebp,
-  },
-  {
-    name: 'Menna Ibrahim',
-    role: '.NET Developer @ Gemini Media',
-    relationship: "Ahmed's Instructor (Web Fundamentals Track) at ITI",
-    quote:
-      'I had the pleasure of training Ahmed at the ITI Winter Training. He is a smart and ambitious engineer who is always eager to learn and strengthen his fundamentals. Ahmed is a fast learner, continuously seeking to improve himself and expand his skill set. He would be a valuable addition to any team.',
-    photo: mennaIbrahimPhoto,
-    photoWebp: mennaIbrahimPhotoWebp,
-  },
-  {
-    name: 'Mahmoud Shalaby',
-    role: 'Design & Optimize Subject Matter Expert @ Nokia',
-    relationship: "Ahmed's Mentor at Nokia",
-    quote:
-      'Ahmed showed a very good example of commitment and dedication during the internship sessions and final presentation. Also, he is a very good team player.',
-    photo: mahmoudShalabyPhoto,
-    photoWebp: mahmoudShalabyPhotoWebp,
-  },
-];
+import { testimonials, recommendationsUrl } from '../../data/testimonials';
 
 const TestimonialAvatar = ({ photo, photoWebp, name }) => {
   const [imgFailed, setImgFailed] = useState(false);
@@ -106,9 +57,12 @@ const Testimonials = () => {
   };
 
   useEffect(() => {
+    if (testimonials.length < 2) return undefined;
     const interval = setInterval(next, 12000);
     return () => clearInterval(interval);
   }, [next]);
+
+  if (testimonials.length === 0) return null;
 
   const testimonial = testimonials[current];
 
@@ -184,26 +138,28 @@ const Testimonials = () => {
           </div>
         </div>
 
-        <div className="testimonials-footer">
-          <m.a
-            href={LINKEDIN_RECOMMENDATIONS_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="linkedin-cta"
-            whileHover={{ y: -3 }}
-            whileTap={{ scale: 0.96 }}
-            onClick={() =>
-              trackEvent('cta_click', { cta_id: 'view_recommendations' })
-            }
-          >
-            <FontAwesomeIcon icon={faLinkedin} />
-            See all recommendations on LinkedIn
-            <FontAwesomeIcon
-              icon={faArrowUpRightFromSquare}
-              className="external-icon"
-            />
-          </m.a>
-        </div>
+        {recommendationsUrl && (
+          <div className="testimonials-footer">
+            <m.a
+              href={recommendationsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="linkedin-cta"
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={() =>
+                trackEvent('cta_click', { cta_id: 'view_recommendations' })
+              }
+            >
+              <FontAwesomeIcon icon={faLinkedin} />
+              See all recommendations on LinkedIn
+              <FontAwesomeIcon
+                icon={faArrowUpRightFromSquare}
+                className="external-icon"
+              />
+            </m.a>
+          </div>
+        )}
       </Container>
     </section>
   );

@@ -24,10 +24,12 @@ export const printConsoleGreeting = () => {
   console.log('%cLike the site? The source is open:', text);
   console.log(`%c   ${CONTACT.sourceRepo}`, link);
   console.log(
-    "%cI'm open to backend / full-stack roles — say hi via the contact form,",
+    "%cI'm open to AI / full-stack roles — say hi via the contact form.",
     text,
   );
-  console.log(`%c   or ${socialUrl('LinkedIn')}`, link);
+  if (socialUrl('LinkedIn')) {
+    console.log(`%c   or ${socialUrl('LinkedIn')}`, link);
+  }
   console.log(
     '%cPS. there is a Konami code on this page:  ↑ ↑ ↓ ↓ ← → ← → B A',
     text,

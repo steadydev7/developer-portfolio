@@ -117,10 +117,10 @@ All screenshots below are real captures of the live app (desktop @ 1440px, mobil
 - `Fully Responsive Design` – Adapts seamlessly across all devices and screen sizes.
 - `Command Palette` – A **Ctrl/Cmd+K** launcher for jumping to any section, toggling the theme, or opening a profile link.
 - `Interactive Terminal` – A retro terminal Easter egg with real, typed commands (`whoami`, `projects`, `neofetch`, and more).
-- `Projects Section` – A dedicated showcase (moved out of the résumé) with per-project icon, description, tech tags, and repo/demo links.
+- `Projects Section` – A dedicated showcase (moved out of the resume) with per-project icon, description, tech tags, and repo/demo links.
 - `Global Like Counter` – A live, shared like total in the corner, backed by **Firebase Realtime Database**, that ticks up as other visitors like — with optimistic updates and batched writes.
 - `Animated Signature` – A hand signature inlined as SVG in the footer, written on with a stroke sweep on scroll-in, tinted with the brand colour.
-- `Résumé Menu` – One navbar control with a View / Download dropdown, mirrored in the command palette and terminal.
+- `Resume Menu` – One navbar control with a View / Download dropdown, mirrored in the command palette and terminal.
 - `Easter Eggs` – The **Konami code** (`↑ ↑ ↓ ↓ ← → ← → B A`) fires a confetti drop and toast; a styled **console greeting** prints for anyone who opens DevTools.
 - `Interactive Background` – **Animated tsParticles** background to create a modern, immersive look.
 - `3D Rotatable Cube` – A **Three.js / react-three-fiber** Rubik's Cube in the hero, draggable in any direction and auto-rotating while in view.
@@ -146,8 +146,8 @@ All screenshots below are real captures of the live app (desktop @ 1440px, mobil
 
 - `Logo` – Incorporates my custom logo.
 - `Smooth-Scrolling Links` – A short primary path — Home, About, Projects, Resume, Contact — with smooth scrolling and active-section highlighting. (Stats and Testimonials are in the footer, command palette, and terminal.)
-- `Résumé Menu` – A single top-right button with a **View / Download** dropdown (closes on outside-click / Esc).
-- `Theme Toggle` – Toggle button for switching between light and dark themes, grouped with the Résumé menu so the controls stay aligned at every width.
+- `Resume Menu` – A single top-right button with a **View / Download** dropdown (closes on outside-click / Esc).
+- `Theme Toggle` – Toggle button for switching between light and dark themes, grouped with the Resume menu so the controls stay aligned at every width.
 - `Mobile-Friendly Menu` – Collapsible, mobile-responsive menu for easier navigation.
 - `Scroll Progress Bar` – Visual indicator at the top of the navbar will display the scroll position.
 
@@ -193,7 +193,7 @@ All screenshots below are real captures of the live app (desktop @ 1440px, mobil
 - `Interview Experience` – A marquee of companies that have interviewed / recruited Ahmed.
 - `Achievements` – Awards, memberships, and other notable recognitions.
 - `Skills` – A categorized list of technical skills and tools.
-- `View / Download Resume` – Buttons to view or download the resume in PDF format (also on the navbar Résumé menu).
+- `View / Download Resume` – Buttons to view or download the resume in PDF format (also on the navbar Resume menu).
 
 > Projects have their own dedicated section (below) rather than a sub-list here.
 
@@ -201,7 +201,7 @@ All screenshots below are real captures of the live app (desktop @ 1440px, mobil
 
 - `Project Cards` – One card per project: an app-icon tile, name, description, tech tags, and links to the repo and (where present) a live demo. `featured` projects sort first.
 - `Auto-Matched Icons` – Drop an image at `src/assets/images/projects/<slug>.<ext>` and it's picked up by filename; otherwise a branded gradient/initials tile is used.
-- `Hover Tilt` – Cards use the same mouse-tracked 3D tilt as the résumé/achievement cards.
+- `Hover Tilt` – Cards use the same mouse-tracked 3D tilt as the resume/achievement cards.
 - `Own Nav Entry` – In the navbar, footer, command palette, and terminal (`open projects`).
 
 ### 9. Testimonials Section 💬

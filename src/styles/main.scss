@@ -160,9 +160,10 @@ body {
   z-index: 1100;
 }
 
-// Sections
+// Sections size to their content. Only the hero fills the screen, and it
+// sets that itself (.home-section); a blanket 100vh here left a screenful
+// of empty space under short sections like About and Contact.
 section {
-  min-height: 100vh;
   padding: 100px 0;
   position: relative;
 }

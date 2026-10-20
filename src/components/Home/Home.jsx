@@ -12,7 +12,9 @@ import { PROFILE } from '../../data/profile';
 import { CONTACT } from '../../data/contact';
 import { skills } from '../../data/resumeData';
 
-const STACK = (skills.Languages ?? []).slice(0, 5).map((skill) => skill.name);
+const STACK = (Object.values(skills)[0] ?? [])
+  .slice(0, 5)
+  .map((skill) => skill.name);
 const BUILDS_SEQUENCE = PROFILE.builds.flatMap((item) => [item, 2200]);
 const [ROLE_HIGHLIGHT, ...ROLE_REST] = PROFILE.role.split(' ');
 

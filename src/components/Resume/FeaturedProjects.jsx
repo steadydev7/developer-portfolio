@@ -21,15 +21,29 @@ const projectImages = import.meta.glob(
   '../../assets/images/projects/*.{png,jpg,jpeg,webp,svg}',
   { eager: true, query: '?url', import: 'default' },
 );
-const projectImageBySlug = Object.fromEntries(
-  Object.entries(projectImages).map(([path, url]) => [
-    path
-      .split('/')
-      .pop()
-      .replace(/\.[^.]+$/, ''),
-    url,
-  ]),
+const bySlug = (modules) =>
+  Object.fromEntries(
+    Object.entries(modules).map(([path, url]) => [
+      path
+        .split('/')
+        .pop()
+        .replace(/\.[^.]+$/, ''),
+      url,
+    ]),
+  );
+const projectImageBySlug = bySlug(projectImages);
+
+// Same convention for a full-bleed screenshot: drop it at
+// src/assets/images/projects/covers/<slug>.<ext> (a `cover` on the project
+// still wins).
+const projectCoverBySlug = bySlug(
+  import.meta.glob(
+    '../../assets/images/projects/covers/*.{png,jpg,jpeg,webp}',
+    { eager: true, query: '?url', import: 'default' },
+  ),
 );
+
+const hostname = (url) => new URL(url).hostname.replace(/^www\./, '');
 
 const MAX_STACK_ICONS = 5;
 
@@ -126,6 +140,8 @@ const FeaturedProjects = () => {
         {orderedProjects.map((project, index) => {
           const icon =
             project.image ?? projectImageBySlug[slugify(project.name)] ?? null;
+          const cover =
+            project.cover ?? projectCoverBySlug[slugify(project.name)] ?? null;
           const primaryUrl = project.liveUrl ?? project.url;
           const primaryType = project.liveUrl ? 'demo' : 'repo';
           const isLead = index === 0;
@@ -159,10 +175,10 @@ const FeaturedProjects = () => {
                   aria-hidden="true"
                   onClick={() => trackProjectClick(project.name, primaryType)}
                 >
-                  {project.cover ? (
+                  {cover ? (
                     <img
                       className="project-card__shot"
-                      src={project.cover}
+                      src={cover}
                       alt=""
                       loading="lazy"
                     />
@@ -185,7 +201,8 @@ const FeaturedProjects = () => {
                     </span>
                   )}
                   <span className="project-card__peek">
-                    View project <span aria-hidden="true">↗</span>
+                    {project.liveUrl ? 'Visit site' : 'View project'}{' '}
+                    <span aria-hidden="true">↗</span>
                   </span>
                 </a>
                 {project.category && (
@@ -202,17 +219,19 @@ const FeaturedProjects = () => {
                 <div className="project-card__footer">
                   <TechStack tech={project.tech} />
                   <div className="project-card__links">
-                    <a
-                      className="project-card__repo"
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`View ${project.name} source on GitHub`}
-                      title="Source on GitHub"
-                      onClick={() => trackProjectClick(project.name, 'repo')}
-                    >
-                      <FontAwesomeIcon icon={faGithub} />
-                    </a>
+                    {project.url && (
+                      <a
+                        className="project-card__repo"
+                        href={project.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`View ${project.name} source on GitHub`}
+                        title="Source on GitHub"
+                        onClick={() => trackProjectClick(project.name, 'repo')}
+                      >
+                        <FontAwesomeIcon icon={faGithub} />
+                      </a>
+                    )}
                     <a
                       className="project-card__view"
                       href={primaryUrl}
@@ -222,10 +241,12 @@ const FeaturedProjects = () => {
                         trackProjectClick(project.name, primaryType)
                       }
                     >
-                      View project
+                      {project.liveUrl
+                        ? hostname(project.liveUrl)
+                        : 'View project'}
                       <span className="visually-hidden">
                         : {project.name}
-                        {project.liveUrl ? ' live demo' : ' on GitHub'}
+                        {project.liveUrl ? ' live site' : ' on GitHub'}
                       </span>{' '}
                       <span aria-hidden="true">↗</span>
                     </a>

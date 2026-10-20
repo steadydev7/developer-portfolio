@@ -12,7 +12,6 @@ import {
 } from '../../utils/resume';
 import {
   education,
-  experiences,
   interviewedCompanies,
   achievements,
   skills,
@@ -21,7 +20,6 @@ import {
   faGraduationCap,
   faCalendar,
   faLocationDot,
-  faBriefcase,
   faBuilding,
   faDownload,
   faEye,
@@ -31,6 +29,7 @@ import {
   faCode,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
+import ExperienceTimeline from './ExperienceTimeline';
 import FeaturedProjects from './FeaturedProjects';
 import OrgLogo from './OrgLogo';
 import InterviewMarquee from './InterviewMarquee';
@@ -79,96 +78,7 @@ const Resume = () => {
           Resume
         </h2>
 
-        <Row className="mb-5">
-          <Col lg={12} data-aos="fade-up">
-            <div className="resume-card">
-              <h3>
-                <FontAwesomeIcon icon={faBriefcase} /> Experience
-              </h3>
-              <div className="experience-grid">
-                {experiences.map((exp, index) => (
-                  <m.div
-                    key={index}
-                    className="experience-item"
-                    initial={{ opacity: 0, y: 24 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    whileHover={{
-                      y: -8,
-                      boxShadow: '0 12px 30px rgba(0, 0, 0, 0.15)',
-                    }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 22,
-                      delay: index * 0.08,
-                    }}
-                  >
-                    <div className="entity-header">
-                      <OrgLogo name={exp.company} />
-                      <h4>
-                        <a
-                          href={exp.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {exp.company}
-                        </a>
-                      </h4>
-                    </div>
-                    <div className="role-row">
-                      <m.p
-                        className="role"
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        transition={{
-                          type: 'spring',
-                          stiffness: 400,
-                          damping: 15,
-                        }}
-                      >
-                        {exp.role}
-                      </m.p>
-                      {exp.type && (
-                        <m.span
-                          className="role-type"
-                          initial={{ opacity: 0, scale: 0.7 }}
-                          whileInView={{ opacity: 1, scale: 1 }}
-                          viewport={{ once: true }}
-                          transition={{
-                            type: 'spring',
-                            stiffness: 400,
-                            damping: 15,
-                            delay: index * 0.08 + 0.2,
-                          }}
-                          whileHover={{
-                            scale: 1.1,
-                            y: -2,
-                            transition: {
-                              type: 'spring',
-                              stiffness: 400,
-                              damping: 15,
-                              delay: 0,
-                            },
-                          }}
-                        >
-                          {exp.type}
-                        </m.span>
-                      )}
-                    </div>
-                    <div className="details">
-                      <p>
-                        <FontAwesomeIcon icon={faCalendar} /> {exp.date}
-                      </p>
-                      <p>
-                        <FontAwesomeIcon icon={faLocationDot} /> {exp.location}
-                      </p>
-                    </div>
-                  </m.div>
-                ))}
-              </div>
-            </div>
-          </Col>
-        </Row>
+        <ExperienceTimeline />
 
         <FeaturedProjects />
 
@@ -200,108 +110,118 @@ const Resume = () => {
                     <FontAwesomeIcon icon={faLocationDot} />{' '}
                     {education.location}
                   </p>
-                  <p>
-                    <FontAwesomeIcon icon={faChartLine} /> CGPA:{' '}
-                    {education.cgpa}
-                  </p>
+                  {education.cgpa && (
+                    <p>
+                      <FontAwesomeIcon icon={faChartLine} /> CGPA:{' '}
+                      {education.cgpa}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
           </Col>
         </Row>
 
-        <Row className="mb-5">
-          <Col lg={12} data-aos="fade-up">
-            <div className="resume-card">
-              <h3>
-                <FontAwesomeIcon icon={faBuilding} /> Interview Experience
-              </h3>
-              <p className="interview-divider">Recruited and interviewed by</p>
-              <InterviewMarquee companies={interviewedCompanies} />
-            </div>
-          </Col>
-        </Row>
-
-        <Row className="mb-5">
-          <Col lg={12} data-aos="fade-up" data-aos-delay="150">
-            <div className="resume-card">
-              <h3>
-                <FontAwesomeIcon icon={faAward} /> Achievements
-              </h3>
-              <div className="achievements-grid">
-                {achievements.map((achievement, index) => (
-                  <m.div
-                    key={index}
-                    className="achievement-item"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    whileHover={CARD_HOVER}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 300,
-                      damping: 22,
-                      delay: index * 0.1,
-                    }}
-                  >
-                    <div className="achievement-header">
-                      <div className="achievement-title">
-                        <OrgLogo name={achievement.org || achievement.title} />
-                        <h4>{achievement.title}</h4>
-                      </div>
-                      {(achievement.url || achievement.secondaryUrl) && (
-                        <div className="achievement-links">
-                          {achievement.url && (
-                            <a
-                              href={achievement.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={`View ${achievement.title} on GitHub`}
-                              onClick={() =>
-                                trackEvent('select_content', {
-                                  content_type: 'achievement_link',
-                                  content_id: `${slugify(achievement.title)}_primary`,
-                                })
-                              }
-                            >
-                              <FontAwesomeIcon icon={faGithub} />
-                            </a>
-                          )}
-                          {achievement.secondaryUrl && (
-                            <a
-                              href={achievement.secondaryUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              aria-label={`Open ${achievement.secondaryLabel} for ${achievement.title}`}
-                              onClick={() =>
-                                trackEvent('select_content', {
-                                  content_type: 'achievement_link',
-                                  content_id: `${slugify(achievement.title)}_secondary`,
-                                })
-                              }
-                            >
-                              <FontAwesomeIcon
-                                icon={
-                                  achievement.secondaryIcon ||
-                                  faArrowUpRightFromSquare
-                                }
-                              />
-                            </a>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    <ul className="achievement-bullets">
-                      {achievement.bullets.map((bullet, bulletIndex) => (
-                        <li key={bulletIndex}>{bullet}</li>
-                      ))}
-                    </ul>
-                  </m.div>
-                ))}
+        {interviewedCompanies.length > 0 && (
+          <Row className="mb-5">
+            <Col lg={12} data-aos="fade-up">
+              <div className="resume-card">
+                <h3>
+                  <FontAwesomeIcon icon={faBuilding} /> Interview Experience
+                </h3>
+                <p className="interview-divider">
+                  Recruited and interviewed by
+                </p>
+                <InterviewMarquee companies={interviewedCompanies} />
               </div>
-            </div>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
+        )}
+
+        {achievements.length > 0 && (
+          <Row className="mb-5">
+            <Col lg={12} data-aos="fade-up" data-aos-delay="150">
+              <div className="resume-card">
+                <h3>
+                  <FontAwesomeIcon icon={faAward} /> Achievements
+                </h3>
+                <div className="achievements-grid">
+                  {achievements.map((achievement, index) => (
+                    <m.div
+                      key={index}
+                      className="achievement-item"
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      whileHover={CARD_HOVER}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 300,
+                        damping: 22,
+                        delay: index * 0.1,
+                      }}
+                    >
+                      <div className="achievement-header">
+                        <div className="achievement-title">
+                          <OrgLogo
+                            name={achievement.org || achievement.title}
+                          />
+                          <h4>{achievement.title}</h4>
+                        </div>
+                        {(achievement.url || achievement.secondaryUrl) && (
+                          <div className="achievement-links">
+                            {achievement.url && (
+                              <a
+                                href={achievement.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`View ${achievement.title} on GitHub`}
+                                onClick={() =>
+                                  trackEvent('select_content', {
+                                    content_type: 'achievement_link',
+                                    content_id: `${slugify(achievement.title)}_primary`,
+                                  })
+                                }
+                              >
+                                <FontAwesomeIcon icon={faGithub} />
+                              </a>
+                            )}
+                            {achievement.secondaryUrl && (
+                              <a
+                                href={achievement.secondaryUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`Open ${achievement.secondaryLabel} for ${achievement.title}`}
+                                onClick={() =>
+                                  trackEvent('select_content', {
+                                    content_type: 'achievement_link',
+                                    content_id: `${slugify(achievement.title)}_secondary`,
+                                  })
+                                }
+                              >
+                                <FontAwesomeIcon
+                                  icon={
+                                    achievement.secondaryIcon ||
+                                    faArrowUpRightFromSquare
+                                  }
+                                />
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      <ul className="achievement-bullets">
+                        {achievement.bullets.map((bullet, bulletIndex) => (
+                          <li key={bulletIndex}>{bullet}</li>
+                        ))}
+                      </ul>
+                    </m.div>
+                  ))}
+                </div>
+              </div>
+            </Col>
+          </Row>
+        )}
 
         <Row>
           <Col lg={12} data-aos="fade-up" data-aos-delay="200">
