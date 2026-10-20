@@ -16,16 +16,19 @@ const cardTitles = (container) =>
   );
 
 describe('Resume', () => {
-  it('renders every skill under its category', () => {
+  it('renders every skill in a card per category, with its count', () => {
     const { container } = render(<Resume />);
-    const categories = [...container.querySelectorAll('.skills-category')];
+    const groups = [...container.querySelectorAll('.skills-group')];
 
-    expect(categories.map((c) => c.querySelector('h4').textContent)).toEqual(
-      Object.keys(skills),
-    );
-    Object.values(skills).forEach((items, i) => {
-      const names = [...categories[i].querySelectorAll('.skill-item')].map(
-        (item) => item.textContent.trim(),
+    expect(groups).toHaveLength(Object.keys(skills).length);
+    Object.entries(skills).forEach(([category, items], i) => {
+      const title = groups[i].querySelector('.skills-group__title');
+      expect(title).toHaveTextContent(category);
+      expect(title.querySelector('.skills-group__count')).toHaveTextContent(
+        String(items.length),
+      );
+      const names = [...groups[i].querySelectorAll('.skill-item')].map((item) =>
+        item.textContent.trim(),
       );
       expect(names).toEqual(items.map((skill) => skill.name));
     });
@@ -84,7 +87,7 @@ describe('Resume', () => {
 
   it('renders the education card, without a CGPA line when none is set', () => {
     const { container } = render(<Resume />);
-    const card = container.querySelector('.education-item');
+    const card = container.querySelector('.education-card');
 
     expect(card).toHaveTextContent(education.school);
     expect(card).toHaveTextContent(education.degree);

@@ -41,24 +41,25 @@ const initAnalytics = () => {
   }
 };
 
+// Dark unless the visitor picked light before (the toggle saves it).
+// index.html's <body class="dark-theme"> covers the first paint, before
+// React runs.
+const readSavedTheme = () => {
+  try {
+    return localStorage.getItem('theme') === 'light' ? 'light' : 'dark';
+  } catch {
+    return 'dark';
+  }
+};
+
 function App() {
-  const [theme, setTheme] = useState('light');
+  const [theme, setTheme] = useState(readSavedTheme);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     initAnalytics();
     printConsoleGreeting();
-
-    // Manage theme from localStorage
-    try {
-      const savedTheme = localStorage.getItem('theme') || 'light';
-      setTheme(savedTheme);
-      document.body.className = `${savedTheme}-theme`;
-    } catch (error) {
-      console.error('Error accessing localStorage:', error);
-      setTheme('light');
-    }
 
     // Optimize scroll event handling
     const handleScroll = throttle(() => {
@@ -77,6 +78,10 @@ function App() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+    document.body.className = `${theme}-theme`;
+  }, [theme]);
 
   useEffect(() => {
     // Wire up scroll-reveal once the sections have actually mounted (they're
@@ -101,7 +106,6 @@ function App() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
-    document.body.className = `${newTheme}-theme`;
 
     trackEvent('toggle_theme', { theme_mode: newTheme });
   };
@@ -139,9 +143,9 @@ function App() {
       <Terminal theme={theme} toggleTheme={toggleTheme} />
       <main>
         <Home />
-        <Stats theme={theme} />
         <About />
         <Resume />
+        <Stats theme={theme} />
         <Testimonials />
         <Contact />
         <Quotes />

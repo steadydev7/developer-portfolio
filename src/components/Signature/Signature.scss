@@ -1,3 +1,14 @@
+// Self-hosted so the signature is the same script everywhere: the OS
+// script faces below exist on Windows/macOS only, and Linux fell back to a
+// plain serif. Latin subset, SIL OFL (see assets/fonts/GreatVibes-OFL.txt).
+@font-face {
+  font-family: 'Great Vibes';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('../../assets/fonts/great-vibes-latin.woff2') format('woff2');
+}
+
 .signature {
   display: flex;
   justify-content: center;
@@ -80,8 +91,8 @@ body.dark-theme .signature__img {
   fill: transparent;
   stroke-width: 1.4;
   font-family:
-    'Segoe Script', 'Bradley Hand', 'Snell Roundhand', 'Brush Script MT',
-    'Comic Sans MS', cursive;
+    'Great Vibes', 'Segoe Script', 'Bradley Hand', 'Snell Roundhand',
+    'Brush Script MT', cursive;
   font-size: 84px;
   font-weight: 400;
   letter-spacing: 0.02em;

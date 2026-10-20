@@ -457,8 +457,9 @@ const Contact = () => {
                 <span>something meaningful.</span>
               </h3>
               <p className="contact-lead">
-                Whether it&apos;s a new product, a backend that needs to scale,
-                or an open-source collaboration, I&apos;d love to hear about it.
+                Whether it&apos;s an AI product, an LLM feature that needs to
+                reach production, or a full-stack build around it, I&apos;d love
+                to hear about it.
               </p>
               <ul className="contact-topics">
                 {CONTACT.topics.map((topic) => (

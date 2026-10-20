@@ -17,7 +17,6 @@ import {
   skills,
 } from '../../data/resumeData';
 import {
-  faGraduationCap,
   faCalendar,
   faLocationDot,
   faBuilding,
@@ -26,7 +25,6 @@ import {
   faArrowUpRightFromSquare,
   faAward,
   faChartLine,
-  faCode,
 } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 import ExperienceTimeline from './ExperienceTimeline';
@@ -34,6 +32,15 @@ import FeaturedProjects from './FeaturedProjects';
 import OrgLogo from './OrgLogo';
 import InterviewMarquee from './InterviewMarquee';
 import './Resume.scss';
+
+// Framer's in-view reveal rather than data-aos, which only picks up nodes
+// present on first load (see utils/scrollReveal.js).
+const REVEAL = {
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.2 },
+  transition: { type: 'spring', stiffness: 260, damping: 26 },
+};
 
 // Lifts on hover; its own transition so the lift isn't held back by the
 // staggered entrance delay.
@@ -74,53 +81,57 @@ const Resume = () => {
   return (
     <section id="resume" className="resume-section" ref={sectionRef}>
       <Container>
-        <h2 className="section-title text-center mb-5" data-aos="fade-up">
-          Resume
-        </h2>
+        {/* Kept for the document outline and screen readers; visually the
+            Experience header below opens the section. */}
+        <h2 className="visually-hidden">Resume</h2>
 
         <ExperienceTimeline />
 
         <FeaturedProjects />
 
-        <Row className="mb-5">
-          <Col lg={12} data-aos="fade-up">
-            <div className="resume-card">
-              <h3>
-                <FontAwesomeIcon icon={faGraduationCap} /> Education
+        <div className="resume-block" id="education">
+          <m.div className="projects-showcase__header" {...REVEAL}>
+            <div>
+              <span className="projects-showcase__eyebrow">Education</span>
+              <h3 className="projects-showcase__title">
+                Where I{' '}
+                <span className="projects-showcase__accent">Studied</span>
               </h3>
-              <div className="education-item">
-                <div className="entity-header">
-                  <OrgLogo name={education.school} />
-                  <h4>
-                    <a
-                      href={education.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {education.school}
-                    </a>
-                  </h4>
-                </div>
-                <p className="degree">{education.degree}</p>
-                <div className="details">
-                  <p>
-                    <FontAwesomeIcon icon={faCalendar} /> {education.date}
-                  </p>
-                  <p>
-                    <FontAwesomeIcon icon={faLocationDot} />{' '}
-                    {education.location}
-                  </p>
-                  {education.cgpa && (
-                    <p>
-                      <FontAwesomeIcon icon={faChartLine} /> CGPA:{' '}
-                      {education.cgpa}
-                    </p>
-                  )}
-                </div>
-              </div>
             </div>
-          </Col>
-        </Row>
+          </m.div>
+          <m.article className="education-card" {...REVEAL}>
+            <OrgLogo name={education.school} />
+            <div className="education-card__main">
+              <h4 className="education-card__school">
+                {education.url ? (
+                  <a
+                    href={education.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {education.school}
+                  </a>
+                ) : (
+                  education.school
+                )}
+              </h4>
+              <p className="education-card__degree">{education.degree}</p>
+            </div>
+            <ul className="education-card__meta">
+              <li>
+                <FontAwesomeIcon icon={faCalendar} /> {education.date}
+              </li>
+              <li>
+                <FontAwesomeIcon icon={faLocationDot} /> {education.location}
+              </li>
+              {education.cgpa && (
+                <li>
+                  <FontAwesomeIcon icon={faChartLine} /> CGPA: {education.cgpa}
+                </li>
+              )}
+            </ul>
+          </m.article>
+        </div>
 
         {interviewedCompanies.length > 0 && (
           <Row className="mb-5">
@@ -223,33 +234,34 @@ const Resume = () => {
           </Row>
         )}
 
-        <Row>
-          <Col lg={12} data-aos="fade-up" data-aos-delay="200">
-            <div className="resume-card">
-              <h3>
-                <FontAwesomeIcon icon={faCode} /> Skills
+        <div className="resume-block" id="skills">
+          <m.div className="projects-showcase__header" {...REVEAL}>
+            <div>
+              <span className="projects-showcase__eyebrow">Skills</span>
+              <h3 className="projects-showcase__title">
+                Tech <span className="projects-showcase__accent">Stack</span>
               </h3>
-              {Object.entries(skills).map(([category, items]) => (
-                <div key={category} className="skills-category">
-                  <h4>{category}</h4>
-                  <div className="skills-grid">
-                    {items.map((skill, index) => (
-                      <span
-                        key={index}
-                        className="skill-item"
-                        data-aos="fade-up"
-                        data-aos-delay={index * 50}
-                      >
-                        <FontAwesomeIcon icon={skill.icon} />
-                        {skill.name}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
             </div>
-          </Col>
-        </Row>
+          </m.div>
+          <div className="skills-board">
+            {Object.entries(skills).map(([category, items]) => (
+              <m.div key={category} className="skills-group" {...REVEAL}>
+                <h4 className="skills-group__title">
+                  {category}
+                  <span className="skills-group__count">{items.length}</span>
+                </h4>
+                <ul className="skills-group__list">
+                  {items.map((skill) => (
+                    <li key={skill.name} className="skill-item">
+                      <FontAwesomeIcon icon={skill.icon} />
+                      {skill.name}
+                    </li>
+                  ))}
+                </ul>
+              </m.div>
+            ))}
+          </div>
+        </div>
 
         <Row className="justify-content-center mt-5">
           <Col

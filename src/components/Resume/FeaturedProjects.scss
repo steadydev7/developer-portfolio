@@ -302,7 +302,7 @@
 
 .project-card__footer {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 1rem;
   margin-top: auto;
@@ -312,31 +312,33 @@
 
 .project-card__stack {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  min-width: 0;
   margin: 0;
   padding: 0;
   list-style: none;
 
   li {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid var(--project-card-bg);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
     background: var(--project-chip-bg);
     color: var(--primary-text);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
     cursor: default;
 
-    & + li {
-      margin-left: -8px;
+    svg {
+      font-size: 0.9em;
     }
   }
 }
 
-.project-card__stack-abbr,
 .project-card__stack-more {
-  font-size: 0.62rem;
   font-weight: 700;
 }
 

@@ -11,9 +11,9 @@ import { isSectionShown } from '../../data/sections';
 // Mirrors the page's own section order (see App.jsx) and the footer nav.
 const NAV_ITEMS = [
   { id: 'home', label: 'Home' },
-  { id: 'stats', label: 'Stats' },
   { id: 'about', label: 'About' },
   { id: 'resume', label: 'Resume' },
+  { id: 'stats', label: 'Stats' },
   { id: 'testimonials', label: 'Testimonials' },
   { id: 'contact', label: 'Contact' },
 ].filter((item) => isSectionShown(item.id));
@@ -53,7 +53,7 @@ const Navbar = ({ theme, toggleTheme }) => {
       <BootstrapNavbar
         fixed="top"
         expand="lg"
-        className={`navbar-${theme} bg-${theme} bg-opacity-75`}
+        className={`navbar-${theme} site-navbar`}
         expanded={expanded}
       >
         <Container>

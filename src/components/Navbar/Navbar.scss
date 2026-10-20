@@ -3,6 +3,20 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
+  // Near-opaque, in the page's own colour, so bright content scrolling
+  // underneath (e.g. a light project screenshot) can't show through the
+  // links; the blur softens what little does.
+  &.site-navbar {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid var(--glass-border);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+
+    .dark-theme & {
+      background-color: rgba(30, 30, 32, 0.9);
+    }
+  }
+
   .navbar-nav {
     @media (max-width: 991px) {
       padding: 1rem 0;

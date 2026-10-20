@@ -29,9 +29,9 @@ export const CONTACT = {
   githubUsername: GITHUB_USERNAME,
   sourceRepo: `https://github.com/${GITHUB_USERNAME}/developer-portfolio`,
   topics: [
-    'Web Applications',
-    'Backend & APIs',
-    'Open Source',
+    'AI & LLM Products',
+    'RAG & Agents',
+    'Full-Stack Development',
     'Freelance & Contract',
   ],
   // Add LinkedIn here as { label: 'LinkedIn', url, icon: faLinkedin,

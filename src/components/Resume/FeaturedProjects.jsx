@@ -45,7 +45,10 @@ const projectCoverBySlug = bySlug(
 
 const hostname = (url) => new URL(url).hostname.replace(/^www\./, '');
 
-const MAX_STACK_ICONS = 5;
+// Named chips rather than icon-only circles: a lone "D" or "E" (Deepgram,
+// Elementor) told visitors nothing. Past this many, the rest fold into a
+// "+N" chip that lists them on hover.
+const MAX_STACK_CHIPS = 4;
 
 // Lifts on hover; its own transition so the lift isn't held back by the
 // staggered entrance delay.
@@ -67,21 +70,17 @@ const trackProjectClick = (name, linkType) =>
   });
 
 const TechStack = ({ tech }) => {
-  const shown = tech.slice(0, MAX_STACK_ICONS);
-  const hidden = tech.slice(MAX_STACK_ICONS);
+  const shown = tech.slice(0, MAX_STACK_CHIPS);
+  const hidden = tech.slice(MAX_STACK_CHIPS);
 
   return (
     <ul className="project-card__stack" aria-label="Tech stack">
       {shown.map((name) => (
-        <li key={name} title={name}>
-          {techIcons[name] ? (
+        <li key={name}>
+          {techIcons[name] && (
             <FontAwesomeIcon icon={techIcons[name]} aria-hidden="true" />
-          ) : (
-            <span className="project-card__stack-abbr" aria-hidden="true">
-              {getInitials(name)}
-            </span>
           )}
-          <span className="visually-hidden">{name}</span>
+          {name}
         </li>
       ))}
       {hidden.length > 0 && (

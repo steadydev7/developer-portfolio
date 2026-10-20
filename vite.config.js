@@ -198,7 +198,7 @@ export default defineConfig(({ mode }) => {
           // Matches <meta name="theme-color"> in index.html so the PWA's
           // window chrome doesn't flash white before the app paints.
           theme_color: '#1E1E2F',
-          background_color: '#ffffff',
+          background_color: '#242424', // the dark theme's page colour
           display: 'standalone',
           start_url: '/', // Ensures app starts at the root
         },

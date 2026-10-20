@@ -16,7 +16,11 @@ const STACK = (Object.values(skills)[0] ?? [])
   .slice(0, 5)
   .map((skill) => skill.name);
 const BUILDS_SEQUENCE = PROFILE.builds.flatMap((item) => [item, 2200]);
-const [ROLE_HIGHLIGHT, ...ROLE_REST] = PROFILE.role.split(' ');
+const ROLE_HIGHLIGHT =
+  PROFILE.roleHighlight && PROFILE.role.startsWith(PROFILE.roleHighlight)
+    ? PROFILE.roleHighlight
+    : PROFILE.role.split(' ')[0];
+const ROLE_REST = PROFILE.role.slice(ROLE_HIGHLIGHT.length).trim();
 
 const formatClock = (date) =>
   date.toLocaleTimeString('en-US', {
@@ -71,7 +75,7 @@ const Home = () => {
 
             <p className="hero-role">
               <span className="hero-role__key">{ROLE_HIGHLIGHT}</span>{' '}
-              {ROLE_REST.join(' ')}
+              {ROLE_REST}
             </p>
 
             <p className="hero-builds">

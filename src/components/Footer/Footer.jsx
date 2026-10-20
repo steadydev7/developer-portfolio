@@ -11,9 +11,9 @@ import { isSectionShown } from '../../data/sections';
 
 const FOOTER_NAV_ITEMS = [
   { id: 'home', label: 'Home' },
-  { id: 'stats', label: 'Stats' },
   { id: 'about', label: 'About' },
   { id: 'resume', label: 'Resume' },
+  { id: 'stats', label: 'Stats' },
   { id: 'testimonials', label: 'Testimonials' },
   { id: 'contact', label: 'Contact' },
 ].filter((item) => isSectionShown(item.id));

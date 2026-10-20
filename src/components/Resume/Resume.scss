@@ -36,64 +36,6 @@
     }
   }
 
-  .education-item {
-    padding: 1.5rem;
-    border-radius: 8px;
-    background: var(--glass-bg);
-    transition:
-      background 0.3s ease,
-      transform 0.3s ease;
-
-    &:hover {
-      background: var(--glass-bg-strong);
-    }
-
-    h4 {
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-
-      a {
-        color: inherit;
-        text-decoration: none;
-
-        &:hover {
-          color: var(--primary);
-        }
-      }
-    }
-
-    .entity-header {
-      display: flex;
-      align-items: center;
-      gap: 0.85rem;
-
-      h4 {
-        margin-bottom: 0;
-      }
-    }
-
-    .degree {
-      color: var(--primary);
-      font-weight: 500;
-      margin-bottom: 1rem;
-    }
-
-    .details {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 2rem;
-      font-size: 0.9rem;
-      opacity: 0.8;
-
-      p {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        margin: 0;
-      }
-    }
-  }
-
   // Real logos render at their natural aspect ratio and natural color, no
   // tile/background — the page's own background is enough contrast for
   // arbitrary brand marks.
@@ -274,14 +216,6 @@
     }
   }
 
-  .education-item {
-    margin-bottom: 1.5rem;
-
-    &:hover {
-      transform: translateX(10px);
-    }
-  }
-
   .achievements-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -359,57 +293,6 @@
     }
   }
 
-  .skills-category {
-    margin-bottom: 2rem;
-
-    h4 {
-      margin-bottom: 1rem;
-      color: var(--primary);
-      font-weight: 500;
-    }
-
-    .skills-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .skill-item {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.5rem 1.1rem;
-      background: var(--glass-bg);
-      color: var(--primary);
-      border: 1px solid var(--glass-border);
-      border-radius: 20px;
-      font-weight: 500;
-      font-size: 0.92rem;
-      cursor: default;
-      transition:
-        transform 0.3s ease,
-        background 0.3s ease,
-        box-shadow 0.3s ease,
-        border-color 0.3s ease;
-
-      &:hover {
-        transform: translateY(-3px) scale(1.05);
-        background: var(--glass-bg-strong);
-        border-color: var(--primary);
-        box-shadow: 0 4px 15px rgba(100, 108, 255, 0.25);
-      }
-
-      svg {
-        margin-right: 0.5rem;
-        font-size: 1.15rem;
-        transition: transform 0.3s ease;
-      }
-
-      &:hover svg {
-        transform: scale(1.2);
-      }
-    }
-  }
-
   .resume-actions {
     display: flex;
     justify-content: center;
@@ -450,6 +333,186 @@
 
     &:hover {
       filter: brightness(0.9);
+    }
+  }
+}
+
+// Education and Skills share the Experience / Featured Work look: an eyebrow
+// header (projects-showcase__* from FeaturedProjects.scss, which reads
+// --project-heading) over solid cards in the project-card colours.
+.resume-block {
+  --project-heading: #16182b;
+  --block-text: rgba(22, 24, 43, 0.82);
+  --block-muted: rgba(33, 53, 71, 0.72);
+  --block-card-bg: #ffffff;
+  --block-chip-bg: #eef0ff;
+
+  margin-bottom: 4rem;
+
+  .dark-theme & {
+    --project-heading: #ffffff;
+    --block-text: rgba(255, 255, 255, 0.86);
+    --block-muted: rgba(255, 255, 255, 0.66);
+    --block-card-bg: #2a2e33;
+    --block-chip-bg: #363a52;
+  }
+
+  .projects-showcase__header {
+    margin-bottom: 2rem;
+  }
+}
+
+.education-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem 1.5rem;
+  padding: 1.6rem 1.75rem;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: var(--block-card-bg);
+  box-shadow: var(--glass-shadow);
+
+  @media (max-width: 767.98px) {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+}
+
+.education-card__main {
+  flex: 1;
+  min-width: 0;
+}
+
+.education-card__school {
+  margin: 0;
+  font-size: clamp(1.15rem, 1rem + 0.6vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--project-heading);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--primary-text);
+    }
+  }
+}
+
+.education-card__degree {
+  margin: 0.25rem 0 0;
+  font-weight: 600;
+  color: var(--primary-text);
+}
+
+.education-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.92rem;
+  color: var(--block-muted);
+
+  li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  svg {
+    color: var(--primary-text);
+  }
+
+  @media (max-width: 767.98px) {
+    flex-basis: 100%;
+    justify-content: flex-start;
+  }
+}
+
+// One card, one row per category: the category on the left, its skills on
+// the right. AI / ML has three times the chips of Frontend, so any grid or
+// column layout of separate cards left tall holes beside it; rows don't.
+.skills-board {
+  padding: 0.35rem 1.75rem;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: var(--block-card-bg);
+  box-shadow: var(--glass-shadow);
+
+  @media (max-width: 575.98px) {
+    padding: 0.25rem 1.15rem;
+  }
+}
+
+.skills-group {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  align-items: start;
+  gap: 0.75rem 2rem;
+  padding: 1.25rem 0;
+
+  & + & {
+    border-top: 1px solid var(--glass-border);
+  }
+
+  @media (max-width: 767.98px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.skills-group__title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  // Level with the first row of chips beside it.
+  padding-top: 0.4rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--project-heading);
+
+  @media (max-width: 767.98px) {
+    padding-top: 0;
+  }
+}
+
+.skills-group__count {
+  min-width: 1.6rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 999px;
+  background: var(--block-chip-bg);
+  color: var(--primary-text);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.skills-group__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  .skill-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    background: var(--block-chip-bg);
+    color: var(--primary-text);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: default;
+
+    svg {
+      font-size: 0.95em;
     }
   }
 }

@@ -13,6 +13,16 @@ describe('Home', () => {
     );
   });
 
+  it('highlights the configured leading words of the role', () => {
+    const { container } = render(<Home />);
+    const role = container.querySelector('.hero-role');
+
+    expect(role).toHaveTextContent(PROFILE.role);
+    expect(role.querySelector('.hero-role__key')).toHaveTextContent(
+      PROFILE.roleHighlight ?? PROFILE.role.split(' ')[0],
+    );
+  });
+
   it('shows the status pill with the location', () => {
     render(<Home />);
 

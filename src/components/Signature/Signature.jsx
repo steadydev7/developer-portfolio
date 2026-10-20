@@ -91,15 +91,26 @@ const Signature = ({ name = 'Noah Thomas', paths, className = '' }) => {
     !useInlineSvg && !useImg && Array.isArray(strokes) && strokes.length > 0;
 
   useEffect(() => {
-    if (useInlineSvg || useImg || useStrokes) return;
+    if (useInlineSvg || useImg || useStrokes) return undefined;
     const el = textRef.current;
-    if (!el || typeof el.getComputedTextLength !== 'function') return;
-    try {
-      const measured = el.getComputedTextLength();
-      if (measured > 0) setTextLength(Math.ceil(measured * 1.05));
-    } catch {
-      // jsdom — keep the fallback length.
-    }
+    if (!el || typeof el.getComputedTextLength !== 'function') return undefined;
+    let cancelled = false;
+    const measure = () => {
+      if (cancelled) return;
+      try {
+        const measured = el.getComputedTextLength();
+        if (measured > 0) setTextLength(Math.ceil(measured * 1.05));
+      } catch {
+        // jsdom — keep the fallback length.
+      }
+    };
+    measure();
+    // The script face (Great Vibes) may still be loading on first render;
+    // measure again once it's in, or the sweep is sized for the fallback.
+    document.fonts?.ready.then(measure);
+    return () => {
+      cancelled = true;
+    };
   }, [name, useInlineSvg, useImg, useStrokes]);
 
   const label = `${name} — signature`;
