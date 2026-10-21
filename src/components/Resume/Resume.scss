@@ -25,17 +25,6 @@
     }
   }
 
-  .section-title {
-    font-size: 2rem;
-    font-weight: 500;
-    margin-bottom: 3rem;
-    color: black;
-
-    .dark-theme & {
-      color: white;
-    }
-  }
-
   // Real logos render at their natural aspect ratio and natural color, no
   // tile/background — the page's own background is enough contrast for
   // arbitrary brand marks.
@@ -141,10 +130,9 @@
 
     // Real logos render at their natural aspect ratio, large enough to read
     // at a glance, no tile/background in light mode — the page's own white
-    // is enough contrast for arbitrary brand marks. Several of these marks
-    // (PwC, xAI) are near-black and would vanish against the dark theme's
-    // card background, so dark mode keeps a small white plate under them —
-    // same fix the Experience/Education logos already rely on.
+    // is enough contrast for arbitrary brand marks. Near-black marks would
+    // vanish against the dark theme's card background, so dark mode keeps
+    // a small white plate under them.
     .org-logo-photo {
       width: auto;
       height: 40px;
@@ -161,18 +149,6 @@
         padding: 8px 12px;
         background: #fff;
         border-radius: 8px;
-      }
-    }
-
-    // xAI's mark (see OrgLogo's INVERT_IN_DARK) is simple enough to flip to
-    // white directly instead of sitting on a plate, so it undoes the plate
-    // above and inverts the black mark to white in dark mode.
-    .org-logo-photo-invert {
-      .dark-theme & {
-        padding: 0;
-        background: none;
-        border-radius: 0;
-        filter: invert(1);
       }
     }
 

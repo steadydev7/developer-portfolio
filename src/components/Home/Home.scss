@@ -260,11 +260,21 @@
   display: flex;
   justify-content: center;
 
-  .point-sphere {
-    width: min(112%, 720px);
+  .skill-globe {
+    // Also capped by the window height, so the area buttons under the
+    // globe stay on screen on short laptop displays.
+    width: min(104%, 600px, calc(100svh - 170px));
     max-width: none;
-    // Lets the sphere grow without pushing the hero taller than the window.
-    margin-block: -24px;
+    // Lets the globe grow without pushing the hero taller than the window.
+    margin-block: -32px -8px;
+  }
+
+  // On wide screens the area buttons may run a little wider than the
+  // globe, so all six fit on one row when a short window caps its size.
+  @media (min-width: 1200px) {
+    .skill-globe__caption {
+      margin-inline: -3rem;
+    }
   }
 }
 
@@ -297,9 +307,9 @@
     padding: 100px 0 90px;
   }
 
-  .hero-visual .point-sphere {
-    width: min(88vw, 440px);
-    margin-block: 0;
+  .hero-visual .skill-globe {
+    width: min(92vw, 460px);
+    margin-block: 1rem 0;
   }
 }
 

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { m } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,10 +10,11 @@ import { getInitials } from '../../utils/initials';
 import { projects, techIcons } from '../../data/resumeData';
 import { CONTACT } from '../../data/contact';
 import { bentoSpans } from '../../utils/bentoSpans';
+import ProjectDetails from './ProjectDetails';
 import './FeaturedProjects.scss';
 
 // Drop an icon at src/assets/images/projects/<slug>.<ext> (slug = name with
-// non-alphanumerics as "_", e.g. egypt_metro_backend.png) and it's matched
+// non-alphanumerics as "_", e.g. steer_health.png) and it's matched
 // to its project by filename — no code change. It's shown floating in the
 // middle of the card's cover; a `cover` screenshot on the project fills the
 // whole cover instead.
@@ -44,6 +45,11 @@ const projectCoverBySlug = bySlug(
 );
 
 const hostname = (url) => new URL(url).hostname.replace(/^www\./, '');
+
+const coverFor = (project) =>
+  project.cover ?? projectCoverBySlug[slugify(project.name)] ?? null;
+const iconFor = (project) =>
+  project.image ?? projectImageBySlug[slugify(project.name)] ?? null;
 
 // Named chips rather than icon-only circles: a lone "D" or "E" (Deepgram,
 // Elementor) told visitors nothing. Past this many, the rest fold into a
@@ -108,6 +114,32 @@ const FeaturedProjects = () => {
   );
   const spans = bentoSpans(orderedProjects.length);
 
+  // Index into orderedProjects of the project whose details are open.
+  const [openIndex, setOpenIndex] = useState(null);
+  const openerRef = useRef(null);
+  const total = orderedProjects.length;
+  const openProject = openIndex === null ? null : orderedProjects[openIndex];
+  const wrap = (index) => (index + total) % total;
+
+  const openDetails = (index) => {
+    openerRef.current = document.activeElement;
+    setOpenIndex(index);
+    trackProjectClick(orderedProjects[index].name, 'details');
+  };
+  const closeDetails = useCallback(() => {
+    setOpenIndex(null);
+    openerRef.current?.focus?.();
+  }, []);
+  const step = useCallback(
+    (by) =>
+      setOpenIndex((index) =>
+        index === null ? index : (index + by + total) % total,
+      ),
+    [total],
+  );
+  const showPrev = useCallback(() => step(-1), [step]);
+  const showNext = useCallback(() => step(1), [step]);
+
   return (
     <div className="projects-showcase" id="projects" ref={sectionRef}>
       <div className="projects-showcase__header" data-aos="fade-up">
@@ -137,10 +169,8 @@ const FeaturedProjects = () => {
 
       <div className="projects-bento">
         {orderedProjects.map((project, index) => {
-          const icon =
-            project.image ?? projectImageBySlug[slugify(project.name)] ?? null;
-          const cover =
-            project.cover ?? projectCoverBySlug[slugify(project.name)] ?? null;
+          const icon = iconFor(project);
+          const cover = coverFor(project);
           const primaryUrl = project.liveUrl ?? project.url;
           const primaryType = project.liveUrl ? 'demo' : 'repo';
           const isLead = index === 0;
@@ -165,14 +195,14 @@ const FeaturedProjects = () => {
               }}
             >
               <div className="project-card__cover">
-                <a
+                {/* Mouse shortcut to the details; keyboard and screen-reader
+                    users get the "View details" button below instead. */}
+                <button
+                  type="button"
                   className="project-card__cover-link"
-                  href={primaryUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   tabIndex={-1}
                   aria-hidden="true"
-                  onClick={() => trackProjectClick(project.name, primaryType)}
+                  onClick={() => openDetails(index)}
                 >
                   {cover ? (
                     <img
@@ -199,11 +229,8 @@ const FeaturedProjects = () => {
                       )}
                     </span>
                   )}
-                  <span className="project-card__peek">
-                    {project.liveUrl ? 'Visit site' : 'View project'}{' '}
-                    <span aria-hidden="true">↗</span>
-                  </span>
-                </a>
+                  <span className="project-card__peek">View details</span>
+                </button>
                 {project.category && (
                   <span className="project-card__tag">{project.category}</span>
                 )}
@@ -214,6 +241,15 @@ const FeaturedProjects = () => {
                 <p className="project-card__description">
                   {project.description}
                 </p>
+                <button
+                  type="button"
+                  className="project-card__details"
+                  aria-haspopup="dialog"
+                  aria-label={`View details for ${project.name}`}
+                  onClick={() => openDetails(index)}
+                >
+                  View details <span aria-hidden="true">→</span>
+                </button>
 
                 <div className="project-card__footer">
                   <TechStack tech={project.tech} />
@@ -256,6 +292,24 @@ const FeaturedProjects = () => {
           );
         })}
       </div>
+
+      <ProjectDetails
+        project={openProject}
+        cover={openProject ? coverFor(openProject) : null}
+        icon={openProject ? iconFor(openProject) : null}
+        position={openIndex === null ? 0 : openIndex + 1}
+        total={total}
+        prevName={
+          openIndex === null ? '' : orderedProjects[wrap(openIndex - 1)].name
+        }
+        nextName={
+          openIndex === null ? '' : orderedProjects[wrap(openIndex + 1)].name
+        }
+        onClose={closeDetails}
+        onPrev={showPrev}
+        onNext={showNext}
+        onLinkClick={(type) => trackProjectClick(openProject.name, type)}
+      />
     </div>
   );
 };

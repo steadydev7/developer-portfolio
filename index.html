@@ -21,16 +21,12 @@
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#1E1E2F" />
     <meta name="referrer" content="origin-when-cross-origin" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="googlebot" content="index, follow" />
-    <meta name="revisit-after" content="7 days" />
 
     <!--
-      Content-Security-Policy. GitHub Pages serves static files only, so this
-      meta tag is the sole delivery mechanism available (no custom HTTP
-      headers). Note that per the CSP spec, frame-ancestors, report-uri, and
-      sandbox are silently ignored when set via <meta> — they require a real
-      response header, which GitHub Pages cannot provide for this repo.
+      Content-Security-Policy, delivered as a meta tag. Per the CSP spec,
+      frame-ancestors, report-uri and sandbox are silently ignored here —
+      they need a real response header (on Vercel, a `headers` entry in
+      vercel.json).
     -->
     <meta
       http-equiv="Content-Security-Policy"
@@ -52,7 +48,6 @@
     <link rel="dns-prefetch" href="https://www.googletagmanager.com/" />
     <link rel="dns-prefetch" href="https://www.google-analytics.com/" />
     <link rel="dns-prefetch" href="https://www.google.com/" />
-    <link rel="dns-prefetch" href="https://www.linkedin.com/" />
     <link rel="dns-prefetch" href="https://www.github.com/" />
 
     <!-- Preconnect -->
@@ -72,10 +67,6 @@
       crossorigin="anonymous"
     />
 
-    <!-- Microsoft Tile Tags -->
-    <meta name="msapplication-TileColor" content="#1E1E2F" />
-    <meta name="msapplication-TileImage" content="/mstile-144x144.png" />
-    <meta name="msapplication-config" content="/browserconfig.xml" />
     <meta name="application-name" content="Noah Thomas" />
 
     <!-- Apple Web App Tags -->
@@ -84,7 +75,6 @@
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
     />
-    <meta name="HandheldFriendly" content="True" />
 
     <!-- Open Graph Meta Tags -->
     <meta
@@ -104,9 +94,9 @@
     />
     <meta
       property="og:image"
-      content="https://steadydev7.vercel.app/og-image.png"
+      content="https://noah-thomas.vercel.app/og-image.png"
     />
-    <meta property="og:url" content="https://steadydev7.vercel.app/" />
+    <meta property="og:url" content="https://noah-thomas.vercel.app/" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:site_name" content="Noah Thomas Portfolio" />
@@ -123,16 +113,11 @@
     />
     <meta
       name="twitter:image"
-      content="https://steadydev7.vercel.app/og-image.png"
+      content="https://noah-thomas.vercel.app/og-image.png"
     />
 
-    <!-- Additional Meta Tags -->
-    <meta name="rating" content="General" />
-    <meta name="distribution" content="global" />
-    <meta name="generator" content="React, Vite" />
-
     <!-- Canonical Link -->
-    <link rel="canonical" href="https://steadydev7.vercel.app/" />
+    <link rel="canonical" href="https://noah-thomas.vercel.app/" />
 
     <!-- Google Search Console (only when a verification key is set) -->
     <% if (VITE_GOOGLE_SITE_VERIFICATION) { %>
@@ -155,9 +140,9 @@
         "@type": "WebPage",
         "name": "Noah Thomas Portfolio",
         "description": "Portfolio of Noah Thomas, Senior AI Software Engineer — experience, projects and skills across Generative AI, LLMs, RAG and full-stack development.",
-        "url": "https://steadydev7.vercel.app/",
-        "image": "https://steadydev7.vercel.app/og-image.png",
-        "logo": "https://steadydev7.vercel.app/logo.svg"
+        "url": "https://noah-thomas.vercel.app/",
+        "image": "https://noah-thomas.vercel.app/og-image.png",
+        "logo": "https://noah-thomas.vercel.app/logo.svg"
       }
     </script>
 
@@ -167,8 +152,8 @@
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Noah Thomas",
-        "url": "https://steadydev7.vercel.app/",
-        "image": "https://steadydev7.vercel.app/og-image.png",
+        "url": "https://noah-thomas.vercel.app/",
+        "image": "https://noah-thomas.vercel.app/og-image.png",
         "jobTitle": "Senior AI Software Engineer",
         "description": "Noah Thomas is a Senior AI Software Engineer with 7+ years building production-ready AI systems: Generative AI, LLMs, RAG and agentic workflows, with Python backends and React/Next.js front ends.",
         "alumniOf": "Nanyang Technological University",

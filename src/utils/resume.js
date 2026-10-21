@@ -1,9 +1,7 @@
 // RESUME_URL is the self-hosted PDF, used for both Download (and as the
 // file_download event's link_url) and View, which opens it in a new tab with
-// the browser's own PDF viewer. Point RESUME_VIEW_URL at a hosted viewer
-// (e.g. a Google Drive share link) instead if that's ever wanted.
+// the browser's own PDF viewer.
 export const RESUME_URL = '/assets/PDFs/Noah_Thomas_Resume.pdf';
-export const RESUME_VIEW_URL = RESUME_URL;
 export const RESUME_FILE_NAME = 'Noah_Thomas_Resume.pdf';
 
 export const downloadResume = () => {
@@ -17,7 +15,7 @@ export const downloadResume = () => {
 
 export const viewResume = () => {
   const link = document.createElement('a');
-  link.href = RESUME_VIEW_URL;
+  link.href = RESUME_URL;
   link.target = '_blank';
   link.rel = 'noopener noreferrer';
   document.body.appendChild(link);

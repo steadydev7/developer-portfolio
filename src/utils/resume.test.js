@@ -1,19 +1,13 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import {
-  RESUME_URL,
-  RESUME_VIEW_URL,
-  downloadResume,
-  viewResume,
-} from './resume';
+import { RESUME_URL, downloadResume, viewResume } from './resume';
 
 describe('resume utils', () => {
   afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it('exposes the resume URLs', () => {
+  it('points at the self-hosted PDF', () => {
     expect(RESUME_URL).toMatch(/\.pdf$/);
-    expect(RESUME_VIEW_URL).toBeTruthy();
   });
 
   it('downloadResume creates and clicks a download link pointing at the PDF', () => {
@@ -47,7 +41,7 @@ describe('resume utils', () => {
 
     expect(clickSpy).toHaveBeenCalledTimes(1);
     expect(createdLink.href).toBe(
-      new URL(RESUME_VIEW_URL, window.location.href).href,
+      new URL(RESUME_URL, window.location.href).href,
     );
     expect(createdLink.target).toBe('_blank');
     expect(createdLink.rel).toBe('noopener noreferrer');

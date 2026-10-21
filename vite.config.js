@@ -17,7 +17,7 @@ import { fileURLToPath } from 'url';
 import eslint from 'vite-plugin-eslint';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const siteUrl = 'https://steadydev7.vercel.app';
+const siteUrl = 'https://noah-thomas.vercel.app';
 const logger = new Logger(LogLevel.INFO);
 
 // vite-plugin-html's dev server rewrites every request that accepts HTML
@@ -114,8 +114,8 @@ export default defineConfig(({ mode }) => {
           exclude: ['node_modules', 'dist'],
         }),
       // Sitemap generation for SEO (only in production). This plugin scans
-      // dist/*.html and lists every file it finds, so the GitHub Pages SPA
-      // fallback (404.html) must be excluded explicitly — otherwise a
+      // dist/*.html and lists every file it finds, so the not-found page
+      // (404.html) must be excluded explicitly — otherwise a
       // noindex error page ends up in the sitemap as a priority-1.0 URL.
       !isDev &&
         sitemap({
@@ -152,12 +152,12 @@ export default defineConfig(({ mode }) => {
           },
           exclude: /(favicon|logo)\.svg$|images\/profile\.png$/, // Exclude favicon from image optimization
         }),
-      // Bundle visualization for production (optional). Writes stats.html to
-      // the project root (git-ignored) — opened automatically after a local
-      // build, but not in CI, where there's no browser to open it in.
-      !isDev &&
+      // Bundle-size report, on request only: `npm run analyze` writes
+      // stats.html to the project root (git-ignored) and opens it. Plain
+      // builds skip it, so they don't pop a file:// tab every time.
+      process.env.ANALYZE === 'true' &&
         visualizer({
-          open: !process.env.CI, // Auto-open locally; stay quiet in CI
+          open: true,
           gzipSize: true, // Show Gzip size in the visualizer
           brotliSize: true, // Show Brotli size in the visualizer
         }),
@@ -216,11 +216,6 @@ export default defineConfig(({ mode }) => {
           // and would serve the stale precached shell. We handle navigations
           // ourselves via the NetworkFirst rule instead.
           navigateFallback: undefined,
-          // The SW scope covers the whole origin, which also hosts the
-          // separate /toolkit/ project. Without this, Workbox's default
-          // navigateFallback ('index.html') hijacks navigation to /toolkit/
-          // and serves this portfolio's shell instead of letting it load.
-          navigateFallbackDenylist: [/^\/toolkit/],
           runtimeCaching: [
             {
               // Navigation requests (i.e. index.html) always go to the network
@@ -259,7 +254,7 @@ export default defineConfig(({ mode }) => {
         },
       }),
     ],
-    base: '/', // Set base URL for GitHub Pages or other hosting
+    base: '/', // Served from the domain root (Vercel)
     build: {
       outDir: 'dist', // Output directory for production build
       sourcemap: isDev, // Enable sourcemaps only in development

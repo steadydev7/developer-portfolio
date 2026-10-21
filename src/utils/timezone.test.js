@@ -4,7 +4,6 @@ import {
   getTimezoneAbbreviation,
   getHourInTimezone,
   isWithinWorkingHours,
-  getHourDifference,
   getTimezoneCityName,
 } from './timezone';
 
@@ -50,20 +49,6 @@ describe('isWithinWorkingHours', () => {
     expect(
       isWithinWorkingHours(JAN_2026_UTC, 'Etc/GMT-5', { start: 10, end: 15 }),
     ).toBe(false);
-  });
-});
-
-describe('getHourDifference', () => {
-  it('is positive when the first zone is ahead', () => {
-    expect(getHourDifference(JAN_2026_UTC, 'Etc/GMT-5', 'UTC')).toBe(5);
-  });
-
-  it('is the negation when the zones are swapped', () => {
-    expect(getHourDifference(JAN_2026_UTC, 'UTC', 'Etc/GMT-5')).toBe(-5);
-  });
-
-  it('is 0 for the same zone', () => {
-    expect(getHourDifference(JAN_2026_UTC, 'Etc/GMT-5', 'Etc/GMT-5')).toBe(0);
   });
 });
 

@@ -58,13 +58,6 @@ export const isWithinWorkingHours = (date, timeZone, { start, end }) => {
   return hour >= start && hour < end;
 };
 
-// Positive = timeZoneA is ahead of timeZoneB.
-export const getHourDifference = (date, timeZoneA, timeZoneB) => {
-  const offsetA = getTimezoneOffsetMinutes(date, timeZoneA);
-  const offsetB = getTimezoneOffsetMinutes(date, timeZoneB);
-  return Math.round((offsetA - offsetB) / 60);
-};
-
 // "America/Argentina/Buenos_Aires" -> "Buenos Aires"
 export const getTimezoneCityName = (timeZone) =>
   timeZone.split('/').pop().replace(/_/g, ' ');

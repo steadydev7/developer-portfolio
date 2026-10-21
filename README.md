@@ -1,318 +1,77 @@
-# Ahmed Nassar's Portfolio
+# Noah Thomas — Portfolio
 
 <!-- markdownlint-disable MD033 -->
 
-<div align="center">
-    <img src="public/web-app-manifest-192x192.png" alt="Portfolio Logo" width="130" height="130" />
-</div>
-
-🌟 Welcome to my **Personal Website**! Explore a world of creativity, innovation, and expertise through this **visually captivating**, **dynamic**, and **interactive** platform. Designed with cutting-edge technologies, this **fully responsive** website delivers a **seamless** and **engaging** user experience on any device. Dive in to discover my **skills**, **projects**, and **experiences**, all brought to life in a modern and immersive way 🚀
-
-## 📖 Table of Contents
-
-- [Demo](#-demo)
-- [Screenshots](#-screenshots)
-- [Technologies Used](#️-technologies-used)
-- [Features](#-features)
-- [Features Breakdown](#-features-breakdown)
-- [Getting Started](#-getting-started)
-- [Documentation](#-documentation)
-- [Testing \& Quality Gates](#-testing--quality-gates)
-
-## 🌐 Demo
-
-You can view the live portfolio here: **[ahmednassar7.github.io](https://ahmednassar7.github.io/)**
-
-Quick things worth trying on the live site:
-
-- Press **Ctrl/Cmd + K** to open the [command palette](#-command-palette-🎛️).
-- Click the terminal icon in the corner for a fully interactive Easter-egg [terminal](#-interactive-terminal-🖥️) (`help` for a command list).
-- Toggle the moon/sun icon in the navbar to switch between light and dark themes.
-
-## 📸 Screenshots
-
-All screenshots below are real captures of the live app (desktop @ 1440px, mobile @ 390px), taken with a headless Chromium run against `npm run dev`.
-
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="docs/screenshots/hero-light.jpg" alt="Home section, light theme" width="100%" />
-      <br /><sub>Home — light theme</sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="docs/screenshots/hero-dark.jpg" alt="Home section, dark theme" width="100%" />
-      <br /><sub>Home — dark theme</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="docs/screenshots/stats.jpg" alt="GitHub stats section with live contribution heatmap" width="100%" />
-      <br /><sub>GitHub Stats — live counters & contribution heatmap</sub>
-    </td>
-    <td align="center">
-      <img src="docs/screenshots/about.jpg" alt="About section with live availability widget" width="100%" />
-      <br /><sub>About — bio & live availability widget</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="docs/screenshots/resume.jpg" alt="Resume section with experience timeline" width="100%" />
-      <br /><sub>Resume — experience, education, projects</sub>
-    </td>
-    <td align="center">
-      <img src="docs/screenshots/testimonials.jpg" alt="Testimonials carousel" width="100%" />
-      <br /><sub>Testimonials — LinkedIn-verified recommendations</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="docs/screenshots/command-palette.jpg" alt="Command palette open, showing quick actions" width="100%" />
-      <br /><sub>Command Palette — <code>Ctrl/Cmd + K</code></sub>
-    </td>
-    <td align="center">
-      <img src="docs/screenshots/terminal.jpg" alt="Interactive terminal Easter egg" width="100%" />
-      <br /><sub>Interactive Terminal Easter egg</sub>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="docs/screenshots/contact.jpg" alt="Contact form" width="100%" />
-      <br /><sub>Contact — Firebase + EmailJS powered form</sub>
-    </td>
-    <td align="center">
-      <img src="docs/screenshots/mobile-home.jpg" alt="Home section on a mobile viewport" width="45%" />
-      <br /><sub>Mobile viewport (390px)</sub>
-    </td>
-  </tr>
-</table>
-
-## 🛠️ Technologies Used
-
 <p align="center">
-    <img src="https://img.shields.io/badge/HTML5-5-E34F26?style=flat&logo=html5&logoColor=white" alt="HTML5">
-    <img src="https://img.shields.io/badge/CSS3-3-1572B6?style=flat&logo=css3&logoColor=white" alt="CSS3">
-    <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript">
-    <img src="https://img.shields.io/badge/React-18.3-61DAFB?style=flat&logo=react&logoColor=black" alt="React">
-    <img src="https://img.shields.io/badge/SCSS-3-CC6699?style=flat&logo=sass&logoColor=white" alt="SCSS">
-    <img src="https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=flat&logo=bootstrap&logoColor=white" alt="Bootstrap">
-    <img src="https://img.shields.io/badge/Framer_Motion-11.0-0055FF?style=flat&logo=framer&logoColor=white" alt="Framer Motion">
-    <img src="https://img.shields.io/badge/Vite-5.4-646CFF?style=flat&logo=vite&logoColor=white" alt="Vite">
-    <img src="https://img.shields.io/badge/PWA-vite--plugin--pwa-5A0FC8?style=flat&logo=pwa&logoColor=white" alt="PWA">
-    <img src="https://img.shields.io/badge/Firebase-11.0-FFCA28?style=flat&logo=firebase&logoColor=black" alt="Firebase">
-    <img src="https://img.shields.io/badge/Font_Awesome-6-5288D2?style=flat&logo=font-awesome&logoColor=white" alt="Font Awesome">
-    <img src="https://img.shields.io/badge/Prettier-3.0-F7B93E?style=flat&logo=prettier&logoColor=white" alt="Prettier">
-    <img src="https://img.shields.io/badge/ESLint-9.0-4B32C3?style=flat&logo=eslint&logoColor=white" alt="ESLint">
-    <img src="https://img.shields.io/badge/Google_Analytics-4.0-E37400?style=flat&logo=google-analytics&logoColor=white" alt="Google Analytics">
-    <img src="https://img.shields.io/badge/Google_Search_Console-3.0-4285F4?style=flat&logo=google&logoColor=white" alt="Google Search Console">
-    <img src="https://img.shields.io/badge/tsParticles-2.12-00BFFF?style=flat&logo=javascript&logoColor=white" alt="tsParticles">
-    <img src="https://img.shields.io/badge/AOS-2.0-3C9B8B?style=flat&logo=aos&logoColor=white" alt="AOS">
-    <img src="https://img.shields.io/badge/EmailJS-3.0-1B74E4?style=flat&logo=email&logoColor=white" alt="EmailJS">
-    <img src="https://img.shields.io/badge/Vitest-4.1-6E9F18?style=flat&logo=vitest&logoColor=white" alt="Vitest">
-    <img src="https://img.shields.io/badge/Testing_Library-16.3-E33332?style=flat&logo=testing-library&logoColor=white" alt="Testing Library">
-    <img src="https://img.shields.io/badge/GitHub_Actions-CI-2088FF?style=flat&logo=githubactions&logoColor=white" alt="GitHub Actions">
+  <img src="public/web-app-manifest-192x192.png" alt="NT logo" width="110" height="110" />
 </p>
 
-## ✨ Features
+<p align="center">
+  Personal site of <strong>Noah Thomas</strong>, Senior AI Software Engineer — Gen AI, LLMs, RAG and full-stack development.
+</p>
 
-- `Fully Responsive Design` – Adapts seamlessly across all devices and screen sizes.
-- `Command Palette` – A **Ctrl/Cmd+K** launcher for jumping to any section, toggling the theme, or opening a profile link.
-- `Interactive Terminal` – A retro terminal Easter egg with real, typed commands (`whoami`, `projects`, `neofetch`, and more).
-- `Projects Section` – A dedicated showcase (moved out of the resume) with per-project icon, description, tech tags, and repo/demo links.
-- `Global Like Counter` – A live, shared like total in the corner, backed by **Firebase Realtime Database**, that ticks up as other visitors like — with optimistic updates and batched writes.
-- `Animated Signature` – A hand signature inlined as SVG in the footer, written on with a stroke sweep on scroll-in, tinted with the brand colour.
-- `Resume Menu` – One navbar control with a View / Download dropdown, mirrored in the command palette and terminal.
-- `Easter Eggs` – The **Konami code** (`↑ ↑ ↓ ↓ ← → ← → B A`) fires a confetti drop and toast; a styled **console greeting** prints for anyone who opens DevTools.
-- `Interactive Background` – **Animated tsParticles** background to create a modern, immersive look.
-- `3D Rotatable Cube` – A **Three.js / react-three-fiber** Rubik's Cube in the hero, draggable in any direction and auto-rotating while in view.
-- `Micro-interactions` – A cursor glow with a spark burst on click, magnetic hover on buttons/social icons, and a multi-shell confetti celebration when a contact message sends successfully.
-- `Dynamic Content` – Updates with **Framer Motion** transitions and motion effects as users scroll.
-- `UI/UX Design` – Followed the best practices of **UI/UX design** for a user-friendly experience.
-- `Testimonials & Live GitHub Stats` – Recommender testimonials and animated GitHub stats — stars, repos, and commit count fetched live from the GitHub API (commits via the commit-search endpoint), Django PRs curated — plus a live contribution heatmap and streak counter.
-- `Rotating Quotes` – Display of rotating programming quotes with **manual** and **auto-change** options.
-- `Custom Scrollbar` – Unique design for better aesthetics and usability.
-- `Scroll-to-Top Button` – **Smooth scrolling** and **navigation** back to the top.
-- `Contact Form` – Integrated with **Firebase** and **EmailJS** to handle user inquiries.
-- `PWA-Ready` – Installable, offline-capable via `vite-plugin-pwa` and a service worker.
-- `Google Search Console` – Optimized **performance**, **speed**, and search engine **visibility**, **ranking**, and **indexing**.
-- `Google Analytics` – Tracks **traffic**, **user behavior**, and **engagement** for data-driven decisions and improvements.
-- `Modular & Scalable Code` – Built with **SCSS** and **reusable components** for easy maintenance and future scalability.
-- `Performance Optimization` – Fast load times via modular (tree-shaken) Bootstrap imports, code-splitting, and image/asset optimization.
-- `Automated Quality Gates` – **GitHub Actions CI** runs formatting, linting, a **Vitest** test suite, and a production build on every push and PR.
-- `Cross-Browser Compatibility` – Tested and works seamlessly across all modern browsers.
+<p align="center">
+  <a href="https://noah-thomas.vercel.app"><strong>noah-thomas.vercel.app</strong></a>
+  ·
+  <a href="https://github.com/steadydev7/developer-portfolio/actions/workflows/ci.yml"><img src="https://github.com/steadydev7/developer-portfolio/actions/workflows/ci.yml/badge.svg" alt="CI status" /></a>
+</p>
 
-## 📋 Features Breakdown
+## Contents
 
-### 1. Navbar 🔽
+- [What's on the site](#whats-on-the-site)
+- [Tech stack](#tech-stack)
+- [Getting started](#getting-started)
+- [Environment variables](#environment-variables)
+- [Scripts](#scripts)
+- [Editing the content](#editing-the-content)
+- [Project structure](#project-structure)
+- [Quality checks](#quality-checks)
+- [Deployment](#deployment)
+- [Credits and license](#credits-and-license)
 
-- `Logo` – Incorporates my custom logo.
-- `Smooth-Scrolling Links` – A short primary path — Home, About, Projects, Resume, Contact — with smooth scrolling and active-section highlighting. (Stats and Testimonials are in the footer, command palette, and terminal.)
-- `Resume Menu` – A single top-right button with a **View / Download** dropdown (closes on outside-click / Esc).
-- `Theme Toggle` – Toggle button for switching between light and dark themes, grouped with the Resume menu so the controls stay aligned at every width.
-- `Mobile-Friendly Menu` – Collapsible, mobile-responsive menu for easier navigation.
-- `Scroll Progress Bar` – Visual indicator at the top of the navbar will display the scroll position.
+## What's on the site
 
-### 2. Command Palette 🎛️
+One page, dark theme by default (the choice is remembered), in this order:
 
-- `Quick Launcher` – Press **Ctrl/Cmd + K**, or click the on-screen trigger, to open a searchable command palette.
-- `Instant Navigation` – Jump to any section, toggle the theme, download the resume, or open GitHub/LinkedIn/email — all without leaving the keyboard.
-- `Keyboard-First` – Arrow keys move the selection, `Enter` runs it, `Esc` closes the palette.
+| Section     | What it shows                                                                                                                           |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **Home**    | Name and role, a typed "Builds //" line, availability, local time, an animated point sphere, and quick links to contact and projects.   |
+| **About**   | A short bio beside an "At a glance" card: experience, focus, most recent role and work mode.                                            |
+| **Resume**  | Experience as a scroll-driven timeline, Featured Work, Education and a categorized tech stack, plus View / Download for the PDF resume. |
+| **Stats**   | Live GitHub numbers (stars, public repos, contributions in the past year, commits) and a contribution heatmap with the current streak.  |
+| **Contact** | Email (with copy), phone, WhatsApp, a message form, live availability and local time.                                                   |
+| **Quotes**  | A rotating set of programming quotes.                                                                                                   |
 
-### 3. Interactive Terminal 🖥️
+**Featured Work** cards open a details window with a screenshot, key features, the full tech list and a link to the live site. It closes with Esc or a click outside, and ← / → move between projects.
 
-- `Easter Egg` – A fully interactive, retro-styled terminal reachable from its own trigger button.
-- `Real Commands` – Supports `help`, `whoami`, `about`, `experience`, `projects`, `skills`, `achievements`, `contact`, `resume`, `open <section>`, `theme <dark|light>`, `neofetch`, and more.
-- `Command History` – Arrow-key recall of previously run commands, just like a real shell.
+The **Testimonials**, **Achievements** and **Interview Experience** sections are built in but stay hidden — along with their links — until their data has entries (see [Editing the content](#editing-the-content)).
 
-### 4. Home Section 🏠
+**Extras:**
 
-- `Profile Image` – Personal image displayed on the homepage.
-- `Typing Effect` – Dynamic typing string effect displaying.
-- `Social Media Links` – Links to LinkedIn, GitHub, and other social profiles, with a **magnetic hover** pull toward the cursor.
-- `Rotatable 3D Cube` – A small **Rubik's Cube** (Three.js / react-three-fiber) next to the profile photo — drag to spin freely, auto-rotates on its own while scrolled into view. Lazy-loaded and skipped entirely under `prefers-reduced-motion`.
-- `Scroll Arrow` – A downward arrow to help users navigate to the next section.
+- **Command palette** — `Ctrl/Cmd + K` to jump to a section, switch theme, download the resume or open a profile.
+- **Terminal** — the `>_` button opens a small shell: `help`, `whoami`, `about`, `experience`, `projects`, `skills`, `contact`, `resume`, `open <section>`, `theme <dark|light>`, `neofetch`, `clear`, `exit`.
+- **Like counter** — a shared total stored in Firebase Realtime Database (shown only when Firebase is configured).
+- **Konami code** — `↑ ↑ ↓ ↓ ← → ← → B A` for a small surprise.
+- **PWA** — installable, with a service worker for repeat visits.
+- **SEO** — meta and social-preview tags, structured data, and a generated `sitemap.xml`.
 
-### 5. GitHub Stats Section 📈
+Animations respect `prefers-reduced-motion`.
 
-- `Live Stats` – Stars and public repos from the GitHub REST API; the commit count from GitHub's commit-search API (`total_count`). Merged Django PRs are a curated number.
-- `Animated Counters` – Numbers count up into view using Framer Motion when scrolled into view.
-- `Deep-Linked Cards` – Every stat card is an external link to its matching GitHub page (repos by stars, repositories tab, Django PR list, commit search), with an external-link icon and a `select_content` analytics event on click.
-- `Graceful Fallback` – Falls back to last-known values if a live fetch fails or the (low, ~10 req/min) search-API rate limit is hit.
-- `Contribution Heatmap` – A live GitHub contribution calendar with a running streak counter.
-- `Get Involved CTAs` – Star the portfolio repo, join the community Discord, or jump straight to the contact form.
+## Tech stack
 
-### 6. About Section 📑
+| Area      | Used                                                                      |
+| --------- | ------------------------------------------------------------------------- |
+| UI        | React 18, React Bootstrap (modular Bootstrap 5 imports), SCSS             |
+| Motion    | Framer Motion, tsParticles (background), a 2D-canvas point sphere         |
+| Build     | Vite 5, `vite-plugin-pwa`, image optimization, gzip + Brotli, sitemap     |
+| Data      | GitHub REST API, GitHub contributions API, Firebase Realtime Database     |
+| Contact   | EmailJS, with a fallback to the visitor's email app                       |
+| Analytics | Google Analytics 4 (`react-ga4`)                                          |
+| Quality   | Vitest + React Testing Library, ESLint, Prettier, Husky + lint-staged, CI |
 
-- `Personal Information` – A brief introduction and bio.
-- `Contact Information` – Phone, email, and location at a glance.
-- `Live Availability Widget` – An expandable clock showing Ahmed's live Cairo time with an available/away indicator; expanding it compares that against the visitor's own detected time zone and states the difference in plain English.
+## Getting started
 
-### 7. Resume Section 📝
-
-- `Experience` – Professional experiences and job history.
-- `Education` – Academic qualifications.
-- `Interview Experience` – A marquee of companies that have interviewed / recruited Ahmed.
-- `Achievements` – Awards, memberships, and other notable recognitions.
-- `Skills` – A categorized list of technical skills and tools.
-- `View / Download Resume` – Buttons to view or download the resume in PDF format (also on the navbar Resume menu).
-
-> Projects have their own dedicated section (below) rather than a sub-list here.
-
-### 8. Projects Section 🗂️
-
-- `Project Cards` – One card per project: an app-icon tile, name, description, tech tags, and links to the repo and (where present) a live demo. `featured` projects sort first.
-- `Auto-Matched Icons` – Drop an image at `src/assets/images/projects/<slug>.<ext>` and it's picked up by filename; otherwise a branded gradient/initials tile is used.
-- `Hover Tilt` – Cards use the same mouse-tracked 3D tilt as the resume/achievement cards.
-- `Own Nav Entry` – In the navbar, footer, command palette, and terminal (`open projects`).
-
-### 9. Testimonials Section 💬
-
-- `Recommendations` – Rotating carousel of testimonials from instructors, mentors, and colleagues.
-- `LinkedIn Verified` – Each testimonial links to the reviewer's LinkedIn profile.
-- `See All on LinkedIn` – CTA linking out to the full list of LinkedIn recommendations.
-
-### 10. Contact Section 📬
-
-- `Contact Form` – Collects user information including name, email, country, and message.
-- `Country Dropdown` – A dropdown with flags and search functionality for selecting countries.
-- `Firebase Integration` – Utilizes Firebase for storing and managing the collected messages in a secure database.
-- `EmailJS Integration` – Sends the collected messages directly to my email.
-- `Confetti Celebration` – A multi-shell firework/confetti burst fires from the Send button on an actual successful delivery — not on every click, so it stays a genuine reward moment.
-- `Magnetic Submit Button` – The Send button gently pulls toward the cursor on hover.
-- `Gradient Accent Heading` – The "Contact **Me**" heading highlights the key word with a per-letter brand-color gradient.
-
-### 11. Quotes Section 💬
-
-- `Rotating Quotes` – Displays 10 rotating programming quotes that auto-update every 5 seconds.
-- `Manual Quote Change` – Users can click to change the current quote.
-
-### 12. Footer Section 📌
-
-- `Quick Links` – Full site map — every section, including the ones kept out of the navbar.
-- `Social & Support Links` – Social profile icons plus support links (PayPal, Ko-fi, InstaPay), with the same **magnetic hover** pull used in the Home section.
-- `Animated Signature` – Ahmed's signature inlined as SVG, written on with a left-to-right sweep the first time it scrolls into view, tinted with the brand colour and theme-aware.
-
-### 13. Interactive Background 🌌
-
-- `tsParticles` – Creates a visually engaging, interactive, and dynamic background with animated particles for a modern experience. Learn more about it [here](https://particles.js.org/). Particle count is capped (`number.limit`) so clicking repeatedly can't grow it unbounded.
-- `Cursor Glow & Spark Burst` – A soft light trails the cursor; every click sends out a small burst of brand-colored sparks. Skipped on touch devices and under `prefers-reduced-motion`.
-- `Dot-Grid Texture` – A subtle, theme-aware dot texture under the whole page for extra depth.
-- `Customizable Effects` – Easily customizable particle effects to match the website's theme and aesthetics.
-- `Performance Optimized` – Ensures smooth performance without compromising the website's loading speed.
-- `Responsive Design` – Adapts seamlessly to different screen sizes and devices for a consistent user experience.
-
-### 14. Global Like Counter ❤️
-
-- `Shared Total` – One integer at `/likes/total` in **Firebase Realtime Database**, streamed live so the number ticks up as other visitors like.
-- `Optimistic + Reconciled` – A tap moves the number instantly; rapid taps are batched and sent as one `runTransaction` (chunks of ≤ 45 to stay under the server rule), then the display reconciles to the committed total with no bounce.
-- `No Per-Visitor Cap` – Tap as many times as you like; your own contribution is remembered in `localStorage`. The server rule rejects any single write that moves the total by more than 50.
-- `Corner Placement` – A glass pill bottom-right; it slides left to sit beside the scroll-to-top button when that appears.
-
-### 15. Scroll-to-Top Button ⬆️
-
-- `Scroll-to-Top Button` – Appears when the user scrolls down, enabling **quick** and **smooth scrolling** and **navigation** back to the top.
-- `Paired with the Like Counter` – Sits in the bottom-right corner beside the like pill, sharing a drop shadow so they read as one control cluster.
-- `Visibility Control` – Automatically hides when the user is at the top of the page.
-
-### 16. Easter Eggs 🥚
-
-- `Konami Code` – Typing `↑ ↑ ↓ ↓ ← → ← → B A` (page focused, not in a field) fires a one-shot confetti fall and a toast; reduced-motion gets just the toast. Fires a GA4 `easter_egg` event.
-- `Console Greeting` – A short styled message with repo/LinkedIn links prints once for anyone who opens the browser console.
-- `Interactive Terminal` – The retro terminal (see #3) is itself an Easter egg.
-
-### 17. Modular & Scalable Architecture 🧩
-
-- `Component-Based Architecture` – Built with a component-based architecture, allowing easy maintenance, scalability, and clean code for future updates.
-- `Reusable Components` – Components are designed to be reusable across different parts of the application.
-- `Separation of Concerns` – Clear separation between different functionalities, making the codebase easier to manage and extend.
-- `Optimized Dependencies` – Bootstrap is imported modularly (only the components actually used) to keep the CSS bundle lean.
-
-### 18. Dynamic & Interactive Experience ⚙️
-
-- `Animated Transitions` – Smooth motion effects using **Framer Motion**, **AOS**, and **CSS animations** for an engaging user experience.
-- `Interactive Elements` – Elements that respond to user interactions, enhancing engagement.
-- `Real-Time Updates` – Dynamic content updates without requiring a page refresh, providing a seamless experience.
-
-### 19. UI/UX Design Principles 🎨
-
-- `Consistency` – Uniform color schemes, typography, and spacing.
-- `Simplicity` – Clean and uncluttered interface.
-- `Responsive Design` – Adapts to different screen sizes.
-- `Feedback` – Clear feedback for interactions.
-- `Accessibility` – Designed with accessibility in mind.
-- `Visual Hierarchy` – Organized content for easy navigation.
-- `Smooth Navigation` – Easy-to-use navigation.
-- `Performance Optimization` – Fast load times and smooth performance.
-
-### 20. Google Analytics 📊
-
-- `Google Analytics` – Tracks website traffic, user behavior, and engagement for data-driven decisions.
-- `Real-Time Reporting` – Provides real-time data on user activity and interactions.
-- `Custom Dashboards` – Allows the creation of custom dashboards to monitor specific metrics.
-- `Audience Insights` – Offers detailed insights into user demographics, interests, and behavior.
-- `Acquisition Reports` – Shows how users are finding and accessing the website.
-- `Behavior Flow` – Visualizes the path users take through the website.
-- `Event Tracking` – Monitors specific interactions such as clicks, downloads, and form submissions.
-
-### 21. Google Search Console 🔍
-
-- `Google Search Console` – Optimizes website **performance** and **speed** using **sitemap.xml** and best **SEO** practices to improve search visibility.
-- `SEO Techniques` – Implements strategies to boost search engine **rankings**.
-
-### 22. PWA Support 📱
-
-- `Installable` – Can be installed to a device's home screen via `vite-plugin-pwa`.
-- `Offline-Ready` – A generated service worker precaches assets for offline/repeat-visit access.
-- `Web App Manifest` – Custom icons and manifest for a native-like install experience.
-
-### 23. Continuous Integration & Testing ✅
-
-- `GitHub Actions CI` – Every push and pull request to `main` runs formatting checks, linting, the test suite, and a production build.
-- `Automated Test Suite` – **Vitest** and **React Testing Library** cover key components and utilities.
-- `Pre-Commit Checks` – **Husky** and `lint-staged` auto-fix and format staged files before they're committed.
-
-## 🚀 Getting Started
-
-This is a quick start to get the site running locally. For prerequisites, the full environment variable reference, every npm script, coding conventions, testing, and deployment — see **[docs/DEVELOPER_GUIDE.md](./docs/DEVELOPER_GUIDE.md)**, the single source of truth for all of that.
+Requires **Node.js 20.17+** and **npm 11** (the lockfile is written by npm 11).
 
 ```bash
 git clone https://github.com/steadydev7/developer-portfolio.git
@@ -321,116 +80,74 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) 🚀
+Then open [http://localhost:5173](http://localhost:5173).
 
-## 📚 Documentation
+## Environment variables
 
-| Document                                                 | What's in it                                                                                                                        |
-| -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **[docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md)**       | System overview, component tree, contact-form data flow, and CI/deploy pipeline — all as diagrams.                                  |
-| **[docs/DEVELOPER_GUIDE.md](./docs/DEVELOPER_GUIDE.md)** | Local setup, every npm script, environment variables, project conventions, and how to add a new section or test.                    |
-| **[docs/USER_GUIDE.md](./docs/USER_GUIDE.md)**           | A visitor-facing walkthrough of every feature — command palette, terminal commands, theme toggle, PWA install, accessibility notes. |
-| **[CONTRIBUTING.md](./CONTRIBUTING.md)**                 | How to propose changes: branching, commit style, and the checks your PR needs to pass.                                              |
+Every variable is optional: the site builds and runs without them, and each missing one only switches its feature off (the build lists what's missing). For local development put them in `.env.development`; on Vercel, add them under **Project → Settings → Environment Variables**. Env files are git-ignored.
 
-## ✅ Testing & Quality Gates
+| Variable                                                                                                                                                                                                    | Turns on                                                                       |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `VITE_FIREBASE_API_KEY`, `VITE_FIREBASE_AUTH_DOMAIN`, `VITE_FIREBASE_DATABASE_URL`, `VITE_FIREBASE_PROJECT_ID`, `VITE_FIREBASE_STORAGE_BUCKET`, `VITE_FIREBASE_MESSAGING_SENDER_ID`, `VITE_FIREBASE_APP_ID` | Saving contact messages and the like counter                                   |
+| `VITE_EMAILJS_SERVICE_ID`, `VITE_EMAILJS_TEMPLATE_ID`, `VITE_EMAILJS_USER_ID`, `VITE_EMAILJS_TO_EMAIL`                                                                                                      | Sending the contact form by email (without them, the form opens the email app) |
+| `VITE_GOOGLE_ANALYTICS_ID`                                                                                                                                                                                  | Google Analytics 4                                                             |
+| `VITE_GOOGLE_SITE_VERIFICATION`                                                                                                                                                                             | The Google Search Console verification tag                                     |
 
-Every push and pull request to `main` runs formatting checks, linting, the full **Vitest** suite, and a production build via [`.github/workflows/ci.yml`](./.github/workflows/ci.yml) — badge at the top of this file tracks that status. For how to run each of these checks locally before you push, see **[docs/DEVELOPER_GUIDE.md § Testing](./docs/DEVELOPER_GUIDE.md#testing)**.
+## Scripts
 
-## 🚀 Deployment
+| Command           | Does                                                             |
+| ----------------- | ---------------------------------------------------------------- |
+| `npm run dev`     | Starts the dev server                                            |
+| `npm run build`   | Production build into `dist/`                                    |
+| `npm run preview` | Serves the production build locally                              |
+| `npm run analyze` | Production build plus a bundle-size report (`stats.html`)        |
+| `npm test`        | Runs the test suite once (`npm run test:watch` to keep watching) |
+| `npm run lint`    | ESLint                                                           |
+| `npm run format`  | Formats everything with Prettier (`format-check` only checks)    |
 
-Live at **[ahmednassar7.github.io](https://ahmednassar7.github.io/)**, auto-deployed to GitHub Pages on every push to `main`. For the manual deploy path and required secrets, see **[docs/DEVELOPER_GUIDE.md § Deployment](./docs/DEVELOPER_GUIDE.md#deployment)**.
+## Editing the content
 
-## 🤝 Acknowledgments
+All text and links come from a few data files — components read them, so content changes need no component edits.
 
-<p align="center">
-    <a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5">
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" alt="CSS3">
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript">
-    </a>
-    <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React">
-    </a>
-    <a href="https://sass-lang.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/SCSS-CC6699?style=for-the-badge&logo=sass&logoColor=white" alt="SCSS">
-    </a>
-    <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap">
-    </a>
-    <a href="https://www.framer.com/motion/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer&logoColor=white" alt="Framer Motion">
-    </a>
-    <a href="https://vitejs.dev/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite">
-    </a>
-    <a href="https://vite-pwa-org.netlify.app/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/PWA-5A0FC8?style=for-the-badge&logo=pwa&logoColor=white" alt="PWA">
-    </a>
-    <a href="https://firebase.google.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase">
-    </a>
-    <a href="https://fontawesome.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Font_Awesome-5288D2?style=for-the-badge&logo=font-awesome&logoColor=white" alt="Font Awesome">
-    </a>
-    <a href="https://prettier.io/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Prettier-F7B93E?style=for-the-badge&logo=prettier&logoColor=white" alt="Prettier">
-    </a>
-    <a href="https://eslint.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white" alt="ESLint">
-    </a>
-    <a href="https://analytics.google.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Google_Analytics-E37400?style=for-the-badge&logo=google-analytics&logoColor=white" alt="Google Analytics">
-    </a>
-    <a href="https://search.google.com/search-console" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Google_Search_Console-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Google Search Console">
-    </a>
-    <a href="https://particles.js.org/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/tsParticles-00BFFF?style=for-the-badge&logo=javascript&logoColor=white" alt="tsParticles">
-    </a>
-    <a href="https://michalsnik.github.io/aos/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/AOS-3C9B8B?style=for-the-badge&logo=aos&logoColor=white" alt="AOS">
-    </a>
-    <a href="https://www.emailjs.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/EmailJS-1B74E4?style=for-the-badge&logo=email&logoColor=white" alt="EmailJS">
-    </a>
-    <a href="https://vitest.dev/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Vitest-6E9F18?style=for-the-badge&logo=vitest&logoColor=white" alt="Vitest">
-    </a>
-    <a href="https://testing-library.com/" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/Testing_Library-E33332?style=for-the-badge&logo=testing-library&logoColor=white" alt="Testing Library">
-    </a>
-    <a href="https://github.com/features/actions" target="_blank" rel="noopener noreferrer">
-        <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions">
-    </a>
-</p>
+| To change                                                    | Edit                                                                  |
+| ------------------------------------------------------------ | --------------------------------------------------------------------- |
+| Name, role, hero text, availability status                   | `src/data/profile.js`                                                 |
+| Email, phone, WhatsApp, location, time zone, socials, topics | `src/data/contact.js`                                                 |
+| Experience, projects, education, skills                      | `src/data/resumeData.js`                                              |
+| Achievements and Interview Experience (hidden while empty)   | `achievements` and `interviewedCompanies` in `src/data/resumeData.js` |
+| Testimonials (hidden while empty)                            | `src/data/testimonials.js`                                            |
+| The resume PDF                                               | `public/assets/PDFs/` and `RESUME_URL` in `src/utils/resume.js`       |
 
-## 🎯 Goals and Vision
+Images are matched by file name, so adding one needs no code change. The `<slug>` is the name lower-cased with anything non-alphanumeric turned into `_` (e.g. `Steer Health` → `steer_health`):
 
-As a passionate developer, my vision is to create scalable, efficient, and innovative software solutions that solve real-world problems. I aim to continuously improve my skills in full-stack development and contribute to the growth of the tech community by building impactful projects.
+- **Company / school logos** — `src/assets/images/logos/<slug>.(svg|png|webp|jpg)`. Without one, the initials are shown.
+- **Project screenshots** — `src/assets/images/projects/covers/<slug>.(webp|png|jpg)`.
 
-## 🌍 Contact for Freelance or Consulting
+Each project in `resumeData.js` can also set `highlights` (the "Key features" list) and `role`, shown as **My role** in its details window.
 
-If you're interested in collaborating, hiring, or seeking consulting services, please don't hesitate to get in touch with me. I'm available for freelance work, project consultation, collaboration, and new opportunities.
+## Project structure
 
-<p align="center">
-    <a href="https://www.linkedin.com/in/nasssar/">
-        <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
-    </a>
+```text
+public/             static files: icons, og-image.png, 404.html, resume PDF
+src/
+  components/       one folder per section or widget (JSX + SCSS + tests)
+  data/             the content files listed above
+  hooks/            useMediaQuery, useMagneticHover, useVirtualPageView
+  utils/            analytics, time zones, streaks, tenure, resume download…
+  styles/           global styles and the scroll-reveal animation
+  assets/           logos, project screenshots, the signature font
+  firebase.js       contact messages and the like counter
+```
 
-    <a href="https://github.com/steadydev7">            </a>
+## Quality checks
 
-    <a href="mailto:a.moh.nassar00@gmail.com">            </a>
+- **CI** — every push and pull request to `main` runs the format check, ESLint, the test suite and a production build ([`.github/workflows/ci.yml`](./.github/workflows/ci.yml)).
+- **Git hooks** — Husky runs lint-staged (ESLint + Prettier on staged files) before each commit and the test suite before each push.
 
-</p>
+## Deployment
 
-## ⚖️ License
+Hosted on **Vercel**, which builds and deploys every push to `main`. Set the environment variables above in the Vercel project for the contact form, likes and analytics to work in production.
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+## Credits and license
 
----
-
-Thank you for visiting my portfolio! Feel free to contact me if you have any questions or inquiries.
+Built on [Ahmed Nassar](https://github.com/AhmedNassar7)'s open-source portfolio, released under the MIT license, which this project keeps — see [LICENSE](./LICENSE). The signature uses [Great Vibes](https://fonts.google.com/specimen/Great+Vibes) under the SIL Open Font License.

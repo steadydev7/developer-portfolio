@@ -1,6 +1,6 @@
 /**
  * Converts a display string into a GA4-friendly snake_case identifier,
- * e.g. "Egypt Metro Backend" -> "egypt_metro_backend".
+ * e.g. "Steer Health" -> "steer_health".
  * @param {string} value
  * @returns {string}
  */

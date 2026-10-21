@@ -3,6 +3,7 @@ import { describe, it, expect } from 'vitest';
 import Home from './Home';
 import { PROFILE } from '../../data/profile';
 import { CONTACT } from '../../data/contact';
+import { skills } from '../../data/resumeData';
 
 describe('Home', () => {
   it('shows the name as the page heading', () => {
@@ -21,6 +22,16 @@ describe('Home', () => {
     expect(role.querySelector('.hero-role__key')).toHaveTextContent(
       PROFILE.roleHighlight ?? PROFILE.role.split(' ')[0],
     );
+  });
+
+  it('shows the skills globe, describing every skill to screen readers', () => {
+    render(<Home />);
+    const globe = screen.getByRole('img', { name: /globe of \d+ skills/i });
+    const label = globe.getAttribute('aria-label');
+
+    Object.values(skills)
+      .flat()
+      .forEach((skill) => expect(label).toContain(skill.name));
   });
 
   it('shows the status pill with the location', () => {

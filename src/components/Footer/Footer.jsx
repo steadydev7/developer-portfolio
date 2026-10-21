@@ -90,11 +90,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-meta">
-          <Signature
-            name="Noah Thomas"
-            paths={null}
-            className="footer-signature"
-          />
+          <Signature name="Noah Thomas" className="footer-signature" />
         </div>
       </div>
     </footer>

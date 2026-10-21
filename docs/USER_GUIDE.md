@@ -18,13 +18,13 @@ A progress bar fills the navbar as you scroll. A **scroll-to-top button** appear
 
 `Ctrl + K` (Windows/Linux) or `Cmd + K` (macOS) — or click the `Ctrl K` trigger, bottom-left.
 
-| Action                                                                         | Does                                |
-| ------------------------------------------------------------------------------ | ----------------------------------- |
-| Go to Home / About / Projects / Resume / GitHub Stats / Testimonials / Contact | Jumps to that section               |
-| Switch to Dark/Light Theme                                                     | Toggles the theme                   |
+| Action                                                                         | Does                               |
+| ------------------------------------------------------------------------------ | ---------------------------------- |
+| Go to Home / About / Projects / Resume / GitHub Stats / Testimonials / Contact | Jumps to that section              |
+| Switch to Dark/Light Theme                                                     | Toggles the theme                  |
 | Download Resume (PDF)                                                          | Downloads `Noah_Thomas_Resume.pdf` |
-| Open GitHub Profile / Open LinkedIn Profile                                    | Opens in a new tab                  |
-| Email Ahmed                                                                    | Opens your mail client              |
+| Open GitHub Profile / Open LinkedIn Profile                                    | Opens in a new tab                 |
+| Email Ahmed                                                                    | Opens your mail client             |
 
 **Keys**: type to filter · `↑`/`↓` to move · `Enter` to run · `Esc` to close.
 

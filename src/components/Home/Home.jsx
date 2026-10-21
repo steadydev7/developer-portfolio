@@ -5,7 +5,7 @@ import { TypeAnimation } from 'react-type-animation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import './Home.scss';
-import PointSphere from './PointSphere';
+import SkillGlobe from './SkillGlobe';
 import { trackEvent } from '../../utils/analytics';
 import { useVirtualPageView } from '../../hooks/useVirtualPageView';
 import { PROFILE } from '../../data/profile';
@@ -162,17 +162,17 @@ const Home = () => {
           </Col>
 
           <Col lg={6} className="hero-visual" data-aos="fade-left">
-            <PointSphere />
+            <SkillGlobe skills={skills} />
           </Col>
         </Row>
       </Container>
 
       <Link
-        to="stats"
-        href="#stats"
+        to="about"
+        href="#about"
         {...scrollLinkProps}
         className="scroll-indicator"
-        aria-label="Scroll to Stats section"
+        aria-label="Scroll to About section"
       >
         <FontAwesomeIcon icon={faChevronDown} className="scroll-arrow" />
       </Link>

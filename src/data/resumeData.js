@@ -1,5 +1,4 @@
 import {
-  faGithub,
   faPython,
   faJs,
   faReact,
@@ -35,11 +34,7 @@ import {
   faGears,
   faInfinity,
   faN,
-  faSpider,
   faBolt,
-  faArrowsRotate,
-  faMobileScreenButton,
-  faRocket,
 } from '@fortawesome/free-solid-svg-icons';
 
 // `cgpa` is optional; the Education card hides that line without it.
@@ -123,6 +118,10 @@ export const interviewedCompanies = [];
 // `image`), else the initials — <slug> is the name lower-cased with
 // non-alphanumerics as "_", e.g. steer_health.
 //
+// `highlights` fills the "Key features" list in the project's details
+// window (from what each product's own site says it does); `role` is an
+// optional line on what you did on it, shown as "My role" there when set.
+//
 // `tech` is what each live site is verifiably built on, checked 2026-10-20
 // against its response headers and its own JS/CSS bundles (plus, for
 // ChatWisp, the voice providers its page names) — swap in what you
@@ -134,6 +133,12 @@ export const projects = [
     featured: true,
     category: 'AI Surveys',
     tech: ['Next.js', 'React', 'Tailwind', 'Deepgram', 'ElevenLabs'],
+    highlights: [
+      'An AI interviewer asks adaptive follow-up questions, by voice or chat, to get the story behind each answer.',
+      'An AI form builder drafts surveys from a description or an uploaded brief (PDF, DOCX or CSV).',
+      'Results can be questioned in plain English, returning charts, cross-tabs and verbatim quotes.',
+      'Classic forms too: 14 question types with branching and skip logic, and 70+ templates.',
+    ],
     description:
       'AI-moderated surveys and forms — respondents answer by voice or chat while an AI interviewer asks follow-up questions, and results can be queried in plain English.',
   },
@@ -142,6 +147,12 @@ export const projects = [
     liveUrl: 'https://hoory.com/',
     category: 'Customer Support AI',
     tech: ['Nuxt', 'Vue', 'Tailwind', 'AWS'],
+    highlights: [
+      'A conversational AI assistant that resolves customer tickets around the clock.',
+      'A chatbot builder for designing predefined conversation flows.',
+      'Live chat, an AI-driven call center and an omnichannel inbox in one place.',
+      'Multilingual text and audio support, with macros, canned responses and transliteration.',
+    ],
     description:
       'All-in-one AI customer support platform: AI assistant, chatbot builder, live chat, call center and an omnichannel inbox, with multilingual text and audio support.',
   },
@@ -150,6 +161,12 @@ export const projects = [
     liveUrl: 'https://www.zyratalk.com/',
     category: 'Voice AI',
     tech: ['WordPress', 'Elementor', 'Cloudflare'],
+    highlights: [
+      'Answers calls and website chats 24/7, qualifies leads and books jobs on the spot.',
+      'Hands the caller to a human team member whenever they ask for one.',
+      'Outbound calls and texts for estimate follow-ups, reminders, renewals and review requests.',
+      'Booked jobs sync to ServiceTitan, Housecall Pro, FieldPulse and ServiceFusion.',
+    ],
     description:
       'AI answering service for home-service businesses — answers calls and chats 24/7, books jobs into tools like ServiceTitan and Housecall Pro, and follows up by call and text.',
   },
@@ -158,6 +175,12 @@ export const projects = [
     liveUrl: 'https://steerhealth.io/',
     category: 'Healthcare AI',
     tech: ['React', 'Vite', 'Tailwind'],
+    highlights: [
+      'Luna, an AI voice front desk, identifies patients, verifies insurance and books visits into the EHR.',
+      'Referral automation captures referrals from fax, portals and direct messages and schedules them.',
+      'Revenue-cycle automation covers eligibility, claim filing, denials and patient balances.',
+      'Connects to Epic, Cerner and athenahealth through a bidirectional API.',
+    ],
     description:
       'AI patient access platform for health systems — a voice front desk that verifies insurance and books visits into Epic, Cerner or athenahealth, plus referral and revenue-cycle automation.',
   },
@@ -166,6 +189,12 @@ export const projects = [
     liveUrl: 'https://www.clerie.ai/',
     category: 'Health Tech',
     tech: ['Next.js', 'React', 'Tailwind', 'AWS'],
+    highlights: [
+      'AI drafts progress notes, treatment plans and safety plans from in-person or telehealth sessions.',
+      'Checks billing codes before claims go out and decodes denials with drafted appeals.',
+      'Scheduling, HIPAA-compliant telehealth and credentialing in the same system.',
+      '"Ask Clerie" answers practice questions in plain English and can take actions such as booking.',
+    ],
     description:
       'AI-powered EHR for therapy practices — drafts session notes and treatment plans, checks billing codes and drafts denial appeals, with scheduling, telehealth and credentialing built in.',
   },
@@ -238,17 +267,7 @@ export const techIcons = {
       .map((skill) => [skill.name, skill.icon]),
   ),
   Tailwind: faCss3,
-  'GitHub Actions': faGithub,
-  Automation: faGears,
-  'Web Scraping': faSpider,
   Vite: faBolt,
-  Astro: faRocket,
-  'TanStack Query': faArrowsRotate,
-  Zustand: faLayerGroup,
-  'Django REST Framework': faServer,
-  Channels: faNetworkWired,
-  PWA: faMobileScreenButton,
-  'React Router': faReact,
   Vue: faVuejs,
   WordPress: faWordpress,
   Cloudflare: faCloudflare,
